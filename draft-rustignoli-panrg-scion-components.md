@@ -6,16 +6,16 @@ submissiontype: IRTF
 
 docname: draft-rustignoli-panrg-scion-components-latest
 v: 3
-area: IRTF
-workgroup: PANRG
+area: "IRTF"
+workgroup: "Path Aware Networking RG"
 keyword: Internet-Draft
 venue:
-  group: WG
-  type: Working Group
-  mail: panrg@irtf.org
-  arch: https://datatracker.ietf.org/rg/panrg
-  github: scionassociation/scionassociation/scion-components_I-D
-  latest: https://scionassociation.github.io/scion-components_I-D/draft-rustignoli-panrg-scion-components.html
+  group: "Path Aware Networking RG"
+  type: "Research Group"
+  mail: "panrg@irtf.org"
+  arch: "https://www.ietf.org/mail-archive/web/panrg/"
+  github: "scionassociation/scion-components_I-D"
+  latest: "https://scionassociation.github.io/scion-components_I-D/draft-rustignoli-panrg-scion-components.html"
 
 author:
  -   ins: N. Rustignoli
