@@ -84,23 +84,23 @@ informative:
         ins: L. Chuat
         name: Laurent Chuat
         org: ETH Zuerich
-  KING2022:
-    title: Challenges for the Internet Routing Systems Introduced by Semantic Routing
+  DEKATER2022:
+    title: SCION Overview
     date: 2022
-    target: https://datatracker.ietf.org/doc/draft-king-irtf-challenges-in-routing/
+    target: https://datatracker.ietf.org/doc/draft-dekater-panrg-scion-overview/
     author:
       -
-        ins: D. King
-        name: Daniel King
-        org: Lancaster University
+        ins: C. de Kater
+        name: Corine de Kater
+        org: ETH Zuerich
       -
         ins: A. Farrel
-        name: Adrian Farrel
-        org: Old Dog consulting
+        name: Nicola Rustignoli
+        org: ETH Zuerich
       -
-        ins: C. Jacquenet
-        name: Christian Jacquenet
-        org: Orange
+        ins: A. Perrig
+        name: Adrian Perrig
+        org: ETH Zuerich
   HITZ2021:
     title: Demonstrating the reliability and resilience of Secure Swiss Finance Network
     date: 2021
@@ -172,19 +172,40 @@ informative:
 
 --- abstract
 
-TODO Abstract
+SCION is a future Internet architecture that focuses on security and availability. Its fundamental functions are carried out by a number of components.
 
+This document illustrates the dependencies between its core components, extensions. We also discuss the relationship between SCION and existing protocols, with focus on illustrating which existing protocols are reused/extended. We also describe the motivations behind cases where a greenfield approach is needed. We also briefly touch on the maturity level of components.
 
 --- middle
 
 # Introduction
 
-TODO Introduction
+While SCION  was initially developed in academia, the architecture  has now "slipped out of the lab" and counts its early productive deployments (including the Swiss inter-banking network SSFN).
+The architecture consists of a system of  related components. A subset of them is essential to set up end to end SCION connectivity, while others are add-ons aiming at providing additional functionality, security, or backwards compatibility. 
+
+For a generic overview of SCION, please refer to {{DEKATER2022}}, that describes the motivation behind it, its main components and existing deployments.
+
+# Minimal stack - core components
+
+Among the core components, SCION's data plane carries out secure path-aware forwarding. Its control plane takes case of routing, while SCION's unique trust model relies on its own SCION PKI.
 
 
-# Conventions and Definitions
+
+## Routing - Control Plane
+
+## Forwarding - Data plane
+
+###  SCION and Segment Routing  
+
+
+
+
+
+## Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
+
+#
 
 
 # Security Considerations
