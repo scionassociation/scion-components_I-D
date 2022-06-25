@@ -196,9 +196,18 @@ TODO: IMHO while in the other draft we focused on describing services and how ea
 {::boilerplate bcp14-tagged}
 
 # Minimal stack - core components
+In order to establish end to end connectivity, SCION relies on three main components.
+The control plane is responsible for discovering and disseminating routing information. Route discovery is performed by each autonomous system (AS) thanks to an authenticated path-exploration mechanism called beaconing.
+SCION end hosts query their respective AS control plane and obtain authenticated and authorized network paths, in the form of path segments. End hosts select one or more of the end to end network paths, based on the application requirements (i.e.,  latency). End hosts then craft SCION packets containing the end-to end path to the destination.
+The data plane is responsible for authenticating at each hop and forwarding SCION packets.
+
+Both the control and data plane rely on the control-plane PKI for authentication and authorization. SCION's authentication mechanisms aim at protecting not only the origin (as in today's internet), rather the whole end to end path. SCION Autonomous systems are organised in Isolation Domains (ISDs), that internally share an uniform trust environment. This makes the SCION CP-PKI distinct from other PKIs (i.e. web PKI, RPKI).  
+TODO: talk about monopoly vs oligopoly and why this is important (but maybe in the CP part)?
+
+
 Among the core components, SCION's data plane carries out secure path-aware forwarding. Its control plane takes case of routing, and relies on the SCION PKI to execute cryptographic .
 
-Core components are all deployed in production (i.e. they power the SSFN, there are multiple implementations)
+Core components are all deployed in production (i.e. they power the SSFN, there are multiple implementations). They have multiple implementations (including a high performance one).
 
 ## Routing - Control Plane
 TODO: use content that was discarded in overview draft (SCION vs BGP, SCION vs RPKI) https://github.com/scionassociation/scion-overview_I-D/blob/8259808cbbd41e8c1d8e39eb7ffc63b8d516433c/draft-perrig-scion-overview.md
