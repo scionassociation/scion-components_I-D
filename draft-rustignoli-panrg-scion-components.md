@@ -169,6 +169,11 @@ informative:
         ins: A. Perrig
         name: Adrian Perrig
         org: ETH Zuerich
+  PANRG-INTERIM-Min:
+    title: Path Aware Networking Research Group - Interim  106 Minutes
+    date: June 2022
+    target: https://datatracker.ietf.org/meeting/interim-2022-panrg-01/materials/minutes-interim-2022-panrg-01-202206011700-00
+
 
 --- abstract
 
@@ -181,32 +186,102 @@ This document illustrates the dependencies between its core components, extensio
 # Introduction
 
 While SCION  was initially developed in academia, the architecture  has now "slipped out of the lab" and counts its early productive deployments (including the Swiss inter-banking network SSFN).
-The architecture consists of a system of  related components. A subset of them is essential to set up end to end SCION connectivity, while others are add-ons aiming at providing additional functionality, security, or backwards compatibility. 
-
-For a generic overview of SCION, please refer to {{DEKATER2022}}, that describes the motivation behind it, its main components and existing deployments.
-
-# Minimal stack - core components
-
-Among the core components, SCION's data plane carries out secure path-aware forwarding. Its control plane takes case of routing, while SCION's unique trust model relies on its own SCION PKI.
-
-
-
-## Routing - Control Plane
-
-## Forwarding - Data plane
-
-###  SCION and Segment Routing  
-
-
-
-
+The architecture consists of a system of related components, some of which are  essential to set up end to end SCION connectivity, while others are add-ons aiming at providing additional functionality, security, or backwards compatibility. Discussions at {{PANRG-INTERIM-Min}} showed the need to describe the relationships between SCION's core components.
+In this document we therefore focus on each component, describing its functionality, dependencies and relationships to existing protocols. The goal is not to describe each component specification, rather to provide a basis for discussions about the engineering decisions that made SCION what it is.
+Before reading this document, please refer to {{DEKATER2022}} for a generic overview of SCION and its components, the problems it solves, and existing deployments. For an in-depth description of SCION, please refer to {{CHUAT22}}.
+TODO: IMHO while in the other draft we focused on describing services and how each component works, now we need to focus on describing why each component works the way it does...
 
 ## Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
 
-#
+# Minimal stack - core components
+Among the core components, SCION's data plane carries out secure path-aware forwarding. Its control plane takes case of routing, and relies on the SCION PKI to execute cryptographic .
 
+Core components are all deployed in production (i.e. they power the SSFN, there are multiple implementations)
+
+## Routing - Control Plane
+TODO: use content that was discarded in overview draft (SCION vs BGP, SCION vs RPKI) https://github.com/scionassociation/scion-overview_I-D/blob/8259808cbbd41e8c1d8e39eb7ffc63b8d516433c/draft-perrig-scion-overview.md
+
+IP comes with the following drawbacks:
+
+- **Lack of programmable paths**
+IP addressing is tightly coupled with routing, therefore packets follow the path established by the routing protocol. End hosts are not able to select paths based on application requirements or path conditions. In addition, it is also not possible to simultaneously use multiple distinct paths towards the same destination.
+- **Lack of security and transparency**
+IP end hosts are oblivious to the path taken by their packets. This means that end hosts have no visibility nor guarantees on where their traffic is forwarded. This may cause traffic to be redirected through adversary points, breaching the payload's security.
+- **Scalability**
+The use of forwarding tables in IP routers is time-consuming, expensive, and energy-intensive. Also, the constantly growing size of forwarding tables causes storage problems. Additionally, routers that keep state for network information can suffer from denial-of-service (DoS) attacks exhausting the router’s state {{SCHUCHARD2011}}.
+
+#### BGP
+
+Just as IP, also BGP suffers from a number of shortcomings:
+
+- **Convergence time in case of outages**
+The distributed nature of BGP control plane results in convergence times up to ten minutes or more {{LABOVITZ2000}}, resulting in slow failover and intermittent transient connectivity.
+- **Lack of fault isolation**
+Due to the lack of any routing hierarchy or isolation between different areas, a single faulty BGP speaker can affect routing in the entire world.
+- **Poor scalability**
+As the number of connected devices grows, so does the number of prefixes, posing additional strain on the protocol. Scalability challenges are particularly evident when considering  BGPSec {{RFC8205}}.
+- **Convergence**
+BGP convergence can be problematic, too. In certain situations, BGP will never converge to a stable state, or converge only non-deterministically (see {{GRIFFIN1999}} and {{RFC4264}}. Convergence may also take too much time {{SAHOO2009}}.
+- **Single path**
+BGP only allows the selection of a single path to a destination. But having a multi-path choice can be welcome in several situations, e.g., in the case of a link failure, for load balancing, or when traffic is routed based on different policies.
+- **Lack of security**
+BGP has no built-in security mechanisms and does not provide any tools for ASes to authenticate the information they receive through BGP update messages. This opens up a multitude of attack opportunities--see [Attacks](#attack).
+
+## Need for Isolation Domains
+TODO: their goals are clearly stated in the other draft
+
+## Forwarding - Data plane
+
+###  SCION and Segment Routing
+
+## Authentication (SCION PKI)
+
+### Issues with RPKI and BGPsec
+
+ RPKI and BGPsec try to address Internet's above-mentioned security shortcomings, see also {{RFC6480}} and {{RFC8205}}. However, RPKI and BGPsec introduce additional challenges, as shortly described below.
+
+- **RPKI and Route Origin Authorizations**
+Unfortunately, the Route Origin Authorizations (ROAs) provided by RPKI only prevent the simplest form of BGP hijacks, see [Attacks](#attack).
+- **Problems with BGPsec in partial deployment**
+BGPsec only provides full security when all ASes consistently use and enforce it. In case of partial deployment, it has a limited effectiveness. It can even cause instabilities and is prone to downgrade attacks, see {{LYCHEV2013}}.
+- **Problems with BGPsec in full deployment**
+Also full deployment of BGPsec raises issues, such as the creation of wormholes and forwarding loops by attackers, or the introduction of circular dependencies, see {{LI2014}} and {{COOPER2013}}. RPKI and BGPsec together also cause issues for network sovereignty {{ROTHENBERGER2017}}.
+- **Scalability** BGPsec further exacerbates BGP’s scalability issues (i.e., due to the additional overhead, and due to lack of prefix aggregation). Lack of scalable implementations represent still today a large obstacle to adoption.
+
+#### Lack of Authentication
+
+Authenticating digital data is becoming increasingly prevalent, as adversaries exploit the absence of authentication to inject malicious information. Specifically, many network protocols do not use authentication at all, leaving them exposed to multiple attacks:
+
+- Today's Internet lacks a fundamental mechanism to share a secret key between two end hosts for secure end-to-end communication. Existing approaches (i.e., SSH) resort to trust-on-first-use (TOFU) approach, where an host's initial public key is accepted without verification.
+- Infrastructures were added over time to provide authentication, such as RPKI/BGPsec, TLS {{RFC8446}}, and DNSSEC {{RFC4033}}. However, they  are all sensitive to the compromise of a single entity.
+- The Internet Control Message Protocol (ICMP) lacks an authenticated counterpart, see {{RFC4443}} and {{RFC0791}}. Unauthenticated ICMP messages can potentially be used to affect or even prevent traffic forwarding. TODO: complete
+
+
+# Additional components
+TODO:
+- Happy eyeballs (and how we extend things)
+- SIAM (& how it piggybacks onto RPKI)
+- DrKey & dependencies --> https://datatracker.ietf.org/doc/draft-garciapardo-panrg-drkey/
+  - LightningFilter --> https://datatracker.ietf.org/meeting/111/materials/slides-111-panrg-lightning-filter-high-speed-traffic-filtering-based-on-drkey
+  - SCMP
+
+# Dependency analysis
+
+# Motivations for greenfield approaches {{RFC9049}}
+TODO: in our overview draft, we said that we would clarify the motivations for developing SCION in another draft. This one could be the one..
+*  properties that want to achieve (motivating them with RFC9049). (Maybe we can do this per-component)?
+*  why achieving these properties requires a greenfield approach
+* why this is the only way to differentiate from the previous failed approaches mentioned in RFC9049.   
+
+# Transition mechanisms
+TODO:
+* Mention that there are multiple mechanisms, requiring different levels of changes and with different maturity.
+* For each nmeachanism, provide a short summary of the approach, what it dies and what protocols it reuses/extends
+  * SIG
+  * SBAS
+  * SIAM
 
 # Security Considerations
 
