@@ -264,7 +264,7 @@ On a first sight, it might seem that SCION control plane takes care of similar d
 
 - *Multipath.* SCION ASes can select PCBs according to their policies, and register the corresponding path segments, making them available to other ASes and end hosts. SCION hosts can leverage a wide range of inter-domain paths, selecting them hop by hop based on application requirements or path conditions.
 Another mechanism is BGP mutlipath {{RFC7911}}, focus on providing a backup path. However, it does not allow end hosts to select end to end path, and it faces scalability concerns  typical of BGP, as discussed in the above mentioned RFC.
-Such concerns motivate an alternative approach as SCION.   
+Such concerns motivate an alternative approach as SCION.
 
 - *Hop by hop path authorization.* SCION packets can only be forwarded along authorized segments. This is achieved thanks to message authentication codes (MACs) within each hop field. During beaconing, each AS control's plane creates MACs, that are then verified at forwarding. This gives end hosts strong guarantees about the path where the data is routed. Other approaches, as BGPSec ({{RFC8205}}), suffer from challenges with scalability, and introduce circular dependencies [137] and global kill switches [441]
 TODO: if we keep this, add citations from book
@@ -282,14 +282,14 @@ TODO: Is SCION immune form such issues (as there is no convergence)?
 
 - *Fault isolation.* As the SCION routing process is divided in intra-ISD and inter-ISD, faults can have a more limited impact.
 On the other hand, a single faulty BGP speaker can adversely impact routing globally.
-TODO: I would be a bit more precise: what kind of fault would be contained? A path service going nuts or being compromised? And BGP is bad, but maybe we should mention that some of the issues (like hijacking) are mitigated by RPKI.  
+TODO: I would be a bit more precise: what kind of fault would be contained? A path service going nuts or being compromised? And BGP is bad, but maybe we should mention that some of the issues (like hijacking) are mitigated by RPKI.
 
 
 - *Authenticated control messages.* BGP has no built-in security mechanisms and does not provide any tools for ASes to authenticate the information they receive through BGP update messages. This opens up a multitude of attack opportunities. SCION control messages, instead, are all authenticated.
 In addition, SCION comprises the SCION Control Message Protocol (SCMP), which  is analogous to the Internet Control Message Protocol (ICMP). It provides functionality for network diagnostics, such as ping and traceroute, and error messages that signal packet processing or network-layer problems.
 TODO: I'm not sure how much I want to go into SCMP here.. Especially as SCMP packets are only authenticated if DRKey/SPAO are used
 
-The SCION control plane is dependent on the control-plane PKI {{#pki}} for authenticating control information.
+The SCION control plane is dependent on the control-plane PKI (#pki) for authenticating control information.
 TODO: Maybe we could go into more detail (i.e. verifying a path with CP certificates?) Maybe we can do this in the PKI section?
 
 
