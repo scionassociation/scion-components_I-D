@@ -47,6 +47,8 @@ informative:
   RFC9049:
   RFC9217:
   RFC8170:
+  RFC4443:
+  RFC0791:
   SCHUCHARD2011: DOI.10.1145/1866307.1866411
   LABOVITZ2000: DOI.10.1145/347059.347428
   GRIFFIN1999: DOI.10.1145/316194.316231
@@ -197,17 +199,22 @@ TODO: IMHO while in the other draft we focused on describing services and how ea
 
 # Minimal stack - core components
 In order to establish end to end connectivity, SCION relies on three main components.
+SCION's data plane carries out secure path-aware forwarding. Its control plane takes case of routing. SCION relies on the Control Plane PKI to handle cryptographic material.
+
 The control plane is responsible for discovering and disseminating routing information. Route discovery is performed by each autonomous system (AS) thanks to an authenticated path-exploration mechanism called beaconing.
-SCION end hosts query their respective AS control plane and obtain authenticated and authorized network paths, in the form of path segments. End hosts select one or more of the end to end network paths, based on the application requirements (i.e.,  latency). End hosts then craft SCION packets containing the end-to end path to the destination.
-The data plane is responsible for authenticating at each hop and forwarding SCION packets.
+SCION end hosts query their respective AS control plane and obtain authenticated and authorized network paths, in the form of path segments.
+End hosts select one or more of the end to end network paths, based on the application requirements (i.e.,  latency). End hosts then craft SCION packets containing the end-to end path to the destination.
+The data plane is responsible for forwarding SCION packets while authenticating them at each hop and.
 
-Both the control and data plane rely on the control-plane PKI for authentication and authorization. SCION's authentication mechanisms aim at protecting not only the origin (as in today's internet), rather the whole end to end path. SCION Autonomous systems are organised in Isolation Domains (ISDs), that internally share an uniform trust environment. This makes the SCION CP-PKI distinct from other PKIs (i.e. web PKI, RPKI).  
-TODO: talk about monopoly vs oligopoly and why this is important (but maybe in the CP part)?
+Both the control and data plane rely on the control-plane PKI for authentication and authorization.
+SCION's authentication mechanisms aim at protecting the whole end to end path at each hop. SCION Autonomous systems are organised in Isolation Domains (ISDs), that independently define their own roots of trust.
+ISD members share an uniform trust environment (i.e., a common jurisdiction).
+They can transparently define trust relationships between parts of the network by deciding wether to trust other ISDs.
+SCION therefore relies on an unique trust model, which is markably different from other PKI. We clarify the motivation behind this in [Authentication](#pki)
 
 
-Among the core components, SCION's data plane carries out secure path-aware forwarding. Its control plane takes case of routing, and relies on the SCION PKI to execute cryptographic .
 
-Core components are all deployed in production (i.e. they power the SSFN, there are multiple implementations). They have multiple implementations (including a high performance one).
+All components are deployed in production (i.e. they power the SSFN, there are multiple implementations). They have multiple implementations (including a high performance one).
 
 ## Routing - Control Plane
 TODO: use content that was discarded in overview draft (SCION vs BGP, SCION vs RPKI) https://github.com/scionassociation/scion-overview_I-D/blob/8259808cbbd41e8c1d8e39eb7ffc63b8d516433c/draft-perrig-scion-overview.md
@@ -236,7 +243,14 @@ BGP convergence can be problematic, too. In certain situations, BGP will never c
 - **Single path**
 BGP only allows the selection of a single path to a destination. But having a multi-path choice can be welcome in several situations, e.g., in the case of a link failure, for load balancing, or when traffic is routed based on different policies.
 - **Lack of security**
-BGP has no built-in security mechanisms and does not provide any tools for ASes to authenticate the information they receive through BGP update messages. This opens up a multitude of attack opportunities--see [Attacks](#attack).
+BGP has no built-in security mechanisms and does not provide any tools for ASes to authenticate the information they receive through BGP update messages. This opens up a multitude of attack opportunities.
+
+- **Problems with BGPsec in partial deployment**
+BGPsec only provides full security when all ASes consistently use and enforce it. In case of partial deployment, it has a limited effectiveness. It can even cause instabilities and is prone to downgrade attacks, see {{LYCHEV2013}}.
+- **Problems with BGPsec in full deployment**
+Also full deployment of BGPsec raises issues, such as the creation of wormholes and forwarding loops by attackers, or the introduction of circular dependencies, see {{LI2014}} and {{COOPER2013}}. RPKI and BGPsec together also cause issues for network sovereignty {{ROTHENBERGER2017}}.
+- **Scalability** BGPsec further exacerbates BGP’s scalability issues (i.e., due to the additional overhead, and due to lack of prefix aggregation). Lack of scalable implementations represent still today a large obstacle to adoption.
+
 
 ## Need for Isolation Domains
 TODO: their goals are clearly stated in the other draft
@@ -245,19 +259,19 @@ TODO: their goals are clearly stated in the other draft
 
 ###  SCION and Segment Routing
 
-## Authentication (SCION PKI)
+## Authentication -  SCION PKI {#pki}
+TODO: why do we need a strong PKI?
+* Talk about monopoly vs oligopoly and why this is important (but maybe in the CP part)?
+* Why we could not just use RPKI 9that we use for origin validation)
+This makes the SCION CP-PKI distinct from other PKIs (i.e. web PKI, RPKI), that either have a single root of trust root (monopoly model), or rely on a plethora of roots of trust (oligopoly model) leading to a trust architecture that supports meaningful trust roots in a global environment with inherently distrustful entities.
+
 
 ### Issues with RPKI and BGPsec
 
  RPKI and BGPsec try to address Internet's above-mentioned security shortcomings, see also {{RFC6480}} and {{RFC8205}}. However, RPKI and BGPsec introduce additional challenges, as shortly described below.
 
 - **RPKI and Route Origin Authorizations**
-Unfortunately, the Route Origin Authorizations (ROAs) provided by RPKI only prevent the simplest form of BGP hijacks, see [Attacks](#attack).
-- **Problems with BGPsec in partial deployment**
-BGPsec only provides full security when all ASes consistently use and enforce it. In case of partial deployment, it has a limited effectiveness. It can even cause instabilities and is prone to downgrade attacks, see {{LYCHEV2013}}.
-- **Problems with BGPsec in full deployment**
-Also full deployment of BGPsec raises issues, such as the creation of wormholes and forwarding loops by attackers, or the introduction of circular dependencies, see {{LI2014}} and {{COOPER2013}}. RPKI and BGPsec together also cause issues for network sovereignty {{ROTHENBERGER2017}}.
-- **Scalability** BGPsec further exacerbates BGP’s scalability issues (i.e., due to the additional overhead, and due to lack of prefix aggregation). Lack of scalable implementations represent still today a large obstacle to adoption.
+Unfortunately, the Route Origin Authorizations (ROAs) provided by RPKI only prevent the simplest form of BGP hijacks.
 
 #### Lack of Authentication
 
@@ -276,14 +290,6 @@ TODO:
   - LightningFilter --> https://datatracker.ietf.org/meeting/111/materials/slides-111-panrg-lightning-filter-high-speed-traffic-filtering-based-on-drkey
   - SCMP
 
-# Dependency analysis
-
-# Motivations for greenfield approaches {{RFC9049}}
-TODO: in our overview draft, we said that we would clarify the motivations for developing SCION in another draft. This one could be the one..
-*  properties that want to achieve (motivating them with RFC9049). (Maybe we can do this per-component)?
-*  why achieving these properties requires a greenfield approach
-* why this is the only way to differentiate from the previous failed approaches mentioned in RFC9049.   
-
 # Transition mechanisms
 TODO:
 * Mention that there are multiple mechanisms, requiring different levels of changes and with different maturity.
@@ -291,6 +297,16 @@ TODO:
   * SIG
   * SBAS
   * SIAM
+
+# Dependency analysis
+
+# Motivations for greenfield approaches {{RFC9049}}
+TODO: in our overview draft, we said that we would clarify the motivations for developing SCION in another draft. This one could be the one..
+*  properties that want to achieve (motivating them with RFC9049). (Maybe we can do this per-component)?
+*  why achieving these properties requires a greenfield approach
+* why this is the only way to differentiate from the previous failed approaches mentioned in RFC9049.
+
+
 
 # Security Considerations
 
