@@ -51,6 +51,8 @@ informative:
   RFC0791:
   RFC7911:
   RFC8205:
+  RFC5880:
+  RFC8402:
   SCHUCHARD2011: DOI.10.1145/1866307.1866411
   LABOVITZ2000: DOI.10.1145/347059.347428
   GRIFFIN1999: DOI.10.1145/316194.316231
@@ -257,6 +259,7 @@ Path exploration is based on path-segment construction beacons (PCBs), that are 
 End hosts query the control plane for path segments, and combine them into forwarding paths to transmit packets in the data plane.
 For an overview of the process to create and disseminate path information, refer to {{DEKATER2022}} section 1.2.2.
 
+
 ### Key properties in relationship to existing protocols
 On a first sight, it might seem that SCION control plane takes care of similar duties as of BGP. While both focus on disseminating routing information, there are substantial differences in the properties provided and mechanisms. We describe the core properties provided by the SCION control plane, and its relationships with existing protocols.
 
@@ -292,21 +295,56 @@ TODO: I'm not sure how much I want to go into SCMP here.. Especially as SCMP pac
 The SCION control plane is dependent on the control-plane PKI (#pki) for authenticating control information.
 TODO: Maybe we could go into more detail (i.e. verifying a path with CP certificates?) Maybe we can do this in the PKI section?
 
+TODO: add a few sentences on why the CP avoids mistakes in lessons learned from RFC9049
 
 ## Forwarding - Data plane
+SCION is an inter-domain network architecture and as such does not interfere with intra-domain forwarding. This corresponds to the general practice today where BGP and IP are used for inter-domain routing and forwarding, respectively, but ASes use an intra-domain protocol of their choice, (i.e., OSPF or IS-IS for routing and IP, MPLS, SR and various layer-2 protocols for forwarding).
+SCION therefore re-uses the intra-domain network fabric to provide connectivity among its infrastructure services, border routers, and end hosts, minimising changes to the internal infrastructure.
 
-- *Path selecction* is made by end hosts, not routers
-- **Scalability**
-The use of forwarding tables in IP routers is time-consuming, expensive, and energy-intensive. Also, the constantly growing size of forwarding tables causes storage problems. Additionally, routers that keep state for network information can suffer from denial-of-service (DoS) attacks exhausting the router’s state {{SCHUCHARD2011}}.
+SCION routers are deployed at the network edge. They receive and validate SCION packets from neighbours, then they use their intra-domain forwarding information to transmit packets to the next border router or SCION end-host.
 
-- *Recovery from failure*
-TODO: rewrite text
-BGP only allows the selection of a single path to a destination. But having a multi-path choice can be welcome in several situations, e.g., in the case of a link failure, for load balancing, or when traffic is routed based on different policies.
+SCION packets sit at network-layer (layer-3), and the SCION header sits between the transport-layer (layer-4) and link-layer (layer-2). They contain a variable type and length end-host address, and can therefore carry any address (IPv4, IPv6, ...). In addition, ed host addresses only need to be unique within an AS, and can be, in principle, reused.
+In early deployments, intra-AS SCION packets are sometimes encapsulated into an IP packet, for backwards compatibility.  
+
+### Key properties in relationship to existing protocols
+Thanks to its data plane, SCION achieves properties that are difficult to achieve when exclusively extending existing protocols.
+
+- *Programmable paths.* SCION end host select network paths based on application requirements, rather than routers.
+This approach is such that there is no need to include semantics in packets, as routing decisions are left to end hosts. In addition, when comparing to proposed semantic routing (TODO: reference) approaches, with SCION  hosts gain better visibility into network paths.
+TODO: I'm not sure if we want to explicitly say that this approach has advantages to semantic routing.. Maybe we don't want to mention it?  
+https://www.ietf.org/id/draft-farrel-irtf-introduction-to-semantic-routing-04.html#I-D.king-irtf-semantic-routing-survey
+TODO: @Adrian, I remember you don't like the expression "programmable paths".. Anything better? "Path selection"?
+
+- **Scalability.**
+SCION routers can efficiently forward packets without the need to look up forwarding tables and without keeping per-connection state. Routers only need to verify  MACs in hop fields. This operation is based on modern block ciphers such as AES, can be computed faster than performing a memory lookup and it is widely supported in modern CPUs.
+Routers, therefore, do not require expensive and energy-intensive dedicated hardware, and can  be deployed on off-the-shelf hardware. Lack of forwarding tables also implies that the growing size of forwarding tables is of no concern. Additionally, routers that keep state for network information can suffer from denial-of-service (DoS) attacks exhausting the router’s state {{SCHUCHARD2011}}.
+
+- *Recovery from failures.*
+SCION hosts usually receive more than one path to a given destination.
+Each host can select (potentially disjoint) backup paths that are readily available in case of failure.
+In contrast to the IP Internet, SCION packets are not dynamically rerouted in the network in case of failures. Routers use BFD {{RFC5880}} to detect link failures, and in case they cannot forward a packet they send an authenticated SCMP message triggering path revocation. End hosts can use this information, or alternatively active monitoring, to quickly reroute trafifc in case of failures.
+There is therefore no need to wait for BGP convergence.
+
+- *Extensibility* SCION, similarly to IPv6, supports extensions in its header.
+Such extensions can be hop-by-hop and end-to-end.
+
+- *Backwards compatibility.* SCION packets support any kind of end-host addressing. IP packets can therefore be transported over SCION by interposing a SCION to IP Gateway (SIG). TODO: reference if we talk more about it later.
+
 
 
 ###  SCION and Segment Routing
+Given its path-aware properties, some of SCION's characteristics might seem similar to the ones provided by Segment Routing (SR) {{RFC8402}}. There are, however, fundamental differences that distinguish and motivate SCION.
+The most salient one is that Segment Routing is designed to be deployed across a single trusted domain. SR therefore does not focus on security, which remains an open question. SCION, instead, is designed from inception to allow inter-domain communication between mutually distrustful entities.
+It comes, therefore, with an arsenal of tools to prevent attacks (i.e., authenticating all control plane messages and all critical fields in the data-plane header).
+Rather than competing, SCION and SR could potentially complement each other. SCION relies on existing intra-domain routing protocols, therefore SR could represent one of the possible intra-domain routing protocols. Possible integration of their path-aware properties remain for now an open question.    
+
+TODO: keep reading and refine arguments
+Maybe cite https://datatracker.ietf.org/doc/draft-li-spring-srv6-security-consideration/
+
 
 ## Authentication -  SCION PKI {#pki}
+
+
 TODO: why do we need a strong PKI?
 * Talk about monopoly vs oligopoly and why this is important (but maybe in the CP part)?
 * Why we could not just use RPKI 9that we use for origin validation)
