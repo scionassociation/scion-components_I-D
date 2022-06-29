@@ -231,6 +231,35 @@ informative:
         ins: A. Perrig
         name: Adrian Perrig
         org: ETH Zuerich
+  SUPRAJA2021:
+    title: "Global Distributed Secure Mapping of Network Addresses"
+    date: 2021
+    target: https://netsec.ethz.ch/publications/papers/sridhara_taurin2021_siam.pdf
+    author:
+      -
+        ins: S. Supraja
+        name: Supraja Sridhara
+        org: ETH Zuerich
+      -
+        ins: F. Wirz
+        name: François Wirz
+        org: ETH Zuerich
+      -
+        ins: J. de Ruiter
+        name: Joeri de Ruiter
+        org: SIDN Labs
+      -
+        ins: C. Schutijser
+        name: Caspar Schutijser
+        org: SIDN Labs
+      -
+        ins: M. Legner
+        name: Markus Legner
+        org: ETH Zuerich
+      -
+        ins: A. Perrig
+        name: Adrian Perrig
+        org: ETH Zuerich
   PANRG-INTERIM-Min:
     title: Path Aware Networking Research Group - Interim  106 Minutes
     date: June 2022
@@ -315,8 +344,6 @@ TODO: I would be a bit more precise: what kind of fault would be contained? A pa
 In addition, currently the Internet Control Message Protocol (ICMP) lacks an authenticated counterpart, see {{RFC4443}} and {{RFC0791}}. Unauthenticated ICMP messages can potentially be used to affect or even prevent traffic forwarding.
 SCION provides the SCION Control Message Protocol (SCMP), which  is analogous to ICMP. It provides functionality for network diagnostics, such as ping and traceroute, and error messages that signal packet processing or network-layer problems. SCMP is the first control message protocol supports the authentication of network control messages.
 TODO: I'm not sure how much I want to go into SCMP here.. Especially as SCMP packets are only authenticated if DRKey/SPAO are used
-
-- *Authenticated control messages*.
 
 The SCION control plane is dependent on the control-plane PKI (#pki) for authenticating control information.
 TODO: Maybe we could go into more detail (i.e. verifying a path with CP certificates?) Maybe we can do this in the PKI section?
@@ -407,29 +434,58 @@ In addition, RPKI is only meant to provide authorisation, but not authentication
 SCION indeed does not provide, by design, IP authorisation. Rather, as we further describe in the next section, one of  IP to SCION's  coexistence mechanisms (SIAM) relies on RPKI for IP origin attestation.
 
 # Transition mechanisms
-* Mention that there are multiple mechanisms, requiring different levels of changes and with different maturity.
-* For each nmeachanism, provide a short summary of the approach, what it dies and what protocols it reuses/extends
-  * SIG
-  * SBAS
-  * SIAM
+As we presented in {{I-D.dekater-scion-overview}}, SCION comprises multiple transition mechanisms that allow an incremental deployment and coexistence with existing protocols.
+Such approaches require different level of changes in existing systems, and have different maturity levels (from research to production).
+Rather than describing how each mechanism works, we provide a short summary of the approach, focusing on what its functions, properties, and protocols it reuses, extend or interact with.
+
+-  *SCION-IP-Gateway (SIG)*.  A SCION-IP-Gateway (SIG) encapsulates regular IP packets into SCION
+   packets with a corresponding SIG at the destination that performs the
+   decapsulation.
+   This mechanism enables legacy IP end hosts to benefit from a SCION deployment by transparently obtaining improved security and availability properties.
+   SCION routing policies can be configured on SIGs, in order to selsect appropriate SCION paths based on application requirements.
+   SIGs have the ability to dynamically exchange prefix information, currently using their own encapsulation and prefix exchange protocol. This does not exclude reusing existing protocols in the future.
+   SIGs are deployed in production SCION networks, and there are commercial implementations.
+
+- *SIAM*. To make SIGs a viable transition mechanism in an Internet-scale network with tens of thousands of ASes, an automatic configuration system is required. SIAM creates mappings between legacy IPs and SCION addresses, relying on the authorisations in the Resource Public Key Infrastructure (RPKI). SIAM  is currently a research prototype, further described in {{SUPRAJA2021}}.
+
+- *SBAS* is an experimental architecture aiming at extending benefits of SCION (in terms of performance and routing security) to potentially any IP host on the Internet.
+SBAS consists of a federated backbone of entities. SBAS appears on the outside Internet as a regular BGP-speaking AS. Customers of SBAS can leverage the system to route traffic across the SCION network according to their requirements (i.e., latency, geography, ... ). SBAS contains globally distributed PoPs that advertise its customer's announcements. Traffic is therefore routed as close as possible to the source onto the SCION network. The system is further described in chapter 13 of {{CHUAT22}}.
+TODO: I find it very difficult to explain SBAS in a few lines... It is quite a big system and I'm not so sure we should talk about it. I'm afraid it might distract the focus.
 
 
 # Additional components
-TODO:
-- Happy eyeballs (and how we extend things)
-- SIAM (& how it piggybacks onto RPKI)
-- DrKey & dependencies --> https://datatracker.ietf.org/doc/draft-garciapardo-panrg-drkey/
+TODO: Add some description
+- Happy eyeballs (and how we extend it)
+- DrKey & dependencies --> {{I-D.garciapardo-drkey}}
   - LightningFilter --> https://datatracker.ietf.org/meeting/111/materials/slides-111-panrg-lightning-filter-high-speed-traffic-filtering-based-on-drkey
   - SCMP
+- COLIBRI (Bandwidth Reservations)
+- End-host stack
+- *RHINE* (formerly RAINS)
 
 
 # Dependency analysis
+This section briefly discusses dependencies between SCION's core components, with the goal of facilitating a discussion on standardization.
+TODO: this section contains just notes, to be rephrased
 
-# Motivations for greenfield approaches {{RFC9049}}
-TODO: in our overview draft, we said that we would clarify the motivations for developing SCION in another draft. This one could be the one..
-*  properties that want to achieve (motivating them with RFC9049). (Maybe we can do this per-component)?
-*  why achieving these properties requires a greenfield approach
-* why this is the only way to differentiate from the previous failed approaches mentioned in RFC9049.
+- Only PKI - authentication: Overall, the PKI, with its trust model, constitutes the most independent unit that could be potentially  be leveraged by SCION and other protocols. The PKI itself does not have significant dependencies on other pieces, therefore a good starting point would be to describe its trust properties, inrerfaces, and processes.
+
+- Only control plane - beaconing & path server infrastructure
+  The SCION control plane relies on the CP-PKI to authenticate entities. It would therefore make sense to define the CP in parallel with PKI. Decoupling it from PKI would severely affect the properties and guarantees that can be provided by the CP
+
+- Only data plane - path construction and packet forwarding
+  DP needs a way to authenticate path information.. If not, it would not make sense to have SCION for inter-domain.. We would just mimick SR and it would be useless on inter-domain, where the trust model is different. As discussed in {{RFC9092}}, lack of authentication has often been the cause of some protocols never taking off because of security concerns (see Section 6.5 (Trigtran),  6.7 (NSIS) of the mentioned draft. )
+
+
+- Only other components (i.e., SCMP)
+  TODO
+
+
+
+# Conclusions
+We described key SCION components with their properties and dependencies.
+TODO: I would add some comments on how SCION avoids some of the issues mentioned in {{RFC9049}}
+Also mention that the most important core components are formally verified.
 
 
 
@@ -448,4 +504,8 @@ This document has no IANA actions.
 # Acknowledgments
 {:numbered="false"}
 
-TODO acknowledge.
+We are also indebted to Laurent Chuat,
+Markus Legner, David Basin, David Hausheer, Samuel Hitz, and Peter
+Mueller, for writing the book "The Complete Guide to SCION"
+[CHUAT22], which provides the background information needed to write
+this informational draft.
