@@ -474,7 +474,7 @@ TODO: this section contains just notes, to be rephrased
   The SCION control plane relies on the CP-PKI to authenticate entities. It would therefore make sense to define the CP in parallel with PKI. Decoupling it from PKI would severely affect the properties and guarantees that can be provided by the CP
 
 - Only data plane - path construction and packet forwarding
-  DP needs a way to authenticate path information.. If not, it would not make sense to have SCION for inter-domain.. We would just mimick SR and it would be useless on inter-domain, where the trust model is different. As discussed in {{RFC9092}}, lack of authentication has often been the cause of some protocols never taking off because of security concerns (see Section 6.5 (Trigtran),  6.7 (NSIS) of the mentioned draft. )
+  DP needs a way to authenticate path information.. If not, it would not make sense to have SCION for inter-domain.. We would just mimick SR and it would be useless on inter-domain, where the trust model is different. As discussed in {{RFC9049}}, lack of authentication has often been the cause of some protocols never taking off because of security concerns (see Section 6.5 (Trigtran),  6.7 (NSIS) of the mentioned draft. )
 
 
 - Only other components (i.e., SCMP)
