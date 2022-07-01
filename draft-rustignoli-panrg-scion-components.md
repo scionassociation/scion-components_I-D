@@ -108,6 +108,21 @@ informative:
         ins: A. Perrig
         name: Adrian Perrig
         org: ETH Zuerich
+  I-D.rtgwg-net2cloud-problem-statement:
+    title: SCION Overview
+    date: 2022
+    target: https://datatracker.ietf.org/doc/draft-ietf-rtgwg-net2cloud-problem-statement/
+    author:
+      -
+        ins: L. Dunbar
+      -
+        ins: A. Malis
+      -
+        ins: C. Jacquenet
+      -
+        ins: M. Toy
+      -
+        ins: K. Majumdar
 
   I-D.garciapardo-drkey:
     title: Dynamically Recreatable Keys
@@ -282,12 +297,31 @@ The architecture is composed of a system of related components, some of which ar
 In this document we therefore focus on each component, describing its functionality, dependencies and relationships to existing protocols. The goal is not to describe each component specification, rather to provide a basis for discussions about the engineering decisions that made SCION what it is.
 We first start from core components, that form a SCION minimal stack. We then move onto extensions and additional components.
 
-TODO: Feedback Corine.. in the introduction, reiterate why the properties that SCION offers are actually needed and relevant.. Adrian wanted to actually achieve them. For each property, we can first stress how the current Internet fulfills these properties, and then stress why SCION achieves them better. We can do this for the 3 core components.
+TODO: Feedback Corine.. in the introduction, reiterate why the properties that SCION offers are actually needed and relevant.. Adrian wanted to actually achieve them. For each property, we can first stress how the current Internet fulfils these properties, and then stress why SCION achieves them better. We can do this for the 3 core components.
 So overall, for each property, first explain why they are important, why they cannot be achieved, and why SCION's approach achieves them.
 
 Before reading this document, please refer to {{I-D.dekater-scion-overview}} for a generic overview of SCION and its components, the problems it solves, and existing deployments. For an in-depth description of SCION, please refer to {{CHUAT22}}.
 
-# Design goal: fundamental properties
+## Design goals
+SCION was created from inception with the intention of providing the following properties for inter-domain communication.
+
+- *Availability*. SCION is meant to provide highly available communication. The focus is not only on handling failures (both on the last hop or anywhere along the path), but also on allowing communication in presence of adversaries.
+Availability is fundamental as applications move to cloud datacenters and enterprises increasingly rely on Internet communication for mission-critical communication.  
+
+- *Security*. SCION was designed by security researchers with the goal of making most network-based and routing attacks either impossible or easy to mitigate.
+Security means also offering end-hosts transparency and control over forwarding paths. In addition, SCION's design starts from the assumption that any two entities on the global Internet do not mutually trust each other.
+SCION therefore enables trust agility, allowing users to decide the roots of trust they wish to rely upon.
+
+- *Scalability*.  Security and high availability should not result in compromises on scalability.
+The S in SCION, indeed, stands for scalability.
+The goal is to achieve routing that scales with network growth, both in the control plane and in the data plane (forwarding should be as efficient as possible).
+
+
+
+Many research efforts have gone in the direction of analysing wether such properties could be achieved by extending the existing Internet architecture.
+Tradeoffs between properties would be unavoidable while exclusively relying or extending existing protocols.
+The following paragraphs describe the key properties of SCION's core components.
+Then, they describe the component's mutual dependencies and their relation with existing protocols.
 
 # Minimal stack - core components
 In order to establish end to end connectivity, SCION relies on three main components.
@@ -393,6 +427,8 @@ Such extensions can be hop-by-hop and end-to-end.
 - *Backwards compatibility.* SCION packets support any kind of end-host addressing. IP packets can therefore be transported over SCION by interposing a SCION to IP Gateway (SIG). TODO: reference if we talk more about it later.
 
 
+## Related work
+TODO: Move this seciton somewhere else
 
 ###  SCION and Segment Routing
 Given its path-aware properties, some of SCION's characteristics might seem similar to the ones provided by Segment Routing (SR) {{RFC8402}}. There are, however, fundamental differences that distinguish and motivate SCION.
@@ -402,6 +438,8 @@ Rather than competing, SCION and SR could potentially complement each other. SCI
 
 TODO: Maybe cite https://datatracker.ietf.org/doc/draft-li-spring-srv6-security-consideration/
 TODO: maybe this paragraph can go at the end, in a paragraph where we discuss SICON vs related work (inclding BGP with colors, semantic routing, ...)
+
+As highlighted in {{I-D.rtgwg-net2cloud-problem-statement}}, as applications move to cloud datacenters, achieving reliable inter-domain Internet connectivity remains an open challenge.
 
 ## Authentication -  SCION PKI {#pki}
 SCION's control plane messages are all authenticated. The verification of those messages relies on a public-key infrastructure (PKI) called the control-plane PKI or CP-PKI.
