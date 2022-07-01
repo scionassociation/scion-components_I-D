@@ -493,7 +493,7 @@ SCION indeed does not provide, by design, IP authorisation. Rather, as we furthe
 ### SCION and previous attempts (RFC9049)
 How does SCION differ from previous failed attempts to deploy path-aware networking? Why?
 - *Bananas*:
-- ... 
+- ...
 
 # Transition mechanisms
 As we presented in {{I-D.dekater-scion-overview}}, SCION comprises multiple transition mechanisms that allow an incremental deployment and coexistence with existing protocols.
