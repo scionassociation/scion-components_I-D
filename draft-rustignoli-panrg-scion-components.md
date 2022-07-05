@@ -364,7 +364,7 @@ For an overview of the process to create and disseminate path information, refer
 ### Key properties in relationship to existing protocols
 On a first sight, it might seem that SCION control plane takes care of similar duties as of BGP. While both focus on disseminating routing information, there are substantial differences in their mechanisms and properties offered. We describe the core properties provided by the SCION control plane, and its relationships with existing protocols.
 
-- *Host addressing.*.  SCION decouples routing from end-host addressing: inter-domain routing is based on ISD-AS tuples rather than on end-host addresses, making SCION agnostic to end-host addressing.  
+- *Host addressing.*.  SCION decouples routing from end-host addressing: inter-domain routing is based on ISD-AS tuples rather than on end-host addresses, making SCION agnostic to end-host addressing.
 This design decision  has two outcomes: first of all SCION can reuse existing host addressing scheme, as IPv6,  IPv4, or others. Second, its control plane does not carry carry prefix information, avoiding known issues of using routing tables (i.e., scalability, need for dedicated hardware).
 
 - *Multipath.* SCION ASes can select PCBs according to their policies, and register the corresponding path segments, making them available to other ASes and end hosts. SCION hosts can leverage a wide range of inter-domain paths, selecting them at each hop based on application requirements or path conditions.
@@ -385,7 +385,7 @@ In addition, in certain situations, BGP will never converge to a stable state, o
 
 - *Transparency.* SCION end-hosts have full visibility about the inter-domain path where their data is forwarded.
 This is a property that is missing in traditional IP networks, where routing decisions are made by each hop, therefore end-hosts have no visibility nor guarantees on where their traffic is forwarded.
-In addition, users have visibility on the roots of trust that are used to forward traffic.  
+In addition, users have visibility on the roots of trust that are used to forward traffic.
 SCION therefore makes it harder to redirect traffic through an adversary's vantage point.
 In addition, it gives end-users the ability to select which parts of the Internet to trust.
 This is particularly relevant for workloads that currently use segregated networks.
@@ -475,7 +475,9 @@ The CP-PKI is based on certificates that follow the X.509v3 standard {{RFC5280}}
 Trust within an ISD is normally bootstrapped with an initial ceremony. Subsequent updates to the root of trust are handled automatically.
 
 ## Related work
-We illustrate the relationships between SCION and other protocols. For protocols that are deployed in the wild, we discuss what properties can be achieved and what propertyes can only be achieved with an approach like SCION.
+A question that is often asked is wether SCION could simply reuse or extend existing protocols.
+We try to clarify this question, giving an overview of the relationships between SCION and other approaches.
+For protocols that are deployed in the wild, we discuss what properties can be achieved and what propertyes can only be achieved with an approach like SCION.
 
 ###  SCION and Segment Routing
 Given its path-aware properties, some of SCION's characteristics might seem similar to the ones provided by Segment Routing (SR) {{RFC8402}}. There are, however, fundamental differences that distinguish and motivate SCION.
@@ -498,6 +500,8 @@ How does SCION differ from previous failed attempts to deploy path-aware network
 - ...
 
 TODO: look at p. 582 of the Book
+Sometimes SCION can build on top of the existing (i.e., RPKI), sometimes we believe a different approach is needed (i.e. Segment Routing)...
+
 
 # Transition mechanisms
 As we presented in {{I-D.dekater-scion-overview}}, SCION comprises multiple transition mechanisms that allow an incremental deployment and coexistence with existing protocols.
@@ -555,11 +559,6 @@ We described key SCION components with their properties and dependencies.
 TODO: I would add some comments on how SCION avoids some of the issues mentioned in {{RFC9049}}
 Also mention that the most important core components are formally verified.
 
-
-
-# Security Considerations
-
-TODO Security
 
 
 # IANA Considerations
