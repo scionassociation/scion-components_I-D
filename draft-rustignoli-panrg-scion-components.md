@@ -54,6 +54,7 @@ informative:
   RFC5880:
   RFC8402:
   RFC5280:
+  RFC6774:
   SCHUCHARD2011: DOI.10.1145/1866307.1866411
   LABOVITZ2000: DOI.10.1145/347059.347428
   GRIFFIN1999: DOI.10.1145/316194.316231
@@ -125,6 +126,22 @@ informative:
         ins: M. Toy
       -
         ins: K. Majumdar
+
+  I-D.spring-srv6-security-consideration:
+    title: Security Considerations for SRv6 Networks
+    date: 2022
+    target: https://datatracker.ietf.org/doc/draft-li-spring-srv6-security-consideration/
+    author:
+      -
+        ins:  C. Li
+      -
+        ins:  Z. Li
+      -
+        ins: C. Xie
+      -
+        ins: H. Tian
+      -
+        ins: J. Mao
 
   I-D.garciapardo-drkey:
     title: Dynamically Recreatable Keys
@@ -368,7 +385,9 @@ On a first sight, it might seem that SCION control plane takes care of similar d
 This design decision  has two outcomes: first of all SCION can reuse existing host addressing scheme, as IPv6,  IPv4, or others. Second, its control plane does not carry carry prefix information, avoiding known issues of using routing tables (i.e., scalability, need for dedicated hardware).
 
 - *Multipath.* SCION ASes can select PCBs according to their policies, and register the corresponding path segments, making them available to other ASes and end hosts. SCION hosts can leverage a wide range of inter-domain paths, selecting them at each hop based on application requirements or path conditions.
-One existing mechanism is BGP mutlipath {{RFC7911}}, that focuses on advertising multiple paths for the same prefix. However, it does not allow end hosts to select the whole end to end path, therefore traffic cannot be routed based on application requirements. Second it faces scalability concerns typical of BGP, as discussed in the above mentioned RFC.
+One existing mechanism is BGP mutlipath {{RFC7911}}, that focuses on advertising multiple paths for the same prefix. However, it does not allow end hosts to select the whole end to end path, therefore traffic cannot be routed based on application requirements.
+In addition, it faces scalability concerns typical of BGP (i.e., increased resource requirement on routers), as discussed in the above mentioned RFC.
+Similarly to BGP multipath, other approaches based on BGP, either are only bale to provide backup paths  that can only be activated in case of failure (i.e., Diverse BGP Paths {{RFC6774}}),either they face scalability limitations.
 Such concerns motivate an alternative approach as SCION.
 
 - *Hop by hop path authorization.* SCION packets can only be forwarded along authorized segments. This is achieved thanks to message authentication codes (MACs) within each hop field. During beaconing, each AS control's plane creates MACs, that are then verified at forwarded. This gives end hosts strong guarantees about the path where the data is routed. Other approaches, as BGPSec ({{RFC8205}}), suffer from challenges with scalability, introduce circular dependencies {{COOPER2013}} and global kill switches {{ROTHENBERGER2017}}.
@@ -477,26 +496,35 @@ Trust within an ISD is normally bootstrapped with an initial ceremony. Subsequen
 ## Related work
 A question that is often asked is wether SCION could simply reuse or extend existing protocols.
 We try to clarify this question, giving an overview of the relationships between SCION and other approaches.
-For protocols that are deployed in the wild, we discuss what properties can be achieved and what propertyes can only be achieved with an approach like SCION.
-
-###  SCION and Segment Routing
-Given its path-aware properties, some of SCION's characteristics might seem similar to the ones provided by Segment Routing (SR) {{RFC8402}}. There are, however, fundamental differences that distinguish and motivate SCION.
-The most salient one is that Segment Routing is designed to be deployed across a single trusted domain. SR therefore does not focus on security, which remains an open question. SCION, instead, is designed from inception to allow inter-domain communication between mutually distrustful entities.
-It comes, therefore, with an arsenal of tools to prevent attacks (i.e., authenticating all control plane messages and all critical fields in the data-plane header).
-Rather than competing, SCION and SR could potentially complement each other. SCION relies on existing intra-domain routing protocols, therefore SR could represent one of the possible intra-domain routing protocols. Possible integration of their path-aware properties remain for now an open question.
-
-TODO: Maybe cite https://datatracker.ietf.org/doc/draft-li-spring-srv6-security-consideration/
-TODO: maybe this paragraph can go at the end, in a paragraph where we discuss SICON vs related work (inclding BGP with colors, semantic routing, ...)
+For protocols that are deployed in the wild, we discuss what properties can be achieved and what properties can only be achieved with an approach like SCION.
 
 ### SCION and RPKI
-One might ask why SCION could not just rely on RPKI. Summarising on the points above, the CP-PKI distinguishes itself because of the trust model, which comprises independent trust roots that are a fundamental building block for SCION's Isolation Domains.
-RPKI's trust model follows the same structure as the IP allocation hierarchy, where the five RIRs run a CA. This  clashes with the trust model required for SCION's Isolation Domains.
+One might ask why SCION could not just rely on RPKI. Summarising the points discussed in this document, the CP-PKI distinguishes itself because of the trust model, which comprises independent trust roots that are a fundamental building block for SCION's Isolation Domains.
+RPKI's trust model follows the same structure as the IP allocation hierarchy, where the five RIRs run a CA.
+This  clashes with the trust model required for SCION's Isolation Domains, therefore the SCION control plane would not be able to leverage RPKI instead of the CP-PKI.
 In addition, RPKI is only meant to provide authorisation, but not authentication.
 SCION indeed does not provide, by design, IP authorisation. Rather, as we further describe in the next section, one of  IP to SCION's  coexistence mechanisms (SIAM) relies on RPKI for IP origin attestation.
 
+###  SCION and Segment Routing
+Given its path-aware properties, some of SCION's characteristics might seem similar to the ones provided by Segment Routing (SR) {{RFC8402}}.
+There are, however, fundamental differences that distinguish and motivate SCION.
+The most salient one is that Segment Routing is designed to be deployed across a single trusted domain.
+SR therefore does not focus on security, which remains an open question, as outlined in {{I-D.spring-srv6-security-consideration}}.
+SCION, instead, is designed from inception to allow inter-domain communication between mutually distrustful entities.
+It comes, therefore, with built-in security measures to prevent attacks (i.e., authenticating all control plane messages and all critical fields in the data-plane header).
+Rather than competing, SCION and SR could potentially complement each other.
+SCION relies on existing intra-domain routing protocols, therefore SR can be one of the possible intra-domain routing protocols.
+A possible integration of their path-aware properties remain for now an open question.
+
+
+### SCION and other routing approaches
+TODO:  (inclding BGP with colors, semantic routing, ...)
+
+
 ### SCION and previous attempts (RFC9049)
+RFC9049 {{RFC9049}} describes previous failed attempts in deploying path-aware networking.
 How does SCION differ from previous failed attempts to deploy path-aware networking? Why?
-- *Bananas*:
+- *Banana* (Bandwidth Aggregation for interNet Access) was a  mechanism to support  per-packet path selection in networks with multiple Internet links. Standardization efforts were abandoned due to multiple reasons. First, there was Lack of deployment, HW implications on devices, MP-TCP does the same but on a per-flow level rather than per-packet level. 
 - ...
 
 TODO: look at p. 582 of the Book
