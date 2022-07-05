@@ -524,7 +524,7 @@ TODO:  (inclding BGP with colors, semantic routing, ...)
 ### SCION and previous attempts (RFC9049)
 RFC9049 {{RFC9049}} describes previous failed attempts in deploying path-aware networking.
 How does SCION differ from previous failed attempts to deploy path-aware networking? Why?
-- *Banana* (Bandwidth Aggregation for interNet Access) was a  mechanism to support  per-packet path selection in networks with multiple Internet links. Standardization efforts were abandoned due to multiple reasons. First, there was Lack of deployment, HW implications on devices, MP-TCP does the same but on a per-flow level rather than per-packet level. 
+
 - ...
 
 TODO: look at p. 582 of the Book
