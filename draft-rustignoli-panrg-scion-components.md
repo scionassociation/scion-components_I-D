@@ -521,15 +521,30 @@ A possible integration of their path-aware properties remain for now an open que
 TODO:  (inclding BGP with colors, semantic routing, ...)
 
 
-### SCION and previous attempts (RFC9049)
-RFC9049 {{RFC9049}} describes previous failed attempts in deploying path-aware networking.
-How does SCION differ from previous failed attempts to deploy path-aware networking? Why?
+### SCION and previous attempts with path-aware routing
+RFC9049 {{RFC9049}} illustrates obstacles and lessons learned in previous attempts.
+SCION differs from previous attempts to deploy path-aware networking.
+We therefore discuss how SCION relates to some of these lessons, and how it differs from previous attempts.
 
-- ...
+- *Justifying deployment*:
+As early adopters show, SCION can be deployed in existing networks and provide benefits for ISPs without high impact changes. In addition, it provides properties that are not achievable with existing protocols and are needed on a future Internet.
+The reader should keep in mind that justifying why such properties are needed is outside of the scope of this document, and might be a topic for a dedicated gap analysis.
+
+- *Benefits for early adopters and partial deployments*
+--> Early adopters (like in the SSFN) can benefit from SICON properties, especially in industries with higher availability requirements.
+With SIG and compatibility mechanisms, endpoints upgrades are not needed. even non-native SCION end hosts can benefit from its properties.
+SCION needs to be deployed continuously between ASes in the SCION part. However, SICON only requires inter-domain hops along the path to be upgraded. This makes it a bit easier to deploy.
+
+- *Relationship to end-to-end protocols*: In SCION it is end-hosts who select inter-domain paths, as routers simply verify path autorization and forward packets.
+SCION path selection is therefore performed at endpoints, and end-hosts can leverage existing end-to-end protocol mechanisms to switch paths, rather than compete with them.
+
+- *Paying for path-awareness* Experiences with early adopter ISPs in Europe show that ISPs are able to sell SCION as premium business connectivity. As an example, ISPs Swisscom, Sunrise and Switch all provide a SCION business offering.
+
+- *Keeping per-connection state & keeping traffic in the fast-path*: SCION is doing it
 
 TODO: look at p. 582 of the Book
-Sometimes SCION can build on top of the existing (i.e., RPKI), sometimes we believe a different approach is needed (i.e. Segment Routing)...
 
+We briefly discuss implications of {{RFC5218}} (What Makes for a Successful Protocol?) in {{I-D.dekater-scion-overview}}. Overall, because of the reasons discussed above, we believe SCION avoid many of the other protocol's pitfalls, and can therefore be deployed and standardised.
 
 # Transition mechanisms
 As we presented in {{I-D.dekater-scion-overview}}, SCION comprises multiple transition mechanisms that allow an incremental deployment and coexistence with existing protocols.
