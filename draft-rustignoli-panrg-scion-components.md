@@ -50,6 +50,7 @@ informative:
   RFC8402:
   RFC5280:
   RFC6774:
+  RFC8305:
   SCHUCHARD2011: DOI.10.1145/1866307.1866411
   LABOVITZ2000: DOI.10.1145/347059.347428
   GRIFFIN1999: DOI.10.1145/316194.316231
@@ -398,7 +399,8 @@ The latter function is handled by end-hosts upon detecting failures or eventuall
 This separation of control and data plane prevents the control plane from cutting off an existing communication.
 
 
-- *Authenticated control messages.* BGP has no built-in security mechanisms and does not provide any tools for ASes to authenticate the information they receive through BGP update messages. This opens up a multitude of attack opportunities. SCION control-plane messages, instead, are all authenticated.
+- *Authenticated control messages.* BGP has no built-in security mechanisms and does not provide any tools for ASes to authenticate the information they receive through BGP update messages. This opens up a multitude of attack opportunities.
+SCION control-plane messages, instead, are all authenticated, avoiding pitfalls that could possibly prevent deployment, as discussed in {{RFC9049}}.
 In addition, currently the Internet Control Message Protocol (ICMP) lacks authentication support, see {{RFC4443}} and {{RFC0791}}. Unauthenticated ICMP messages can potentially be used to affect or even prevent traffic forwarding.
 SCION therefore provides the SCION Control Message Protocol (SCMP), which is analogous to ICMP. It provides functionality for network diagnostics, such as ping and traceroute, and error messages that signal packet processing or network layer problems.
 SCMP is the first control message protocol that supports the authentication of network control messages.
@@ -426,8 +428,6 @@ They are empowered to make end to end path choices based on application requirem
 This means that routers do not carry the burden of making enhanced routing or forwarding decisions.
 When comparing to other approaches, as semantic routing {{I-D.irtf-introduction-to-semantic-routing}}, this has the advantage that is no need to include semantics in packets.
 
-_TODO @Nicola: make another pass stressing tradeoffs between properties if we were to reuse existing protocols._
-
 - *Scalability.* SCION routers can efficiently forward packets without the need to look up forwarding tables or     keeping per-connection state. Routers only need to verify  MACs in hop fields. This operation is based on modern block ciphers such as AES, can be computed faster than performing a memory lookup and is widely supported in modern CPUs.
 Routers, therefore, do not require expensive and energy-intensive dedicated hardware, and can be deployed on off-the-shelf hardware. Lack of forwarding tables also implies that the growing size of forwarding tables is of no concern to SCION. Additionally, routers that keep state of network information can suffer from denial-of-service (DoS) attacks exhausting the router’s state {{SCHUCHARD2011}}, which is less of a problem to SCION.
 
@@ -441,9 +441,15 @@ There is therefore no need to wait for inter-domain routing protocol convergence
 - *Extensibility.* SCION, similarly to IPv6, supports extensions in its header.
 Such extensions can be hop-by-hop (and are processed at each hop), or end-to-end.
 
+- *Path validation.* SCION routers validate network paths in packets at each hop, so that they are only forwarded along paths that were authorized by all on-path ASes in the control plane. Thanks to a system of nested message authentication codes, traffic hijackings attacks are avoided.
+
 - *Backwards compatibility.* SCION packets support several kinds of end-host addressing (including IPv6 and IPv4).
 Transition mechanisms are further described in {{transition-mechanisms}}.
 TODO: I'm not entirely happy about this point.. Either expand it with more arguments or remove it.
+
+In conclusion, in comparison to today's Internet, the SCION's data plane pushes some of the responsibilities away from routers onto end hosts (as selecting paths or reacting to failures).
+This contributes to creating a data plane that is more efficient and scalable, and that does not require routers with specialised routing table lookup hardware.
+Routers validate network paths so that packets are only forwarded on previously authorized packets.
 
 ## Authentication -  SCION PKI {#pki}
 SCION's control plane messages are all authenticated. The verification of those messages relies on a public-key infrastructure (PKI) called the Control-Plane PKI or CP-PKI. It consists of a set of mechanisms, roles, and policies related to the management and usage of certificates, which enables the verification of signatures, e.g., path construction beacons (PCBs).
@@ -455,7 +461,8 @@ This requires a trust model that is different from existing ones that are behind
 In a monopolistic model, all entities trust one or a small number of roots of trust. In an oligopolistic model, there are  multiple equally trusted roots  (e.g., in the Web PKI).
 In both models, some or all certification authorities are omnipotent. If their key is compromised, then the security of the entire system collapses.
 Both models do not scale well to a global environment, because mutually distrustful entities cannot agree on a single root of trust (monopoly) and because in the oligopoly model, the security is as strong as its weakest root.
-The SCION trust model differs from classic PKIs in two ways. First, no entity is omnipotent, as  Isolation Domains  elect their own root of trust, and the  capabilities of each ISDs (authentication-wise) are limited to communication channels in which they are involved. Second, the trust roots of each ISD are located in a single file, the TRC, which is co-signed by multiple entities in a process  called voting.
+The SCION trust model differs from classic PKIs in two ways. First, no entity is omnipotent, as  Isolation Domains  elect their own root of trust, and the  capabilities of each ISDs (authentication-wise) are limited to communication channels in which they are involved.
+Second, the trust roots of each ISD are located in a single file, the TRC, which is co-signed by multiple entities in a process  called voting.
 
 - *Resilience to compromised entities and keys.* Compromised or malicious trust roots outside an ISD cannot affect operations that stay within that ISD. Moreover, each ISD can be configured to withstand the compromise of any single voting key.
 
@@ -470,10 +477,17 @@ Today's Internet also lacks a fundamental mechanism to share a secret key betwee
 The CP-PKI is based on certificates that follow the X.509v3 standard {{RFC5280}}. There are several professional industry-grade implementations, e.g., by SIX, the main financial infrastructure and service provider in Switzerland.
 Trust within an ISD is normally bootstrapped with an initial ceremony. Subsequent updates to the root of trust are handled automatically.
 
+SCION is built around an unique trust model, allowing mutually distrustful entities to communicate.
+This justifies the existence of the CP-PKI, which differs from existing PKI architectures.
+Thanks to the CP-PKI, control and data plane packets are authenticated.
+This helps avoiding some of the obstacles to deployment mentioned in {{RFC9049}}, where several path-aware methods failed to achieve deployment because of lack of authentication or lack of mutual trust between end hosts and the intermediate network.
+
 # Additional components
+This document mainly focuses on describing the fundamental components needed to run a minimal SCION network.
+
 
 ## Transition mechanisms {#transition-mechanisms}
-As we presented in {{I-D.dekater-scion-overview}}, SCION comprises multiple transition mechanisms that allow an incremental deployment and coexistence with existing protocols. These mechanisms require different levels of changes in existing systems, and have different maturity levels (from research to production). Rather than describing how each mechanism works, we provide a short summary of each approach, focusing on its functions and properties, as well as on the protocols it reuses, extends or interacts with.
+As we presented in {{I-D.dekater-scion-overview}}, SCION comprises multiple transition mechanisms that allow an incremental deployment and coexistence with existing protocols. These mechanisms require different levels of changes in existing systems, and have different maturity levels (from research to production). Rather than describing how each mechanism works, this document provides a short summary of each approach, focusing on its functions and properties, as well as on the protocols it reuses, extends or interacts with.
 
 -  *SCION-IP-Gateway (SIG).*  A SCION-IP-Gateway (SIG) encapsulates regular IP packets into SCION packets with a corresponding SIG at the destination that performs the decapsulation. This mechanism enables legacy IP end hosts to benefit from a SCION deployment by transparently obtaining improved security and availability properties. SCION routing policies can be configured on SIGs, in order to select appropriate SCION paths based on application requirements. SIGs have the ability to dynamically exchange prefix information, currently using their own encapsulation and prefix exchange protocol. This does not exclude reusing existing protocols in the future. SIGs are deployed in production SCION networks, and there are commercial implementations.
 
@@ -482,15 +496,19 @@ As we presented in {{I-D.dekater-scion-overview}}, SCION comprises multiple tran
 - *SBAS* is an experimental architecture aiming at extending the benefits of SCION (in terms of performance and routing security) to potentially any IP host on the Internet.
 SBAS consists of a federated backbone of entities. SBAS appears on the outside Internet as a regular BGP-speaking AS. Customers of SBAS can leverage the system to route traffic across the SCION network according to their requirements (i.e., latency, geography, ... ). SBAS contains globally distributed PoPs that advertise its customer's announcements. Traffic is therefore routed as close as possible to the source onto the SCION network. The system is further described in chapter 13 of {{CHUAT22}}.
 
+## Extensions and other components
 
-[**CdK: I would keep the bulletpoints above and additionally maybe shortly list other possible extensions**] _TODO: Maybe instead of having bullet points, we can just have a very short paragraph explaining that, while there are a lot of extensions (as SCION is extensible :), we do not discuss them now, as the focus is to work on its most fundamental components. - *End-host stack*. SCION can be deployed though the use of SICON-to-IP conversion or natively on end hosts. - Happy eyeballs (and how we extend it) - DrKey & dependencies --> {{I-D.garciapardo-drkey}} - LightningFilter --> https://datatracker.ietf.org/meeting/111/materials/slides-111-panrg-lightning-filter-high-speed-traffic-filtering-based-on-drkey - SCMP - COLIBRI (Bandwidth Reservations) - *RHINE* (formerly RAINS)_
+In addition to the components mentioned above, there are others that aim at facilitating deployment or better integrating SCION with existing networks. As an example, a prototype is being developed to explore wether happy eyeballs  {{RFC8305}} could be extended to support SCION in addition to IPv4 and IPv6.
+In addition,  DRKey {{I-D.garciapardo-drkey}} is a SCION extension that provides an Internet-wide key-establishment system allowing any two hosts to efficiently derive a symmetric key. This extension can be leveraged to provide additional security properties.
 
 
-## Related work
+ - LightningFilter --> https://datatracker.ietf.org/meeting/111/materials/slides-111-panrg-lightning-filter-high-speed-traffic-filtering-based-on-drkey - SCMP - COLIBRI (Bandwidth Reservations) - *RHINE* (formerly RAINS)_
+
+
+# Related work
 A question that is often asked is wether SCION could simply reuse or extend existing protocols.
 We try to clarify this question, giving an overview of the relationships between SCION and other approaches.
-
-[**Cdk: I do not understand this sentence; which protocols are you referring to?**] _For protocols that are deployed in the wild, we discuss what properties can be achieved and what properties can only be achieved with an approach like SCION._
+This section discusses what properties can be achieved by extending existing protocols, already deployed in the wild, and what properties can only be achieved with an approach like SCION.
 
 ### SCION and RPKI
 One might ask why SCION could not just rely on RPKI. Summarising the points discussed in this document, the CP-PKI distinguishes itself because of the trust model, which comprises independent trust roots that are a fundamental building block for SCION's Isolation Domains.
@@ -507,12 +525,13 @@ A possible integration of their path-aware properties remain for now an open que
 
 ### SCION and other routing approaches
 
-_TODO:  (inclding BGP with colors, semantic routing, ...)_
+_TODO:  complete this part
+- There is an increasing motivation to extend existing inter-domain routign approaches beyond mere reachability.
+To this extent, extensions to BGP have been proposed.
+For example, BGP with colors, aims at TODO...  Semantic routing {{I-D.irtf-introduction-to-semantic-routing}} aims at.. TODO
 
+Such approaches result in additional work to be carried out at routers, facing scalability challenges.
 In addition, when comparing to proposed semantic routing approaches (_TODO: reference_), with SCION,  hosts gain better visibility into network paths.
-
-**[CdK: Regarding semantic routing, maybe also say something about the additional work/tasks semantic routing creates at routers, which seems to be much higher than the additional work SCION creates at routers (calculating/resolving MACs)]** _TODO: I'm not sure if we want to explicitly say that this approach has advantages to semantic routing.. Maybe we don't want to mention it? https://www.ietf.org/id/draft-farrel-irtf-introduction-to-semantic-routing-04.html#I-D.king-irtf-semantic-routing-survey_
-
 
 
 
@@ -545,28 +564,32 @@ We briefly discuss implications of {{RFC5218}} (What Makes for a Successful Prot
 
 # Dependency analysis
 
-This section briefly discusses dependencies between SCION's core components, with the goal of facilitating a discussion on whether it is possible to implement each of SCION's core components ion its own, independent of the other core components.
+This section briefly discusses dependencies between SCION's core components, with the goal of facilitating a discussion on whether it is possible to implement each of SCION's core components ion its own, independently from other core components.
 
 _TODO: this section contains just notes, the overall wording needs to be rephrased_
 
-- Only PKI - authentication: Overall, the PKI, with its trust model, constitutes the most independent unit that could be potentially  be leveraged by SCION and other protocols. The PKI itself does not have significant dependencies on other pieces, therefore a good starting point would be to describe its trust properties, interfaces, and processes.
+- *Control plane PKI.*  Overall, the control plane PKI, with its trust model, constitutes the most independent unit that could be potentially  be leveraged by SCION and other protocols.
+The PKI itself does not have significant dependencies on other components, therefore it could represent a good starting point for standardisation. Its unique trust properties, interfaces, and processes (as voting), could be a good candidate for .
 
-- Only control plane - beaconing & path server infrastructure
-  The SCION control plane relies on the CP-PKI to authenticate entities. It would therefore make sense to define the CP in parallel with PKI. Decoupling it from PKI would severely affect the properties and guarantees that can be provided by the CP
+- *Control plane.*
+  The SCION control plane is built around the concept of Isolation Domains, being the routing process divided into an intra-and inter-ISD ones.
+  It heavily relies on the CP-PKI for beaconing (i.e., for authenticating routing information).
+  The control plane could, therefore, be specified in parallel with the CP-PKI.
+  Decoupling it from PKI would severely affect the properties and guarantees that can be provided by the control plane.
+  TODO:   Additional work could be done on beaconing and on the path server infrastructure.
 
-- Only data plane - path construction and packet forwarding
-  DP needs a way to authenticate path information.. If not, it would not make sense to have SCION for inter-domain.. We would just mimick SR and it would be useless on inter-domain, where the trust model is different. As discussed in {{RFC9049}}, lack of authentication has often been the cause of some protocols never taking off because of security concerns (see Section 6.5 (Trigtran),  6.7 (NSIS) of the mentioned draft. )
+- *Data plane.*
+  As discussed earlier, the SCION data plane requires a way to authenticate path information at each hop.
+  This carachteristic is what allows SCION to distinguish itself from other proposals.
+  If not, it would not make sense to have SCION for inter-domain.. We would just mimick SR and it would be useless on inter-domain, where the trust model is different. As discussed in {{RFC9049}}, lack of authentication has often been the cause of some protocols never taking off because of security concerns (see Section 6.5 (Trigtran),  6.7 (NSIS) of the mentioned draft. )
 
-
-- Only other components (i.e., SCMP)
-  TODO
 
 
 
 # Conclusions
 We described key SCION components with their properties and dependencies.
 
-_TODO: I would add some comments on how SCION avoids some of the issues mentioned in {{RFC9049}}_ [**CdK: I would not do this: this is out of topic in my opinion. And if you do, just two or three sentences**]. _Also mention that the most important core components are formally verified._
+_TODO: Conclude
 
 
 
