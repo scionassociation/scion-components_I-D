@@ -454,6 +454,7 @@ Routers validate network paths so that packets are only forwarded on previously 
 ## Authentication -  SCION PKI {#pki}
 SCION's control plane messages are all authenticated. The verification of those messages relies on a public-key infrastructure (PKI) called the Control-Plane PKI or CP-PKI. It consists of a set of mechanisms, roles, and policies related to the management and usage of certificates, which enables the verification of signatures, e.g., path construction beacons (PCBs).
 
+### Key properties
 One might ask why SCION requires its own PKI, rather than reusing some of the existing PKI architectures. There are several properties that distinguish the CP-PKI from others, and motivate SCION's distinct approach.
 
 - *Unique decentralised trust model.* SCION is designed to enable global secure connectivity, where ASes do not necessarily share mutual trust.
@@ -510,12 +511,12 @@ A question that is often asked is wether SCION could simply reuse or extend exis
 We try to clarify this question, giving an overview of the relationships between SCION and other approaches.
 This section discusses what properties can be achieved by extending existing protocols, already deployed in the wild, and what properties can only be achieved with an approach like SCION.
 
-### SCION and RPKI
+## SCION and RPKI
 One might ask why SCION could not just rely on RPKI. Summarising the points discussed in this document, the CP-PKI distinguishes itself because of the trust model, which comprises independent trust roots that are a fundamental building block for SCION's Isolation Domains.
 RPKI's trust model follows the same structure as the IP allocation hierarchy, where the five RIRs run a CA. This clashes with the trust model required for SCION's Isolation Domains, therefore the SCION control plane would not be able to leverage RPKI instead of the CP-PKI.
 In addition, RPKI is only meant to provide authorisation, but not authentication. SCION indeed does not provide, by design, IP authorisation. Rather, one of IP-to-SCION's  coexistence mechanisms (SIAM) relies on RPKI for IP origin attestation.
 
-###  SCION and Segment Routing
+## SCION and Segment Routing
 Given its path-aware properties, some of SCION's characteristics might seem similar to the ones provided by Segment Routing (SR) {{RFC8402}}. There are, however, fundamental differences that distinguish and motivate SCION. The most salient one is that Segment Routing is designed to be deployed across a single trusted domain. SR therefore does not focus on security, which remains an open question, as outlined in {{I-D.spring-srv6-security-consideration}}.
 SCION, instead, is designed from inception to allow inter-domain communication between mutually distrustful entities. It comes, therefore, with built-in security measures to prevent attacks (i.e., authenticating all control-plane messages and all critical fields in the data-plane header).
 Rather than competing, SCION and SR could potentially complement each other.
@@ -523,7 +524,7 @@ SCION relies on existing intra-domain routing protocols, therefore SR can be one
 A possible integration of their path-aware properties remain for now an open question.
 
 
-### SCION and other routing approaches
+## SCION and other routing approaches
 
 _TODO:  complete this part
 - There is an increasing motivation to extend existing inter-domain routign approaches beyond mere reachability.
@@ -532,34 +533,6 @@ For example, BGP with colors, aims at TODO...  Semantic routing {{I-D.irtf-intro
 
 Such approaches result in additional work to be carried out at routers, facing scalability challenges.
 In addition, when comparing to proposed semantic routing approaches (_TODO: reference_), with SCION,  hosts gain better visibility into network paths.
-
-
-
-### SCION and previous attempts with path-aware routing
-
-
-
-**CdK: I would remove this chapter entirely. It distracts more than that it adds something to the  course of argumentation you have set up in the rest of the draft (namely why SCION does not simple re-use/extend existing protocols)**
-
-_TODO: we maybe remove this part and use ot for a later motivation draft RFC9049 {{RFC9049}} illustrates obstacles and lessons learned in previous attempts. SCION differs from previous attempts to deploy path-aware networking. We therefore discuss how SCION relates to some of these lessons, and how it differs from previous attempts._
-
-- *Justifying deployment*: As early adopters show, SCION can be deployed in existing networks and provide benefits for ISPs without high impact changes. In addition, it provides properties that are not achievable with existing protocols and are needed on a future Internet. The reader should keep in mind that justifying why such properties are needed is outside of the scope of this document, and might be a topic for a dedicated gap analysis._
-
-- *Benefits for early adopters and partial deployments*
---> Early adopters (like in the SSFN) can benefit from SICON properties, especially in industries with higher availability requirements.
-With SIG and compatibility mechanisms, endpoints upgrades are not needed. even non-native SCION end hosts can benefit from its properties.
-SCION needs to be deployed continuously between ASes in the SCION part. However, SICON only requires inter-domain hops along the path to be upgraded. This makes it a bit easier to deploy.
-
-- *Relationship to end-to-end protocols*: In SCION it is end-hosts who select inter-domain paths, as routers simply verify path autorization and forward packets.
-SCION path selection is therefore performed at endpoints, and end-hosts can leverage existing end-to-end protocol mechanisms to switch paths, rather than compete with them.
-
-- *Paying for path-awareness* Experiences with early adopter ISPs in Europe show that ISPs are able to sell SCION as premium business connectivity. As an example, ISPs Swisscom, Sunrise and Switch all provide a SCION business offering.
-
-- *Keeping per-connection state & keeping traffic in the fast-path*: SCION is doing it
-
-
-We briefly discuss implications of {{RFC5218}} (What Makes for a Successful Protocol?) in {{I-D.dekater-scion-overview}}. Overall, because of the reasons discussed above, we believe SCION avoid many of the other protocol's pitfalls, and can therefore be deployed and standardised.
-
 
 
 # Dependency analysis
