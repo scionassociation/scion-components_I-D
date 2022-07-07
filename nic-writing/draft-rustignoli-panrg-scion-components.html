@@ -1159,6 +1159,11 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.3">
                 <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="xref">2.3</a>.  <a href="#name-authentication-scion-pki" class="xref">Authentication -  SCION PKI</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.3.2.1">
+                    <p id="section-toc.1-1.2.2.3.2.1.1"><a href="#section-2.3.1" class="xref">2.3.1</a>.  <a href="#name-key-properties" class="xref">Key properties</a></p>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
@@ -1178,17 +1183,12 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
                 <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="xref">4.1</a>.  <a href="#name-scion-and-rpki" class="xref">SCION and RPKI</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1.2.1">
-                    <p id="section-toc.1-1.4.2.1.2.1.1"><a href="#section-4.1.1" class="xref">4.1.1</a>.  <a href="#name-scion-and-segment-routing" class="xref">SCION and Segment Routing</a></p>
 </li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1.2.2">
-                    <p id="section-toc.1-1.4.2.1.2.2.1"><a href="#section-4.1.2" class="xref">4.1.2</a>.  <a href="#name-scion-and-other-routing-app" class="xref">SCION and other routing approaches</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="xref">4.2</a>.  <a href="#name-scion-and-segment-routing" class="xref">SCION and Segment Routing</a></p>
 </li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1.2.3">
-                    <p id="section-toc.1-1.4.2.1.2.3.1"><a href="#section-4.1.3" class="xref">4.1.3</a>.  <a href="#name-scion-and-previous-attempts" class="xref">SCION and previous attempts with path-aware routing</a></p>
-</li>
-                </ul>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="xref">4.3</a>.  <a href="#name-scion-and-other-routing-app" class="xref">SCION and other routing approaches</a></p>
 </li>
             </ul>
 </li>
@@ -1390,38 +1390,45 @@ Routers validate network paths so that packets are only forwarded on previously 
 <a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-authentication-scion-pki" class="section-name selfRef">Authentication -  SCION PKI</a>
         </h3>
 <p id="section-2.3-1">SCION's control plane messages are all authenticated. The verification of those messages relies on a public-key infrastructure (PKI) called the Control-Plane PKI or CP-PKI. It consists of a set of mechanisms, roles, and policies related to the management and usage of certificates, which enables the verification of signatures, e.g., path construction beacons (PCBs).<a href="#section-2.3-1" class="pilcrow">¶</a></p>
-<p id="section-2.3-2">One might ask why SCION requires its own PKI, rather than reusing some of the existing PKI architectures. There are several properties that distinguish the CP-PKI from others, and motivate SCION's distinct approach.<a href="#section-2.3-2" class="pilcrow">¶</a></p>
+<div id="key-properties">
+<section id="section-2.3.1">
+          <h4 id="name-key-properties">
+<a href="#section-2.3.1" class="section-number selfRef">2.3.1. </a><a href="#name-key-properties" class="section-name selfRef">Key properties</a>
+          </h4>
+<p id="section-2.3.1-1">One might ask why SCION requires its own PKI, rather than reusing some of the existing PKI architectures. There are several properties that distinguish the CP-PKI from others, and motivate SCION's distinct approach.<a href="#section-2.3.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-2.3-3.1">
-            <em>Unique decentralised trust model.</em> SCION is designed to enable global secure connectivity, where ASes do not necessarily share mutual trust.
+<li class="normal" id="section-2.3.1-2.1">
+              <em>Unique decentralised trust model.</em> SCION is designed to enable global secure connectivity, where ASes do not necessarily share mutual trust.
 This requires a trust model that is different from existing ones that are behind commonly deployed PKIs in today's Internet.
 In a monopolistic model, all entities trust one or a small number of roots of trust. In an oligopolistic model, there are  multiple equally trusted roots  (e.g., in the Web PKI).
 In both models, some or all certification authorities are omnipotent. If their key is compromised, then the security of the entire system collapses.
 Both models do not scale well to a global environment, because mutually distrustful entities cannot agree on a single root of trust (monopoly) and because in the oligopoly model, the security is as strong as its weakest root.
 The SCION trust model differs from classic PKIs in two ways. First, no entity is omnipotent, as  Isolation Domains  elect their own root of trust, and the  capabilities of each ISDs (authentication-wise) are limited to communication channels in which they are involved.
-Second, the trust roots of each ISD are located in a single file, the TRC, which is co-signed by multiple entities in a process  called voting.<a href="#section-2.3-3.1" class="pilcrow">¶</a>
+Second, the trust roots of each ISD are located in a single file, the TRC, which is co-signed by multiple entities in a process  called voting.<a href="#section-2.3.1-2.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-2.3-3.2">
-            <em>Resilience to compromised entities and keys.</em> Compromised or malicious trust roots outside an ISD cannot affect operations that stay within that ISD. Moreover, each ISD can be configured to withstand the compromise of any single voting key.<a href="#section-2.3-3.2" class="pilcrow">¶</a>
+            <li class="normal" id="section-2.3.1-2.2">
+              <em>Resilience to compromised entities and keys.</em> Compromised or malicious trust roots outside an ISD cannot affect operations that stay within that ISD. Moreover, each ISD can be configured to withstand the compromise of any single voting key.<a href="#section-2.3.1-2.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-2.3-3.3">
-            <em>Trust flexibility.</em> Each ISD can define its own trust policy. ASes must accept the trust policy of the ISD(s) in which they participate, but they can decide which ISDs they want to join, and they can participate in multiple ISDs.<a href="#section-2.3-3.3" class="pilcrow">¶</a>
+            <li class="normal" id="section-2.3.1-2.3">
+              <em>Trust flexibility.</em> Each ISD can define its own trust policy. ASes must accept the trust policy of the ISD(s) in which they participate, but they can decide which ISDs they want to join, and they can participate in multiple ISDs.<a href="#section-2.3.1-2.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-2.3-3.4">
-            <em>Scalability.</em> The authentication infrastructure scales to the size of the Internet and is adapted to the heterogeneity of today's Internet constituents.<a href="#section-2.3-3.4" class="pilcrow">¶</a>
+            <li class="normal" id="section-2.3.1-2.4">
+              <em>Scalability.</em> The authentication infrastructure scales to the size of the Internet and is adapted to the heterogeneity of today's Internet constituents.<a href="#section-2.3.1-2.4" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-2.3-3.5">
-            <em>A basis for authentication of data-plane messages.</em> Authentication based on digital signatures works well for the relatively low message rates in the control plane, but it does not meet the performance requirements for the high message rate of the data plane.
+            <li class="normal" id="section-2.3.1-2.5">
+              <em>A basis for authentication of data-plane messages.</em> Authentication based on digital signatures works well for the relatively low message rates in the control plane, but it does not meet the performance requirements for the high message rate of the data plane.
 The authentication of data-plane traffic and control messages requires a highly efficient and ideally stateless system to achieve bandwidths of several Gbps on commodity hardware, and to avoid creating opportunities for DoS attacks. SCION comprises a component called  DRKey, which enables high-speed data-plane elements, like border routers, to derive symmetric cryptographic keys from local secrets only. This DRKey component is used to authenticate SCMP messages.
-Today's Internet also lacks a fundamental mechanism to share a secret key between two end hosts for secure end-to-end communication. Existing approaches (i.e., SSH) resort to trust-on-first-use (TOFU), where a host's initial public key is accepted without verification. DRKey addresses this issue as well. For more information, refer to the draft <span>[<a href="#I-D.garciapardo-drkey" class="xref">I-D.garciapardo-drkey</a>]</span>.<a href="#section-2.3-3.5" class="pilcrow">¶</a>
+Today's Internet also lacks a fundamental mechanism to share a secret key between two end hosts for secure end-to-end communication. Existing approaches (i.e., SSH) resort to trust-on-first-use (TOFU), where a host's initial public key is accepted without verification. DRKey addresses this issue as well. For more information, refer to the draft <span>[<a href="#I-D.garciapardo-drkey" class="xref">I-D.garciapardo-drkey</a>]</span>.<a href="#section-2.3.1-2.5" class="pilcrow">¶</a>
 </li>
-        </ul>
-<p id="section-2.3-4">The CP-PKI is based on certificates that follow the X.509v3 standard <span>[<a href="#RFC5280" class="xref">RFC5280</a>]</span>. There are several professional industry-grade implementations, e.g., by SIX, the main financial infrastructure and service provider in Switzerland.
-Trust within an ISD is normally bootstrapped with an initial ceremony. Subsequent updates to the root of trust are handled automatically.<a href="#section-2.3-4" class="pilcrow">¶</a></p>
-<p id="section-2.3-5">SCION is built around an unique trust model, allowing mutually distrustful entities to communicate.
+          </ul>
+<p id="section-2.3.1-3">The CP-PKI is based on certificates that follow the X.509v3 standard <span>[<a href="#RFC5280" class="xref">RFC5280</a>]</span>. There are several professional industry-grade implementations, e.g., by SIX, the main financial infrastructure and service provider in Switzerland.
+Trust within an ISD is normally bootstrapped with an initial ceremony. Subsequent updates to the root of trust are handled automatically.<a href="#section-2.3.1-3" class="pilcrow">¶</a></p>
+<p id="section-2.3.1-4">SCION is built around an unique trust model, allowing mutually distrustful entities to communicate.
 This justifies the existence of the CP-PKI, which differs from existing PKI architectures.
 Thanks to the CP-PKI, control and data plane packets are authenticated.
-This helps avoiding some of the obstacles to deployment mentioned in <span>[<a href="#RFC9049" class="xref">RFC9049</a>]</span>, where several path-aware methods failed to achieve deployment because of lack of authentication or lack of mutual trust between end hosts and the intermediate network.<a href="#section-2.3-5" class="pilcrow">¶</a></p>
+This helps avoiding some of the obstacles to deployment mentioned in <span>[<a href="#RFC9049" class="xref">RFC9049</a>]</span>, where several path-aware methods failed to achieve deployment because of lack of authentication or lack of mutual trust between end hosts and the intermediate network.<a href="#section-2.3.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 </section>
@@ -1483,62 +1490,31 @@ This section discusses what properties can be achieved by extending existing pro
 <p id="section-4.1-1">One might ask why SCION could not just rely on RPKI. Summarising the points discussed in this document, the CP-PKI distinguishes itself because of the trust model, which comprises independent trust roots that are a fundamental building block for SCION's Isolation Domains.
 RPKI's trust model follows the same structure as the IP allocation hierarchy, where the five RIRs run a CA. This clashes with the trust model required for SCION's Isolation Domains, therefore the SCION control plane would not be able to leverage RPKI instead of the CP-PKI.
 In addition, RPKI is only meant to provide authorisation, but not authentication. SCION indeed does not provide, by design, IP authorisation. Rather, one of IP-to-SCION's  coexistence mechanisms (SIAM) relies on RPKI for IP origin attestation.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
 <div id="scion-and-segment-routing">
-<section id="section-4.1.1">
-          <h4 id="name-scion-and-segment-routing">
-<a href="#section-4.1.1" class="section-number selfRef">4.1.1. </a><a href="#name-scion-and-segment-routing" class="section-name selfRef">SCION and Segment Routing</a>
-          </h4>
-<p id="section-4.1.1-1">Given its path-aware properties, some of SCION's characteristics might seem similar to the ones provided by Segment Routing (SR) <span>[<a href="#RFC8402" class="xref">RFC8402</a>]</span>. There are, however, fundamental differences that distinguish and motivate SCION. The most salient one is that Segment Routing is designed to be deployed across a single trusted domain. SR therefore does not focus on security, which remains an open question, as outlined in <span>[<a href="#I-D.spring-srv6-security-consideration" class="xref">I-D.spring-srv6-security-consideration</a>]</span>.
+<section id="section-4.2">
+        <h3 id="name-scion-and-segment-routing">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-scion-and-segment-routing" class="section-name selfRef">SCION and Segment Routing</a>
+        </h3>
+<p id="section-4.2-1">Given its path-aware properties, some of SCION's characteristics might seem similar to the ones provided by Segment Routing (SR) <span>[<a href="#RFC8402" class="xref">RFC8402</a>]</span>. There are, however, fundamental differences that distinguish and motivate SCION. The most salient one is that Segment Routing is designed to be deployed across a single trusted domain. SR therefore does not focus on security, which remains an open question, as outlined in <span>[<a href="#I-D.spring-srv6-security-consideration" class="xref">I-D.spring-srv6-security-consideration</a>]</span>.
 SCION, instead, is designed from inception to allow inter-domain communication between mutually distrustful entities. It comes, therefore, with built-in security measures to prevent attacks (i.e., authenticating all control-plane messages and all critical fields in the data-plane header).
 Rather than competing, SCION and SR could potentially complement each other.
 SCION relies on existing intra-domain routing protocols, therefore SR can be one of the possible intra-domain routing protocols.
-A possible integration of their path-aware properties remain for now an open question.<a href="#section-4.1.1-1" class="pilcrow">¶</a></p>
+A possible integration of their path-aware properties remain for now an open question.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="scion-and-other-routing-approaches">
-<section id="section-4.1.2">
-          <h4 id="name-scion-and-other-routing-app">
-<a href="#section-4.1.2" class="section-number selfRef">4.1.2. </a><a href="#name-scion-and-other-routing-app" class="section-name selfRef">SCION and other routing approaches</a>
-          </h4>
-<p id="section-4.1.2-1">_TODO:  complete this part
+<section id="section-4.3">
+        <h3 id="name-scion-and-other-routing-app">
+<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-scion-and-other-routing-app" class="section-name selfRef">SCION and other routing approaches</a>
+        </h3>
+<p id="section-4.3-1">_TODO:  complete this part
 - There is an increasing motivation to extend existing inter-domain routign approaches beyond mere reachability.
 To this extent, extensions to BGP have been proposed.
-For example, BGP with colors, aims at TODO...  Semantic routing <span>[<a href="#I-D.irtf-introduction-to-semantic-routing" class="xref">I-D.irtf-introduction-to-semantic-routing</a>]</span> aims at.. TODO<a href="#section-4.1.2-1" class="pilcrow">¶</a></p>
-<p id="section-4.1.2-2">Such approaches result in additional work to be carried out at routers, facing scalability challenges.
-In addition, when comparing to proposed semantic routing approaches (<em>TODO: reference</em>), with SCION,  hosts gain better visibility into network paths.<a href="#section-4.1.2-2" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="scion-and-previous-attempts-with-path-aware-routing">
-<section id="section-4.1.3">
-          <h4 id="name-scion-and-previous-attempts">
-<a href="#section-4.1.3" class="section-number selfRef">4.1.3. </a><a href="#name-scion-and-previous-attempts" class="section-name selfRef">SCION and previous attempts with path-aware routing</a>
-          </h4>
-<p id="section-4.1.3-1"><strong>CdK: I would remove this chapter entirely. It distracts more than that it adds something to the  course of argumentation you have set up in the rest of the draft (namely why SCION does not simple re-use/extend existing protocols)</strong><a href="#section-4.1.3-1" class="pilcrow">¶</a></p>
-<p id="section-4.1.3-2"><em>TODO: we maybe remove this part and use ot for a later motivation draft RFC9049 <span>[<a href="#RFC9049" class="xref">RFC9049</a>]</span> illustrates obstacles and lessons learned in previous attempts. SCION differs from previous attempts to deploy path-aware networking. We therefore discuss how SCION relates to some of these lessons, and how it differs from previous attempts.</em><a href="#section-4.1.3-2" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-4.1.3-3.1">
-              <em>Justifying deployment</em>: As early adopters show, SCION can be deployed in existing networks and provide benefits for ISPs without high impact changes. In addition, it provides properties that are not achievable with existing protocols and are needed on a future Internet. The reader should keep in mind that justifying why such properties are needed is outside of the scope of this document, and might be a topic for a dedicated gap analysis._<a href="#section-4.1.3-3.1" class="pilcrow">¶</a>
-</li>
-            <li class="normal" id="section-4.1.3-3.2">
-              <em>Benefits for early adopters and partial deployments</em>
---&gt; Early adopters (like in the SSFN) can benefit from SICON properties, especially in industries with higher availability requirements.
-With SIG and compatibility mechanisms, endpoints upgrades are not needed. even non-native SCION end hosts can benefit from its properties.
-SCION needs to be deployed continuously between ASes in the SCION part. However, SICON only requires inter-domain hops along the path to be upgraded. This makes it a bit easier to deploy.<a href="#section-4.1.3-3.2" class="pilcrow">¶</a>
-</li>
-            <li class="normal" id="section-4.1.3-3.3">
-              <em>Relationship to end-to-end protocols</em>: In SCION it is end-hosts who select inter-domain paths, as routers simply verify path autorization and forward packets.
-SCION path selection is therefore performed at endpoints, and end-hosts can leverage existing end-to-end protocol mechanisms to switch paths, rather than compete with them.<a href="#section-4.1.3-3.3" class="pilcrow">¶</a>
-</li>
-            <li class="normal" id="section-4.1.3-3.4">
-              <em>Paying for path-awareness</em> Experiences with early adopter ISPs in Europe show that ISPs are able to sell SCION as premium business connectivity. As an example, ISPs Swisscom, Sunrise and Switch all provide a SCION business offering.<a href="#section-4.1.3-3.4" class="pilcrow">¶</a>
-</li>
-            <li class="normal" id="section-4.1.3-3.5">
-              <em>Keeping per-connection state &amp; keeping traffic in the fast-path</em>: SCION is doing it<a href="#section-4.1.3-3.5" class="pilcrow">¶</a>
-</li>
-          </ul>
-<p id="section-4.1.3-4">We briefly discuss implications of <span>[<a href="#RFC5218" class="xref">RFC5218</a>]</span> (What Makes for a Successful Protocol?) in <span>[<a href="#I-D.dekater-scion-overview" class="xref">I-D.dekater-scion-overview</a>]</span>. Overall, because of the reasons discussed above, we believe SCION avoid many of the other protocol's pitfalls, and can therefore be deployed and standardised.<a href="#section-4.1.3-4" class="pilcrow">¶</a></p>
-</section>
-</div>
+For example, BGP with colors, aims at TODO...  Semantic routing <span>[<a href="#I-D.irtf-introduction-to-semantic-routing" class="xref">I-D.irtf-introduction-to-semantic-routing</a>]</span> aims at.. TODO<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+<p id="section-4.3-2">Such approaches result in additional work to be carried out at routers, facing scalability challenges.
+In addition, when comparing to proposed semantic routing approaches (<em>TODO: reference</em>), with SCION,  hosts gain better visibility into network paths.<a href="#section-4.3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
