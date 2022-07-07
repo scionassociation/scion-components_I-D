@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-07-05T00:26:47.081009+00:00",
+  "timestamp": "2022-07-07T00:32:47.854170+00:00",
   "repo": "scionassociation/scion-components_I-D",
   "labels": [
     {
@@ -49,31 +49,52 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 2,
+      "id": "I_kwDOHiDowc5NKLoB",
+      "title": "Draft final review",
+      "url": "https://github.com/scionassociation/scion-components_I-D/issues/2",
+      "state": "OPEN",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [
+        "nicorusti"
+      ],
+      "labels": [],
+      "body": "This issue tracks some final review tasks:\r\n- [ ] Give some love to the dependency analysis (wording)\r\n- [ ] Delete RFC9049 part \r\n- [ ] Remove unused references\r\n- [ ] Check format of all references & links\r\n- [ ] Search for missed TODOs ",
+      "createdAt": "2022-07-05T16:26:33Z",
+      "updatedAt": "2022-07-05T16:40:32Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
   "pulls": [
     {
       "number": 1,
       "id": "PR_kwDOHiDowc46hMga",
       "title": "Initial version",
       "url": "https://github.com/scionassociation/scion-components_I-D/pull/1",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "nicorusti",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
-      "body": "<!-- Reviewable:start -->\r\nThis change is\u2002[<img src=\"https://reviewable.io/review_button.svg\" height=\"34\" align=\"absmiddle\" alt=\"Reviewable\"/>](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1)\r\n<!-- Reviewable:end -->\r\n\r\n- [x] Start with a section describing the properties we think a good global Internetwork must contain: security, scalability, availability in case of failure, transparency, multi-path/flexibility, end-host control... Then that SCION was developed to meet these property requirements.\r\n- [ ] Discussion of each property for each core component (I am not sure about the structure: whether to take the core components as upper level, and the properties as the lower level, or the other way around).\r\nFor each property: how SCION achieves this property, in relation to the existing Internet. I think you can re-use all property content you already wrote, this is more a matter of re-organizing the content.=\r\n- [ ] Related work section: RPKI,  BGPSec, Semantic Routing (Add)\r\nWe should make it clear: what protocols are we reusing, which ones are we extending, which ones are we replacing and not reusing \u2026. We should explain clearly why we are not reusing existing protocols.\r\n- [ ] Conclude with dependency analysis, which explains very nicely that the core components cannot really exist on their own (except maybe for the CP-PKI). \r\n- [ ] Transition mechanism & additional components: remove or rework\r\n\r\nGeneral feedback: \r\n- [ ] Make it more clear why we do not reuse existing protocols\r\n- [ ]  RFC9049: use it as a filter for our ideas. Explain why SCION considers lessons learned\r\n- [x] Use RFC 7418  to explain and motivate what should go into IETF and what should go into IRTF --> I guess this will pop up in discussions. Some we are roughly at half and half, and some of the work should be IETF. I think this should not be in the draft. ",
+      "body": "<!-- Reviewable:start -->\r\nThis change is\u2002[<img src=\"https://reviewable.io/review_button.svg\" height=\"34\" align=\"absmiddle\" alt=\"Reviewable\"/>](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1)\r\n<!-- Reviewable:end -->\r\n\r\n- [x] Start with a section describing the properties we think a good global Internetwork must contain: security, scalability, availability in case of failure, transparency, multi-path/flexibility, end-host control... Then that SCION was developed to meet these property requirements.\r\n- [x] Discussion of each property for each core component (I am not sure about the structure: whether to take the core components as upper level, and the properties as the lower level, or the other way around).\r\nFor each property: how SCION achieves this property, in relation to the existing Internet. I think you can re-use all property content you already wrote, this is more a matter of re-organizing the content.=\r\n- [x] Related work section: RPKI,  BGPSec, Semantic Routing (Add)\r\nWe should make it clear: what protocols are we reusing, which ones are we extending, which ones are we replacing and not reusing \u2026. We should explain clearly why we are not reusing existing protocols.\r\n- [x] Conclude with dependency analysis, which explains very nicely that the core components cannot really exist on their own (except maybe for the CP-PKI). \r\n- [ ] Transition mechanism & additional components: remove or rework\r\n\r\nGeneral feedback: \r\n- [ ] Make it more clear why we do not reuse existing protocols\r\n- [ ]  RFC9049: use it as a filter for our ideas. Explain why SCION considers lessons learned\r\n- [x] Use RFC 7418  to explain and motivate what should go into IETF and what should go into IRTF --> I guess this will pop up in discussions. Some we are roughly at half and half, and some of the work should be IETF. I think this should not be in the draft. ",
       "createdAt": "2022-06-28T19:14:00Z",
-      "updatedAt": "2022-07-04T16:01:27Z",
+      "updatedAt": "2022-07-05T16:45:22Z",
       "baseRepository": "scionassociation/scion-components_I-D",
       "baseRefName": "main",
       "baseRefOid": "90269ef5f6642adf09be6d9739ce0628dc1f137e",
       "headRepository": "scionassociation/scion-components_I-D",
       "headRefName": "nic-writing",
-      "headRefOid": "763d702ae2210fb70afdded964cb28bc2505c6d1",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "97fe40dc31a5982696347df04b68cb3fb4956606",
+      "closedAt": "2022-07-05T16:45:21Z",
+      "mergedAt": "2022-07-05T16:45:21Z",
+      "mergedBy": "nicorusti",
+      "mergeCommit": {
+        "oid": "90287a58581d90433c6ce9a26b0f729c309753af"
+      },
       "comments": [],
       "reviews": [
         {
