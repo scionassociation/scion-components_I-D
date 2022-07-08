@@ -227,9 +227,9 @@ informative:
          org: Anapaya Systems
 
   GIULIARI2021:
-     title: "Deployment and Scalability of an Inter-Domain Multi-Path Routing Infrastructure"
+     title: "Colibri: A Cooperative Lightweight Inter-domain Bandwidth-Reservation Infrastructure"
      date: 2022
-     target: https://netsec.ethz.ch/publications/papers/2021_conext_deployment.pdf
+     target: https://netsec.ethz.ch/publications/papers/2021_conext_colibri.pdf
      author:
        -
          ins: G. Giuliari
