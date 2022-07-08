@@ -33,15 +33,8 @@ normative:
 
 informative:
   RFC4264:
-  RFC4033:
-  RFC5218:
-  RFC6480:
-  RFC6830:
   RFC8205:
-  RFC8446:
   RFC9049:
-  RFC9217:
-  RFC8170:
   RFC4443:
   RFC0791:
   RFC7911:
@@ -52,44 +45,12 @@ informative:
   RFC6774:
   RFC8305:
   SCHUCHARD2011: DOI.10.1145/1866307.1866411
-  LABOVITZ2000: DOI.10.1145/347059.347428
   GRIFFIN1999: DOI.10.1145/316194.316231
   SAHOO2009: DOI.10.1016/j.comcom.2009.03.009
-  LYCHEV2013: DOI.10.1145/2534169.2486010
-  LI2014: DOI.10.14722/sent.2014.23001
   COOPER2013: DOI.10.1145/2535771.2535787
   ROTHENBERGER2017: DOI.10.1145/3065913.3065922
-  MORILLO2021: DOI.10.14722/ndss.2021.24438
-  KLENZE2021: DOI.10.1109/CSF51468.2021.00018
-  DERUITER2021: DOI.10.1145/3485983.3494839
-  ANDERSEN2001: DOI.10.1145/502034.502048
-  KATZ2012: DOI.10.1145/2377677.2377756
-  KUSHMAN2007: DOI.10.1145/1232919.1232927
   COOPER2013: DOI.10.1145/2535771.2535787
-  GIULIARI2021: DOI.10.1145/3485983.3494871
-  PERRIG2017:
-    title: "SCION: A Secure Internet Architecture"
-    date: 2017
-    target: https://doi.org/10.1007/978-3-319-67080-5
-    seriesinfo:
-      ISBN: 978-3-319-67079-9
-    author:
-      -
-        ins: A. Perrig
-        name: Adrian Perrig
-        org: ETH Zuerich
-      -
-        ins: P. Szalachowski
-        name: Pawel Szalachowski
-        org: ETH Zuerich
-      -
-        ins: R. Reischuk
-        name: Raphael Reischuk
-        org: ETH Zuerich
-      -
-        ins: L. Chuat
-        name: Laurent Chuat
-        org: ETH Zuerich
+
   I-D.dekater-scion-overview:
     title: SCION Overview
     date: 2022
@@ -131,9 +92,25 @@ informative:
       -
         ins: D. Rao
       -
-        ins: Et Al.
-
-
+        ins: S. Agrawal
+      -
+        ins: C. Filsfils
+      -
+        ins: D. Steinberg
+      -
+        ins: L. Jalil
+      -
+        ins: Y. Su
+      -
+        ins: B. Decraene
+      -
+        ins: J. Guichard
+      -
+        ins: K. Talaulikar
+      -
+        ins: H. Wang
+      -
+        ins:  J. Uttaro
   I-D.spring-srv6-security-consideration:
     title: Security Considerations for SRv6 Networks
     date: 2022
@@ -208,46 +185,13 @@ informative:
       -
         ins: S. Jiang
 
-  HITZ2021:
-    title: Demonstrating the reliability and resilience of Secure Swiss Finance Network
-    date: 2021
-    target: https://perma.cc/4H3Q-WZNG
-    author:
-      ins: S. Hitz
-      name: Samuel Hitz
-      org: Anapaya Systems
-
   FCC2022:
     title: Notice of Inquiry on Secure Internet Routing
     date: 2022
     target: https://www.fcc.gov/document/fcc-launches-inquiry-internet-routing-vulnerabilities
     author:
       ins: Federal Communications Commission
-  LEGNER2020:
-     title: "EPIC: Every Packet Is Checked in the Data Plane of a Path-Aware Internet"
-     date: 2020
-     target: https://www.usenix.org/conference/usenixsecurity20/presentation/legner
-     author:
-       -
-         ins: M. Legner
-         name: Adrian Perrig
-         org: ETH Zuerich
-       -
-         ins: T. Klenze
-         name: Tobias Klenze
-         org: ETH Zuerich
-       -
-         ins: M. Wyss
-         name: Marc Wyss
-         org: ETH Zuerich
-       -
-         ins: C. Sprenger
-         name: Christoph Sprenger
-         org: ETH Zuerich
-       -
-         ins: A. Perrig
-         name: Adrian Perrig
-         org: ETH Zuerich
+
   KRAHENBUHL2022:
      title: "Deployment and Scalability of an Inter-Domain Multi-Path Routing Infrastructure"
      date: 2022
@@ -281,6 +225,38 @@ informative:
          ins: D. Roos
          name: Dominik Roos
          org: Anapaya Systems
+
+  GIULIARI2021:
+     title: "Deployment and Scalability of an Inter-Domain Multi-Path Routing Infrastructure"
+     date: 2022
+     target: https://netsec.ethz.ch/publications/papers/2021_conext_deployment.pdf
+     author:
+       -
+         ins: G. Giuliari
+         name: Giacomo Giuliari
+         org: ETH Zuerich
+       -
+         ins: D. Roos
+         name: Dominik Roos
+         org: Anapaya Systems
+       -
+         ins: M. Wyss
+         name: Marc Wyss
+         org: ETH Zuerich
+       -
+         ins: J. García-Pardo
+         name: Juan Angel García-Pardo
+         org: ETH Zuerich
+       -
+         ins: M. Legner
+         name: Markus Legner
+         org: ETH Zuerich
+       -
+         ins: A. Perrig
+         name: Adrian Perrig
+         org: ETH Zuerich
+
+
   CHUAT22:
     title: "The Complete Guide to SCION"
     date: 2022
