@@ -363,7 +363,7 @@ This document illustrates the dependencies between its core components and exten
 
 While SCION  was initially developed in academia, the architecture  has now "slipped out of the lab" and counts its early productive deployments (including the Swiss inter-banking network SSFN).
 The architecture is composed of a system of related components, some of which are  essential to set up end-to-end SCION connectivity, while others are add-ons aiming at providing additional functionality, security, or backwards compatibility. Discussions at {{PANRG-INTERIM-Min}} showed the need to describe the relationships between SCION's core components.
-In this document, we therefore focus on each component, describing its functionality, dependencies and relationships to existing protocols. The goal is not to describe each component's specification, but to provide a basis for discussions about the engineering decisions that made SCION what it is.
+This document, therefore focuses on each component, describing its functionality, dependencies and relationships to existing protocols. The goal is not to describe each component's specification, but to provide a basis for discussions about the engineering decisions that made SCION what it is.
 
 Before reading this document, please refer to {{I-D.dekater-scion-overview}} for a generic overview of SCION and its components, the problems it solves, and existing deployments. For an in-depth description of SCION, refer to {{CHUAT22}}.
 
@@ -383,7 +383,7 @@ At the same time, a next-generation Internet architecture should not suffer from
 The S in SCION, indeed, stands for scalability. The architecture proposes a design that is scalable both in the control plane and in the data plane (making secure forwarding efficient).
 
 
-Many research efforts have analysed whether such properties could be achieved by extending the existing Internet architecture. But as we describe in {{existing-protocols}}, tradeoffs between properties would be unavoidable when exclusively relying on or extending existing protocols.
+Many research efforts have analysed whether such properties could be achieved by extending the existing Internet architecture. But as described in {{existing-protocols}}, tradeoffs between properties would be unavoidable when exclusively relying on or extending existing protocols.
 
 The following paragraphs describe the key properties of SCION's core components. They then describe the components' mutual dependencies and their relation with existing protocols.
 
@@ -398,7 +398,7 @@ The data plane is responsible for forwarding SCION packets while authenticating 
 
 Both the control and data plane rely on the Control-Plane PKI (CP-PKI) for authentication.
 SCION's authentication mechanisms aim at protecting the whole end-to-end path at each hop. SCION Autonomous Systems are organised in Isolation Domains (ISDs), that independently define their own roots of trust.
-ISD members share a uniform trust environment (i.e., a common jurisdiction). They can transparently define trust relationships between parts of the network by deciding whether to trust other ISDs. SCION therefore relies on a unique trust model, which differs from other PKIs. We clarify the motivation behind this design choice in {{pki}}.
+ISD members share a uniform trust environment (i.e., a common jurisdiction). They can transparently define trust relationships between parts of the network by deciding whether to trust other ISDs. SCION therefore relies on a unique trust model, which differs from other PKIs. The motivation behind this design choice is clarified in {{pki}}.
 
 All above mentioned core components are deployed in production (e.g., they are in use within the SSFN, the Swiss Finance Network). There are commercial implementations of all core components (including a high performance data-plane).
 
@@ -409,7 +409,8 @@ End hosts query the control plane for path segments, and combine them into forwa
 For an overview of the process to create and disseminate path information, refer to {{I-D.dekater-scion-overview}}, section 1.2.2.
 
 ### Key properties in relationship to existing protocols
-On first sight, it might seem that the SCION control plane takes care of similar duties as BGP. While both focus on disseminating routing information, there are substantial differences in their mechanisms and properties offered. We describe the core properties provided by the SCION control plane, and its relationships with existing protocols.
+On first sight, it might seem that the SCION control plane takes care of similar duties as BGP. While both focus on disseminating routing information, there are substantial differences in their mechanisms and properties offered.
+This section describes the core properties provided by the SCION control plane, and its relationships with existing protocols.
 
 - *Host addressing.*  SCION decouples routing from end-host addressing: inter-domain routing is based on ISD-AS tuples rather than on end-host addresses, making SCION agnostic to end-host addressing.
 This design decision  has two outcomes: First of all, SCION can reuse existing host addressing schemes, as IPv6,  IPv4, or others. Secondly, its control plane does not carry prefix information, avoiding known issues of using routing tables (i.e., scalability, the need for dedicated hardware).
@@ -522,7 +523,7 @@ Beyond that, SCION comprises a number of extensions and transition mechanisms th
 For the sake of completeness, this paragraph briefly mentions some of these transition mechanisms and extensions.
 
 ## Transition mechanisms {#transition-mechanisms}
-As we presented in {{I-D.dekater-scion-overview}}, incremental deployability is a strong component of SCION's design.
+As presented in {{I-D.dekater-scion-overview}}, incremental deployability is a strong component of SCION's design.
 It comprises transition mechanisms that allow partial deployment and coexistence with existing protocols.
 These mechanisms require different levels of changes in existing systems, and have different maturity levels (from research to production).
 Rather than describing how each mechanism works, this document provides a short summary of each approach, focusing on its functions and properties, as well as on how it reuses, extends or interacts with existing protocols.
@@ -561,7 +562,7 @@ They are therefore
 
 # Related work
 A question that is often asked is whether SCION could simply reuse or extend existing protocols.
-We try to clarify this question, giving an overview of the relationships between SCION and other approaches.
+This section tries to clarify this question, giving an overview of the relationships between SCION and other approaches.
 This section discusses what properties can be achieved by extending existing protocols, already deployed in the wild, and what properties can only be achieved with an approach like SCION.
 
 ## SCION and RPKI
