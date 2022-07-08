@@ -123,6 +123,17 @@ informative:
       -
         ins: K. Majumdar
 
+  I-D.dskc-bess-bgp-car:
+    title: BGP Color-Aware Routing (CAR)
+    date: 2022
+    target: https://datatracker.ietf.org/doc/draft-dskc-bess-bgp-car/
+    author:
+      -
+        ins: D. Rao
+      -
+        ins: Et Al.
+
+
   I-D.spring-srv6-security-consideration:
     title: Security Considerations for SRv6 Networks
     date: 2022
@@ -184,6 +195,19 @@ informative:
         ins: A. Perrig
         name: Adrian Perrig
         org: ETH Zuerich
+
+  I-D.trossen-routing-beyond-reachability:
+    title: Continuing to Evolve Internet Routing Beyond 'Mere' Reachability
+    date: 2022
+    target: https://datatracker.ietf.org/doc/draft-trossen-rtgwg-routing-beyond-reachability/
+    author:
+      -
+        ins: 	D. Trossen
+      -
+        ins:  D. Lou
+      -
+        ins: S. Jiang
+
   HITZ2021:
     title: Demonstrating the reliability and resilience of Secure Swiss Finance Network
     date: 2021
@@ -374,7 +398,7 @@ The data plane is responsible for forwarding SCION packets while authenticating 
 
 Both the control and data plane rely on the Control-Plane PKI (CP-PKI) for authentication.
 SCION's authentication mechanisms aim at protecting the whole end-to-end path at each hop. SCION Autonomous Systems are organised in Isolation Domains (ISDs), that independently define their own roots of trust.
-ISD members share a uniform trust environment (i.e., a common jurisdiction). They can transparently define trust relationships between parts of the network by deciding whether to trust other ISDs. SCION therefore relies on a unique trust model, which differs from other PKIs. We clarify the motivation behind this design choice in [Authentication] {{pki}}.
+ISD members share a uniform trust environment (i.e., a common jurisdiction). They can transparently define trust relationships between parts of the network by deciding whether to trust other ISDs. SCION therefore relies on a unique trust model, which differs from other PKIs. We clarify the motivation behind this design choice in {{pki}}.
 
 All above mentioned core components are deployed in production (e.g., they are in use within the SSFN, the Swiss Finance Network). There are commercial implementations of all core components (including a high performance data-plane).
 
@@ -439,7 +463,7 @@ Thanks to its data plane, SCION achieves properties that are difficult to achiev
 
 - *Path selection.* In SCION, end hosts select network paths, rather than routers. The end hosts are empowered to make end-to-end path choices based on application requirements.
 This means that routers do not carry the burden of making enhanced routing or forwarding decisions.
-When comparing to other approaches, such as semantic routing {{I-D.irtf-introduction-to-semantic-routing}}, this has the advantage that there is no need to include semantics in packets.
+
 
 - *Scalability.* SCION routers can efficiently forward packets without the need to look up forwarding tables or keeping per-connection state. Routers only need to verify  MACs in hop fields. This operation is based on modern block ciphers such as AES, can be computed faster than performing a memory lookup and is widely supported in modern CPUs.
 Routers, therefore, do not require expensive and energy-intensive dedicated hardware, and can be deployed on off-the-shelf hardware. Lack of forwarding tables also implies that the growing size of forwarding tables is of no concern to SCION. Additionally, routers that keep state of network information can suffer from denial-of-service (DoS) attacks exhausting the router’s state {{SCHUCHARD2011}}, which is less of a problem to SCION.
@@ -554,14 +578,14 @@ A possible integration of their path-aware properties remain for now an open que
 
 
 ## SCION and other routing approaches
+There is an increasing motivation to extend  inter-domain routing beyond mere reachability, as discussed in {{I-D.trossen-routing-beyond-reachability}}.
+This document provides a summary of some of the existing approaches, and states that wider architectural approaches are needed.
+One proposed approach is  semantic routing {{I-D.irtf-introduction-to-semantic-routing}}, which adds support for advanced routing and forwarding into packets and into the data-plane.
+SCION takes a different approach:  path selection is carried out by end hosts, which have the ability to select network paths based on application requirements.
+This means that there is no need to include semantics in packets. This comes with the benefit that the SCION data plane can provide advanced routing without increased complexity or strain on routers.
+Similarly, other approaches that extend BGP, often result in additional work to be carried out at routers, facing scalability challenges.
 
-_TODO:  complete this part
-- There is an increasing motivation to extend existing inter-domain routing approaches beyond mere reachability.
-To this extent, extensions to BGP have been proposed.
-For example, BGP with colors, aims at TODO...  Semantic routing {{I-D.irtf-introduction-to-semantic-routing}} aims at.. TODO
-
-Such approaches result in additional work to be carried out at routers, facing scalability challenges.
-In addition, when comparing to proposed semantic routing approaches (_TODO: reference_), with SCION,  hosts gain better visibility into network paths.
+_TODO: @Adrian, I also wanted to mention Color-Aware Routing {{I-D.dskc-bess-bgp-car}}, but it seems quite complex to be able to argue which challenges it faces. My guess is that it faces the same challenges ad BGP.. Do you know something about it?
 
 
 # Dependency analysis
