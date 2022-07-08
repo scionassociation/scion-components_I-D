@@ -1290,7 +1290,7 @@ However, BGP multipath does not allow end hosts to select the whole end-to-end p
 Similarly to BGP multipath, other approaches based on BGP either are only able to provide backup paths that can solely be activated in case of failure (i.e., "Diverse BGP Paths" <span>[<a href="#RFC6774" class="xref">RFC6774</a>]</span>), or they face scalability limitations. Such concerns motivate an alternative approach, such as SCION.<a href="#section-2.1.1-2.2" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-2.1.1-2.3">
-              <em>Hop by hop path authorization.</em> SCION packets can only be forwarded along authorized segments. This is achieved thanks to message authentication codes (MACs) within each hop field. During beaconing, each AS's control plane creates MACs, which are then verified at forwarding. This gives end hosts strong guarantees about the path where the data is routed. Other approaches, such as BGPSec (<span>[<a href="#RFC8205" class="xref">RFC8205</a>]</span>), suffer from challenges with scalability, introduce circular dependencies <span>[<a href="#COOPER2013" class="xref">COOPER2013</a>]</span> and global kill switches <span>[<a href="#ROTHENBERGER2017" class="xref">ROTHENBERGER2017</a>]</span>.
+              <em>Hop-by-hop path authorization.</em> SCION packets can only be forwarded along authorized segments. This is achieved thanks to message authentication codes (MACs) within each hop field. During beaconing, each AS's control plane creates MACs, which are then verified at forwarding. This gives end hosts strong guarantees about the path where the data is routed. Other approaches, such as BGPSec (<span>[<a href="#RFC8205" class="xref">RFC8205</a>]</span>), suffer from challenges with scalability, introduce circular dependencies <span>[<a href="#COOPER2013" class="xref">COOPER2013</a>]</span> and global kill switches <span>[<a href="#ROTHENBERGER2017" class="xref">ROTHENBERGER2017</a>]</span>.
 Giving end hosts guarantees about the full inter-domain path is important in order to avoid traffic interception, and to enable geofencing (i.e., keeping data in transit within a well-defined trusted area of the global Internet).<a href="#section-2.1.1-2.3" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-2.1.1-2.4">
@@ -1472,16 +1472,16 @@ Traffic is therefore routed as close as possible to the source onto the SCION ne
         <h3 id="name-extensions-and-other-compon">
 <a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-extensions-and-other-compon" class="section-name selfRef">Extensions and other components</a>
         </h3>
-<p id="section-3.2-1">In addition to the components mentioned above, there are others that aim at facilitating deployment or better integrating SCION with existing networks. As an example, a prototype is being developed to explore whether happy eyeballs  <span>[<a href="#RFC8305" class="xref">RFC8305</a>]</span> could be extended to support SCION in addition to IPv4 and IPv6.
-PANAPI (Path-Aware Networking API) <span>[<a href="#slides-113-taps-panapi" class="xref">slides-113-taps-panapi</a>]</span> aims at making path-awareness and multipath to the transport layer at end-hosts.
+<p id="section-3.2-1">In addition to the components mentioned above, there are others that aim at facilitating deployment or at better integrating SCION with existing networks. As an example, a prototype is being developed to explore whether happy eyeballs  <span>[<a href="#RFC8305" class="xref">RFC8305</a>]</span> could be extended to support SCION in addition to IPv4 and IPv6.
+PANAPI (Path-Aware Networking API) <span>[<a href="#slides-113-taps-panapi" class="xref">slides-113-taps-panapi</a>]</span> aims at making path-awareness and multipath to the transport layer at end hosts.
 DRKey <span>[<a href="#I-D.garciapardo-drkey" class="xref">I-D.garciapardo-drkey</a>]</span> is a SCION extension that provides an Internet-wide key-establishment system allowing any two hosts to efficiently derive a symmetric key. This extension can be leveraged by other components to provide additional security properties.
-For example, LightningFilter <span>[<a href="#slides-111-panrg-lightning-filter" class="xref">slides-111-panrg-lightning-filter</a>]</span> leverages DRKey to provide high speed packet filtering between trusted SCION ASes.
+For example, LightningFilter <span>[<a href="#slides-111-panrg-lightning-filter" class="xref">slides-111-panrg-lightning-filter</a>]</span> leverages DRKey to provide high-speed packet filtering between trusted SCION ASes.
 The SCION Control Message Protocol (SCMP) provides authenticated error messages and network diagnostics.
 COLIBRI <span>[<a href="#GIULIARI2021" class="xref">GIULIARI2021</a>]</span> is SCION's inter-domain bandwidth reservation system.
 RHINE (Robust and High-performance Internet Naming for End-to-end security, formerly RAINS) is a secure-by-design naming system that provides a set of desired security, reliability, and performance properties beyond what the DNS security infrastructure offers today.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
-<p id="section-3.2-2">Such additional components are briefly mentioned here in order to provide additional context.
+<p id="section-3.2-2">These additional components are briefly mentioned here in order to provide additional context.
 Being them extensions, they build upon the three SCION core components described earlier in this document.
-They are therefore<a href="#section-3.2-2" class="pilcrow">¶</a></p>
+They are therefore  <strong>CdK: Something is missing here... ;-) However, I think this is enough information on the additional components, it doesn't need much more.</strong><a href="#section-3.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1501,7 +1501,7 @@ This section discusses what properties can be achieved by extending existing pro
         </h3>
 <p id="section-4.1-1">One might ask why SCION could not just rely on RPKI. Summarising the points discussed in this document, the CP-PKI distinguishes itself because of its trust model, which comprises independent trust roots that are a fundamental building block for SCION's Isolation Domains.
 RPKI's trust model follows the same structure as the IP allocation hierarchy, where the five RIRs run a CA. This clashes with the trust model required for SCION's Isolation Domains, therefore the SCION control plane would not be able to leverage RPKI instead of the CP-PKI.
-In addition, RPKI is only meant to provide authorisation, but not authentication. SCION indeed does not provide, by design, IP authorisation. Rather, one of IP-to-SCION's  coexistence mechanisms (SIAM) relies on RPKI for IP origin attestation.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+In addition, RPKI is only meant to provide authorisation, but not authentication. SCION indeed does not provide, by design, IP authorisation. Rather, one of IP-to-SCION's coexistence mechanisms (SIAM) relies on RPKI for IP origin attestation.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="scion-and-segment-routing">

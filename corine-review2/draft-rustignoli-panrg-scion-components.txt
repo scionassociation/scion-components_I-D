@@ -251,7 +251,7 @@ Table of Contents
       face scalability limitations.  Such concerns motivate an
       alternative approach, such as SCION.
 
-   *  _Hop by hop path authorization._ SCION packets can only be
+   *  _Hop-by-hop path authorization._ SCION packets can only be
       forwarded along authorized segments.  This is achieved thanks to
       message authentication codes (MACs) within each hop field.  During
       beaconing, each AS's control plane creates MACs, which are then
@@ -576,18 +576,18 @@ Table of Contents
 3.2.  Extensions and other components
 
    In addition to the components mentioned above, there are others that
-   aim at facilitating deployment or better integrating SCION with
+   aim at facilitating deployment or at better integrating SCION with
    existing networks.  As an example, a prototype is being developed to
    explore whether happy eyeballs [RFC8305] could be extended to support
    SCION in addition to IPv4 and IPv6.  PANAPI (Path-Aware Networking
    API) [slides-113-taps-panapi] aims at making path-awareness and
-   multipath to the transport layer at end-hosts.  DRKey
+   multipath to the transport layer at end hosts.  DRKey
    [I-D.garciapardo-drkey] is a SCION extension that provides an
    Internet-wide key-establishment system allowing any two hosts to
    efficiently derive a symmetric key.  This extension can be leveraged
    by other components to provide additional security properties.  For
    example, LightningFilter [slides-111-panrg-lightning-filter]
-   leverages DRKey to provide high speed packet filtering between
+   leverages DRKey to provide high-speed packet filtering between
    trusted SCION ASes.  The SCION Control Message Protocol (SCMP)
    provides authenticated error messages and network diagnostics.
    COLIBRI [GIULIARI2021] is SCION's inter-domain bandwidth reservation
@@ -596,10 +596,12 @@ Table of Contents
    that provides a set of desired security, reliability, and performance
    properties beyond what the DNS security infrastructure offers today.
 
-   Such additional components are briefly mentioned here in order to
+   These additional components are briefly mentioned here in order to
    provide additional context.  Being them extensions, they build upon
    the three SCION core components described earlier in this document.
-   They are therefore
+   They are therefore *CdK: Something is missing here... ;-) However, I
+   think this is enough information on the additional components, it
+   doesn't need much more.*
 
 4.  Related work
 
