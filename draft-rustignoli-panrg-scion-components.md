@@ -449,7 +449,7 @@ Additionally, the SCION control plane design takes into account some of the less
 
 Overall, several of the SCION control plane properties and key mechanisms depend on the fact that SCION ASes are grouped into Isolation Domains (ISDs). For example, ISDs are fundamental to achieve transparency, routing scalability, fault isolation, and fast propagation of routing information. The SCION control plane therefore is built around the concept of ISDs, and relies on the SCION Control-Plane PKI (see {{pki}}) for authenticating control information.
 
-## Forwarding - Data plane
+## Forwarding - Data plane {#data-plane}
 SCION is an inter-domain network architecture and as such does not interfere with intra-domain forwarding. This corresponds to the practice today where BGP is used for inter-domain routing, while ASes use an intra-domain protocol of their choice (i.e., OSPF, IS-IS, MPLS, ...).
 SCION therefore re-uses the intra-domain network fabric to provide connectivity among its infrastructure services, border routers, and end hosts, minimising changes to the internal infrastructure.
 
@@ -592,31 +592,36 @@ _TODO: @Adrian, I also wanted to mention Color-Aware Routing {{I-D.dskc-bess-bgp
 
 This section briefly discusses dependencies between SCION's core components, with the goal of facilitating a discussion on whether it is possible to implement each of SCION's core components on its own, independently from other core components.
 
-_TODO: this section contains just notes, the overall wording needs to be rephrased_
-
-- *Control plane PKI.*  Overall, the control plane PKI, with its trust model, constitutes the most independent unit that could potentially be leveraged by SCION and other protocols.
-The PKI itself does not have significant dependencies on other components, therefore it could represent a good starting point for standardisation. Its unique trust properties, interfaces, and processes (as voting), could be a good candidate for .
+- *Control plane PKI.*
+The CP- PKI enables the verification of signatures, e.g., on path-segment construction beacons (PCBs).
+As discussed in {{pki}}, it is built on top of a peculiar trust model, where entities are able to select their roots of trust.
+Overall, it constitutes the most independent and self-contained building block, as it could potentially be leveraged by SCION or other protocols.
+The PKI itself does not have significant dependencies on other SCION components, therefore it could represent a good starting point for standardisation.
+Its unique trust properties, interfaces, and processes (as voting), could be a good candidate for a first draft.
 
 - *Control plane.*
   The SCION control plane is built around the concept of Isolation Domains, being the routing process divided into an intra- and inter-ISD one.
   It heavily relies on the CP-PKI for beaconing (i.e., for authenticating routing information).
+  Each Isolation Domain requires its own root of trust in order to carry out path exploration and dissemination.
+  Decoupling the control plane from the CP-PKI would severely affect the properties and guarantees that can be provided by the control plane.
   The control plane could, therefore, be specified in parallel with the CP-PKI.
-  Decoupling it from PKI would severely affect the properties and guarantees that can be provided by the control plane.
-  TODO:   Additional work could be done on beaconing and on the path server infrastructure.
+  The control plane is internally formed by multiple sub-components (as the beacon service, responsible for path discovery and  the path service, responsible for path dissemination).
+  Processes and interfaces between these sub-components could be topic for one or multiple drafts.
 
 - *Data plane.*
-  As discussed earlier, the SCION data plane requires a way to authenticate path information at each hop.
-  This characteristic is what allows SCION to distinguish itself from other proposals.
-  If not, it would not make sense to have SCION for inter-domain.. We would just mimick SR and it would be useless on inter-domain, where the trust model is different. As discussed in {{RFC9049}}, lack of authentication has often been the cause of some protocols never taking off because of security concerns (see Section 6.5 (Trigtran),  6.7 (NSIS) of the mentioned draft. )
-
-
+  In order to be able to transmit data, end hosts need to fetch path information from their AS control plane, as discussed in {{data-plane}}.
+  In addition, the SCION data plane requires that hosts validate paths, and that routers authenticate path information at each hop.
+  Such authentication mechanism relies on the control plane PKI, and it is what allows SCION to distinguish itself from other proposals, gaining many of the security and availability proprieties discussed earlier.
+  The data plane, therefore, relies on both the control plane and the control plane PKI in order to function.
+  Should the data plane be used independently, without end to end path validation, SCION would loose many of its security properties, that are fundamental in an inter-domain scenario where entities are mutually distrustful.
+   As discussed in {{RFC9049}}, lack of authentication has often been the cause for some path-aware protocols never being adopted because of security concerns. SCION should avoid such pitfalls and therefore its data plane should rely on the corresponding control plane and PKI.
 
 
 # Conclusions
-We described key SCION components with their properties and dependencies.
-
-_TODO: Conclude
-
+This document described the three fundamental SCION core components, together with their properties and dependencies.
+It highlights how such components allow SCION to provide unique properties.
+It then discusses how the main components are interlinked, with the goal of fostering a discussion on the standardisation of key components.
+As this document is an early draft, the authors welcome feedback from the IETF community for future iterations.
 
 
 --- back
@@ -624,8 +629,8 @@ _TODO: Conclude
 # Acknowledgments
 {:numbered="false"}
 
-We are also indebted to Laurent Chuat,
+The authors are indebted to Adrian Perrig, Laurent Chuat,
 Markus Legner, David Basin, David Hausheer, Samuel Hitz, and Peter
 Mueller, for writing the book "The Complete Guide to SCION"
 [CHUAT22], which provides the background information needed to write
-this informational draft.
+this document.
