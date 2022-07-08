@@ -154,13 +154,14 @@ informative:
     author:
       -
         ins:  T. Krüger
+
   slides-111-panrg-lightning-filter:
-    title: Lightning Filter: High-Speed Traffic Filtering based on DRKey
-    date: 2022
+    title: "Lightning Filter: High-Speed Traffic Filtering based on DRKey"
+    date: 2021
     target: https://datatracker.ietf.org/meeting/111/materials/slides-111-panrg-lightning-filter-high-speed-traffic-filtering-based-on-drkey-00.pdf
     author:
       -
-        ins:  J. A. Garcia-Pardo
+        ins:  J. A. Garcia Pardo
 
   I-D.garciapardo-drkey:
     title: Dynamically Recreatable Keys
@@ -455,10 +456,6 @@ Such extensions can be hop-by-hop (and are processed at each hop), or end-to-end
 
 - *Path validation.* SCION routers validate network paths in packets at each hop, so that they are only forwarded along paths that were authorized by all on-path ASes in the control plane. Thanks to a system of nested message authentication codes, traffic hijackings attacks are avoided.
 
-- *Backwards compatibility.* SCION packets support several kinds of end-host addressing (including IPv6 and IPv4).
-Transition mechanisms are further described in {{transition-mechanisms}}.
-_TODO: I'm not entirely happy about this point.. Either expand it with more arguments or remove it._
-
 In conclusion, in comparison to today's Internet, the SCION's data plane pushes some of the responsibilities away from routers onto end hosts (such as selecting paths or reacting to failures).
 This contributes to creating a data plane that is more efficient and scalable, and that does not require routers with specialised routing table lookup hardware.
 Routers validate network paths so that packets are only forwarded on previously authorized packets.
@@ -559,7 +556,7 @@ A possible integration of their path-aware properties remain for now an open que
 ## SCION and other routing approaches
 
 _TODO:  complete this part
-- There is an increasing motivation to extend existing inter-domain routign approaches beyond mere reachability.
+- There is an increasing motivation to extend existing inter-domain routing approaches beyond mere reachability.
 To this extent, extensions to BGP have been proposed.
 For example, BGP with colors, aims at TODO...  Semantic routing {{I-D.irtf-introduction-to-semantic-routing}} aims at.. TODO
 
