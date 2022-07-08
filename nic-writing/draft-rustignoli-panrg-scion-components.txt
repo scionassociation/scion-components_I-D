@@ -20,7 +20,7 @@ Abstract
    This document illustrates the dependencies between its core
    components and extensions.  It also discusses the relationship
    between SCION and existing protocols, with focus on illustrating
-   which existing protocols are reused/extended.  Additionally, it
+   which existing protocols are reused or extended.  Additionally, it
    describes the motivations behind cases where a greenfield approach is
    needed, and the properties that can be achieved thanks to it.  It
    then briefly touches on the maturity level of components.
@@ -100,16 +100,15 @@ Table of Contents
    now "slipped out of the lab" and counts its early productive
    deployments (including the Swiss inter-banking network SSFN).  The
    architecture is composed of a system of related components, some of
-   which are essential to set up end-to-end SCION connectivity, while
-   others are add-ons aiming at providing additional functionality,
-   security, or backwards compatibility.  Discussions at
-   [PANRG-INTERIM-Min] showed the need to describe the relationships
-   between SCION's core components.  This document, therefore focuses on
-   each component, describing its functionality, dependencies and
-   relationships to existing protocols.  The goal is not to describe
-   each component's specification, but to provide a basis for
-   discussions about the engineering decisions that made SCION what it
-   is.
+   which are essential to set up end-to-end SCION connectivity.  Add-ons
+   provide additional functionality, security, or backwards
+   compatibility.  Discussions at PANRG [PANRG-INTERIM-Min] showed the
+   need to describe the relationships between SCION's core components.
+   This document, therefore focuses on each component, describing its
+   functionality, properties, dependencies and relationships to existing
+   protocols.  The goal is not to describe each component's
+   specification, but to provide a basis for discussions about the
+   engineering decisions that made SCION what it is.
 
    Before reading this document, please refer to
    [I-D.dekater-scion-overview] for a generic overview of SCION and its
@@ -118,7 +117,7 @@ Table of Contents
 
 1.1.  Design goals
 
-   SCION was created from the start with the intention of providing the
+   SCION was created from the start with the intention to provide the
    following properties for inter-domain communication.
 
    *  _Availability_. SCION aims to provide highly available
@@ -164,7 +163,7 @@ Table of Contents
    protocols.
 
    The following paragraphs describe the key properties of SCION's core
-   components.  They then describe the components' mutual dependencies
+   components.  It then describes the components' mutual dependencies
    and their relation with existing protocols.
 
 2.  Minimal stack - core components
@@ -403,7 +402,7 @@ Table of Contents
       one path to a given destination.  Each host can select
       (potentially disjoint) backup paths that are available in case of
       failure.  In contrast to the IP Internet, SCION packets are not
-      dynamically rerouted in the network in case of failures.  Routers
+      dynamically rerouted by the network in case of failures.  Routers
       use BFD [RFC5880] to detect link failures, and in case they cannot
       forward a packet, they send an authenticated SCMP message
       triggering path revocation.  End hosts can use this information,
@@ -501,10 +500,9 @@ Table of Contents
 
    The CP-PKI is based on certificates that follow the X.509v3 standard
    [RFC5280].  There are already several professional industry-grade
-   implementations, e.g., by SIX, the main financial infrastructure and
-   service provider in Switzerland.  Trust within an ISD is normally
-   bootstrapped with an initial ceremony.  Subsequent updates to the
-   root of trust are handled automatically.
+   implementations.  Trust within an ISD is normally bootstrapped with
+   an initial ceremony.  Subsequent updates to the root of trust are
+   handled automatically.
 
    SCION is built around a unique trust model, allowing mutually
    distrustful entities to communicate.  This justifies the existence of
@@ -596,7 +594,8 @@ Table of Contents
    Such additional components are briefly mentioned here in order to
    provide additional context.  Being them extensions, they build upon
    the three SCION core components described earlier in this document.
-   They are therefore
+   They are therefore unlikely to be the first components being
+   standardised.
 
 4.  Related work
 
@@ -621,7 +620,7 @@ Table of Contents
    PKI.  In addition, RPKI is only meant to provide authorisation, but
    not authentication.  SCION indeed does not provide, by design, IP
    authorisation.  Rather, one of IP-to-SCION's coexistence mechanisms
-   (SIAM) relies on RPKI for IP origin attestation.
+   mentioned earlier (SIAM) relies on RPKI for IP origin attestation.
 
 4.2.  SCION and Segment Routing
 
@@ -661,10 +660,10 @@ Table of Contents
    additional work to be carried out at routers, facing scalability
    challenges.
 
-   _TODO: @Adrian, I also wanted to mention Color-Aware Routing
+   _TODO: I'm not sure if I should mention Color-Aware Routing
    [I-D.dskc-bess-bgp-car], but it seems quite complex to be able to
    argue which challenges it faces.  My guess is that it faces the same
-   challenges ad BGP.. Do you know something about it?
+   challenges ad BGP..  any hints?
 
 5.  Dependency analysis
 
