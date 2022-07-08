@@ -331,20 +331,21 @@ informative:
 
 SCION is a future Internet architecture that focuses on security and availability. Its fundamental functions are carried out by a number of components.
 
-This document illustrates the dependencies between its core components and extensions. It also discusses the relationship between SCION and existing protocols, with focus on illustrating which existing protocols are reused/extended. Additionally, it describes the motivations behind cases where a greenfield approach is needed, and the properties that can be achieved thanks to it. It then briefly touches on the maturity level of components.
+This document illustrates the dependencies between its core components and extensions. It also discusses the relationship between SCION and existing protocols, with focus on illustrating which existing protocols are reused or extended. Additionally, it describes the motivations behind cases where a greenfield approach is needed, and the properties that can be achieved thanks to it. It then briefly touches on the maturity level of components.
 
 --- middle
 
 # Introduction
 
 While SCION  was initially developed in academia, the architecture  has now "slipped out of the lab" and counts its early productive deployments (including the Swiss inter-banking network SSFN).
-The architecture is composed of a system of related components, some of which are  essential to set up end-to-end SCION connectivity, while others are add-ons aiming at providing additional functionality, security, or backwards compatibility. Discussions at {{PANRG-INTERIM-Min}} showed the need to describe the relationships between SCION's core components.
-This document, therefore focuses on each component, describing its functionality, dependencies and relationships to existing protocols. The goal is not to describe each component's specification, but to provide a basis for discussions about the engineering decisions that made SCION what it is.
+The architecture is composed of a system of related components, some of which are  essential to set up end-to-end SCION connectivity.
+Add-ons provide additional functionality, security, or backwards compatibility. Discussions at PANRG {{PANRG-INTERIM-Min}} showed the need to describe the relationships between SCION's core components.
+This document, therefore focuses on each component, describing its functionality, properties, dependencies and relationships to existing protocols. The goal is not to describe each component's specification, but to provide a basis for discussions about the engineering decisions that made SCION what it is.
 
 Before reading this document, please refer to {{I-D.dekater-scion-overview}} for a generic overview of SCION and its components, the problems it solves, and existing deployments. For an in-depth description of SCION, refer to {{CHUAT22}}.
 
 ## Design goals
-SCION was created from the start with the intention of providing the following properties for inter-domain communication.
+SCION was created from the start with the intention to provide the following properties for inter-domain communication.
 
 - *Availability*. SCION aims to provide highly available communication. Its focus is not only on handling failures (both on the last hop or anywhere along the path), but also on allowing communication in the presence of adversaries.
 Availability is fundamental as applications move to cloud data centers, and enterprises increasingly rely on the Internet for mission-critical communication.
@@ -361,7 +362,7 @@ The S in SCION, indeed, stands for scalability. The architecture proposes a desi
 
 Many research efforts have analysed whether such properties could be achieved by extending the existing Internet architecture. But as described in {{existing-protocols}}, tradeoffs between properties would be unavoidable when exclusively relying on or extending existing protocols.
 
-The following paragraphs describe the key properties of SCION's core components. They then describe the components' mutual dependencies and their relation with existing protocols.
+The following paragraphs describe the key properties of SCION's core components. It then describes the components' mutual dependencies and their relation with existing protocols.
 
 # Minimal stack - core components
 In order to establish end-to-end connectivity, SCION relies on three main components.
@@ -447,7 +448,7 @@ Routers, therefore, do not require expensive and energy-intensive dedicated hard
 
 - *Recovery from failures.* SCION hosts usually receive more than one path to a given destination.
 Each host can select (potentially disjoint) backup paths that are available in case of failure.
-In contrast to the IP Internet, SCION packets are not dynamically rerouted in the network in case of failures.
+In contrast to the IP Internet, SCION packets are not dynamically rerouted by the network in case of failures.
 Routers use BFD {{RFC5880}} to detect link failures, and in case they cannot forward a packet, they send an authenticated SCMP message triggering path revocation.
 End hosts can use this information, or alternatively perform active monitoring, to quickly reroute traffic in case of failures.
 There is therefore no need to wait for inter-domain routing protocol convergence.
@@ -485,7 +486,7 @@ Second, the trust roots of each ISD are located in a single file, the TRC, which
 The authentication of data-plane traffic and control messages requires a highly efficient and ideally stateless system to achieve bandwidths of several Gbps on commodity hardware, and to avoid creating opportunities for DoS attacks. SCION comprises a component called  DRKey, which enables high-speed data-plane elements, like border routers, to derive symmetric cryptographic keys from local secrets only. This DRKey component is used to authenticate SCMP messages.
 Today's Internet also lacks a fundamental mechanism to share a secret key between two end hosts for secure end-to-end communication. Existing approaches (i.e., SSH) resort to trust-on-first-use (TOFU), where a host's initial public key is accepted without verification. DRKey addresses this issue as well. For more information, refer to the draft {{I-D.garciapardo-drkey}}.
 
-The CP-PKI is based on certificates that follow the X.509v3 standard {{RFC5280}}. There are already several professional industry-grade implementations, e.g., by SIX, the main financial infrastructure and service provider in Switzerland.
+The CP-PKI is based on certificates that follow the X.509v3 standard {{RFC5280}}. There are already several professional industry-grade implementations.
 Trust within an ISD is normally bootstrapped with an initial ceremony. Subsequent updates to the root of trust are handled automatically.
 
 SCION is built around a unique trust model, allowing mutually distrustful entities to communicate.
@@ -534,7 +535,7 @@ RHINE (Robust and High-performance Internet Naming for End-to-end security, form
 
 Such additional components are briefly mentioned here in order to provide additional context.
 Being them extensions, they build upon the three SCION core components described earlier in this document.
-They are therefore
+They are therefore unlikely to be the first components being standardised.
 
 # Related work
 A question that is often asked is whether SCION could simply reuse or extend existing protocols.
@@ -544,7 +545,7 @@ This section discusses what properties can be achieved by extending existing pro
 ## SCION and RPKI
 One might ask why SCION could not just rely on RPKI. Summarising the points discussed in this document, the CP-PKI distinguishes itself because of its trust model, which comprises independent trust roots that are a fundamental building block for SCION's Isolation Domains.
 RPKI's trust model follows the same structure as the IP allocation hierarchy, where the five RIRs run a CA. This clashes with the trust model required for SCION's Isolation Domains, therefore the SCION control plane would not be able to leverage RPKI instead of the CP-PKI.
-In addition, RPKI is only meant to provide authorisation, but not authentication. SCION indeed does not provide, by design, IP authorisation. Rather, one of IP-to-SCION's  coexistence mechanisms (SIAM) relies on RPKI for IP origin attestation.
+In addition, RPKI is only meant to provide authorisation, but not authentication. SCION indeed does not provide, by design, IP authorisation. Rather, one of IP-to-SCION's  coexistence mechanisms  mentioned earlier (SIAM) relies on RPKI for IP origin attestation.
 
 ## SCION and Segment Routing
 Given its path-aware properties, some of SCION's characteristics might seem similar to the ones provided by Segment Routing (SR) {{RFC8402}}. There are, however, fundamental differences that distinguish and motivate SCION. The most salient one is that Segment Routing is designed to be deployed across a single trusted domain. SR therefore does not focus on security, which remains an open question, as outlined in {{I-D.spring-srv6-security-consideration}}.
@@ -562,7 +563,7 @@ SCION takes a different approach:  path selection is carried out by end hosts, w
 This means that there is no need to include semantics in packets. This comes with the benefit that the SCION data plane can provide advanced routing without increased complexity or strain on routers.
 Similarly, other approaches that extend BGP, often result in additional work to be carried out at routers, facing scalability challenges.
 
-_TODO: @Adrian, I also wanted to mention Color-Aware Routing {{I-D.dskc-bess-bgp-car}}, but it seems quite complex to be able to argue which challenges it faces. My guess is that it faces the same challenges ad BGP.. Do you know something about it?
+_TODO:  I'm not sure if I should mention Color-Aware Routing {{I-D.dskc-bess-bgp-car}}, but it seems quite complex to be able to argue which challenges it faces. My guess is that it faces the same challenges ad BGP..  any hints?
 
 
 # Dependency analysis
