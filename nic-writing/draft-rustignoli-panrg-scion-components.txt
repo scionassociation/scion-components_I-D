@@ -731,13 +731,6 @@ Table of Contents
 
 7.  Informative References
 
-   [ANDERSEN2001]
-              Andersen, D., Balakrishnan, H., Kaashoek, F., and R.
-              Morris, "Resilient overlay networks", Proceedings of the
-              eighteenth ACM symposium on Operating systems principles,
-              DOI 10.1145/502034.502048, October 2001,
-              <https://doi.org/10.1145/502034.502048>.
-
    [CHUAT22]  Chuat, L., Legner, M., Basin, D., Hausheer, D., Hitz, S.,
               Mueller, P., and A. Perrig, "The Complete Guide to SCION",
               ISBN 978-3-031-05287-3, 2022,
@@ -750,20 +743,17 @@ Table of Contents
               in Networks, DOI 10.1145/2535771.2535787, November 2013,
               <https://doi.org/10.1145/2535771.2535787>.
 
-   [DERUITER2021]
-              de Ruiter, J. and C. Schutijser, "Next-generation internet
-              at terabit speed: SCION in P4", Proceedings of the 17th
-              International Conference on emerging Networking
-              EXperiments and Technologies, DOI 10.1145/3485983.3494839,
-              December 2021, <https://doi.org/10.1145/3485983.3494839>.
-
    [FCC2022]  Federal Communications Commission, "Notice of Inquiry on
               Secure Internet Routing", 2022,
               <https://www.fcc.gov/document/fcc-launches-inquiry-
               internet-routing-vulnerabilities>.
 
    [GIULIARI2021]
-              "*** BROKEN REFERENCE ***".
+              Giuliari, G., Roos, D., Wyss, M., García-Pardo, J.,
+              Legner, M., and A. Perrig, "Deployment and Scalability of
+              an Inter-Domain Multi-Path Routing Infrastructure", 2022,
+              <https://netsec.ethz.ch/publications/
+              papers/2021_conext_deployment.pdf>.
 
    [GRIFFIN1999]
               Griffin, T. and G. Wilfong, "An analysis of BGP
@@ -772,19 +762,17 @@ Table of Contents
               DOI 10.1145/316194.316231, October 1999,
               <https://doi.org/10.1145/316194.316231>.
 
-   [HITZ2021] Hitz, S., "Demonstrating the reliability and resilience of
-              Secure Swiss Finance Network", 2021,
-              <https://perma.cc/4H3Q-WZNG>.
-
    [I-D.dekater-scion-overview]
               de Kater, C., Rustignoli, N., and A. Perrig, "SCION
               Overview", 2022, <https://datatracker.ietf.org/doc/draft-
               dekater-panrg-scion-overview/>.
 
    [I-D.dskc-bess-bgp-car]
-              Rao, D. and Et Al, "BGP Color-Aware Routing (CAR)", 2022,
-              <https://datatracker.ietf.org/doc/draft-dskc-bess-bgp-
-              car/>.
+              Rao, D., Agrawal, S., Filsfils, C., Steinberg, D., Jalil,
+              L., Su, Y., Decraene, B., Guichard, J., Talaulikar, K.,
+              Wang, H., and J. Uttaro, "BGP Color-Aware Routing (CAR)",
+              2022, <https://datatracker.ietf.org/doc/draft-dskc-bess-
+              bgp-car/>.
 
    [I-D.garciapardo-drkey]
               Pardo, J., Krähenbühl, C., Rothenberger, B., and A.
@@ -815,21 +803,6 @@ Table of Contents
               <https://datatracker.ietf.org/doc/draft-trossen-rtgwg-
               routing-beyond-reachability/>.
 
-   [KATZ2012] Katz-Bassett, E., Scott, C., Choffnes, D., Cunha, Í.,
-              Valancius, V., Feamster, N., Madhyastha, H., Anderson, T.,
-              and A. Krishnamurthy, "LIFEGUARD: practical repair of
-              persistent route failures", ACM SIGCOMM Computer
-              Communication Review Vol. 42, pp. 395-406,
-              DOI 10.1145/2377677.2377756, September 2012,
-              <https://doi.org/10.1145/2377677.2377756>.
-
-   [KLENZE2021]
-              Klenze, T., Sprenger, C., and D. Basin, "Formal
-              Verification of Secure Forwarding Protocols", 2021 IEEE
-              34th Computer Security Foundations Symposium (CSF),
-              DOI 10.1109/csf51468.2021.00018, June 2021,
-              <https://doi.org/10.1109/csf51468.2021.00018>.
-
    [KRAHENBUHL2022]
               Krähenbühl, C., Tabaeiaghdaei, S., Glοοr, C., Kwon, J.,
               Perrig, A., Hausheer, D., and D. Roos, "Deployment and
@@ -838,48 +811,6 @@ Table of Contents
               <https://netsec.ethz.ch/publications/
               papers/2021_conext_deployment.pdf>.
 
-   [KUSHMAN2007]
-              Kushman, N., Kandula, S., and D. Katabi, "Can you hear me
-              now?!: it must be BGP", ACM SIGCOMM Computer Communication
-              Review Vol. 37, pp. 75-84, DOI 10.1145/1232919.1232927,
-              March 2007, <https://doi.org/10.1145/1232919.1232927>.
-
-   [LABOVITZ2000]
-              Labovitz, C., Ahuja, A., Bose, A., and F. Jahanian,
-              "Delayed Internet routing convergence", Proceedings of the
-              conference on Applications, Technologies, Architectures,
-              and Protocols for Computer Communication - SIGCOMM '00,
-              DOI 10.1145/347059.347428, 2000,
-              <https://doi.org/10.1145/347059.347428>.
-
-   [LEGNER2020]
-              Legner, M., Klenze, T., Wyss, M., Sprenger, C., and A.
-              Perrig, "EPIC: Every Packet Is Checked in the Data Plane
-              of a Path-Aware Internet", 2020,
-              <https://www.usenix.org/conference/usenixsecurity20/
-              presentation/legner>.
-
-   [LI2014]   Li, Q., Hu, Y., and X. Zhang, "Even Rockets Cannot Make
-              Pigs Fly Sustainably: Can BGP be Secured with BGPsec?",
-              Proceedings 2014 Workshop on Security of Emerging
-              Networking Technologies, DOI 10.14722/sent.2014.23001,
-              2014, <https://doi.org/10.14722/sent.2014.23001>.
-
-   [LYCHEV2013]
-              Lychev, R., Goldberg, S., and M. Schapira, "BGP security
-              in partial deployment: is the juice worth the squeeze?",
-              ACM SIGCOMM Computer Communication Review Vol. 43, pp.
-              171-182, DOI 10.1145/2534169.2486010, September 2013,
-              <https://doi.org/10.1145/2534169.2486010>.
-
-   [MORILLO2021]
-              Morillo, R., Furuness, J., Morris, C., Breslin, J.,
-              Herzberg, A., and B. Wang, "ROV++: Improved Deployable
-              Defense against BGP Hijacking", Proceedings 2021 Network
-              and Distributed System Security Symposium,
-              DOI 10.14722/ndss.2021.24438, 2021,
-              <https://doi.org/10.14722/ndss.2021.24438>.
-
    [PANRG-INTERIM-Min]
               "Path Aware Networking Research Group - Interim 106
               Minutes", June 2022,
@@ -887,20 +818,9 @@ Table of Contents
               01/materials/minutes-interim-2022-panrg-
               01-202206011700-00>.
 
-   [PERRIG2017]
-              Perrig, A., Szalachowski, P., Reischuk, R., and L. Chuat,
-              "SCION: A Secure Internet Architecture",
-              ISBN 978-3-319-67079-9, 2017,
-              <https://doi.org/10.1007/978-3-319-67080-5>.
-
    [RFC0791]  Postel, J., "Internet Protocol", STD 5, RFC 791,
               DOI 10.17487/RFC0791, September 1981,
               <https://www.rfc-editor.org/rfc/rfc791>.
-
-   [RFC4033]  Arends, R., Austein, R., Larson, M., Massey, D., and S.
-              Rose, "DNS Security Introduction and Requirements",
-              RFC 4033, DOI 10.17487/RFC4033, March 2005,
-              <https://www.rfc-editor.org/rfc/rfc4033>.
 
    [RFC4264]  Griffin, T. and G. Huston, "BGP Wedgies", RFC 4264,
               DOI 10.17487/RFC4264, November 2005,
@@ -912,10 +832,6 @@ Table of Contents
               RFC 4443, DOI 10.17487/RFC4443, March 2006,
               <https://www.rfc-editor.org/rfc/rfc4443>.
 
-   [RFC5218]  Thaler, D. and B. Aboba, "What Makes for a Successful
-              Protocol?", RFC 5218, DOI 10.17487/RFC5218, July 2008,
-              <https://www.rfc-editor.org/rfc/rfc5218>.
-
    [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
               Housley, R., and W. Polk, "Internet X.509 Public Key
               Infrastructure Certificate and Certificate Revocation List
@@ -926,28 +842,15 @@ Table of Contents
               (BFD)", RFC 5880, DOI 10.17487/RFC5880, June 2010,
               <https://www.rfc-editor.org/rfc/rfc5880>.
 
-   [RFC6480]  Lepinski, M. and S. Kent, "An Infrastructure to Support
-              Secure Internet Routing", RFC 6480, DOI 10.17487/RFC6480,
-              February 2012, <https://www.rfc-editor.org/rfc/rfc6480>.
-
    [RFC6774]  Raszuk, R., Ed., Fernando, R., Patel, K., McPherson, D.,
               and K. Kumaki, "Distribution of Diverse BGP Paths",
               RFC 6774, DOI 10.17487/RFC6774, November 2012,
               <https://www.rfc-editor.org/rfc/rfc6774>.
 
-   [RFC6830]  Farinacci, D., Fuller, V., Meyer, D., and D. Lewis, "The
-              Locator/ID Separation Protocol (LISP)", RFC 6830,
-              DOI 10.17487/RFC6830, January 2013,
-              <https://www.rfc-editor.org/rfc/rfc6830>.
-
    [RFC7911]  Walton, D., Retana, A., Chen, E., and J. Scudder,
               "Advertisement of Multiple Paths in BGP", RFC 7911,
               DOI 10.17487/RFC7911, July 2016,
               <https://www.rfc-editor.org/rfc/rfc7911>.
-
-   [RFC8170]  Thaler, D., Ed., "Planning for Protocol Adoption and
-              Subsequent Transitions", RFC 8170, DOI 10.17487/RFC8170,
-              May 2017, <https://www.rfc-editor.org/rfc/rfc8170>.
 
    [RFC8205]  Lepinski, M., Ed. and K. Sriram, Ed., "BGPsec Protocol
               Specification", RFC 8205, DOI 10.17487/RFC8205, September
@@ -963,18 +866,10 @@ Table of Contents
               Routing Architecture", RFC 8402, DOI 10.17487/RFC8402,
               July 2018, <https://www.rfc-editor.org/rfc/rfc8402>.
 
-   [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
-              Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
-              <https://www.rfc-editor.org/rfc/rfc8446>.
-
    [RFC9049]  Dawkins, S., Ed., "Path Aware Networking: Obstacles to
               Deployment (A Bestiary of Roads Not Taken)", RFC 9049,
               DOI 10.17487/RFC9049, June 2021,
               <https://www.rfc-editor.org/rfc/rfc9049>.
-
-   [RFC9217]  Trammell, B., "Current Open Questions in Path-Aware
-              Networking", RFC 9217, DOI 10.17487/RFC9217, March 2022,
-              <https://www.rfc-editor.org/rfc/rfc9217>.
 
    [ROTHENBERGER2017]
               Rothenberger, B., Asoni, D., Barrera, D., and A. Perrig,
