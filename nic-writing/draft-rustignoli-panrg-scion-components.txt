@@ -750,10 +750,11 @@ Table of Contents
 
    [GIULIARI2021]
               Giuliari, G., Roos, D., Wyss, M., García-Pardo, J.,
-              Legner, M., and A. Perrig, "Deployment and Scalability of
-              an Inter-Domain Multi-Path Routing Infrastructure", 2022,
+              Legner, M., and A. Perrig, "Colibri: A Cooperative
+              Lightweight Inter-domain Bandwidth-Reservation
+              Infrastructure", 2022,
               <https://netsec.ethz.ch/publications/
-              papers/2021_conext_deployment.pdf>.
+              papers/2021_conext_colibri.pdf>.
 
    [GRIFFIN1999]
               Griffin, T. and G. Wilfong, "An analysis of BGP
