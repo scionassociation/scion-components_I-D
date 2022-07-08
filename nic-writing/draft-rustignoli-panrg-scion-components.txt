@@ -195,7 +195,7 @@ Table of Contents
    define trust relationships between parts of the network by deciding
    whether to trust other ISDs.  SCION therefore relies on a unique
    trust model, which differs from other PKIs.  We clarify the
-   motivation behind this design choice in [Authentication] Section 2.3.
+   motivation behind this design choice in Section 2.3.
 
    All above mentioned core components are deployed in production (e.g.,
    they are in use within the SSFN, the Swiss Finance Network).  There
@@ -383,10 +383,7 @@ Table of Contents
       than routers.  The end hosts are empowered to make end-to-end path
       choices based on application requirements.  This means that
       routers do not carry the burden of making enhanced routing or
-      forwarding decisions.  When comparing to other approaches, such as
-      semantic routing [I-D.irtf-introduction-to-semantic-routing], this
-      has the advantage that there is no need to include semantics in
-      packets.
+      forwarding decisions.
 
    *  _Scalability._ SCION routers can efficiently forward packets
       without the need to look up forwarding tables or keeping per-
@@ -646,16 +643,27 @@ Table of Contents
 
 4.3.  SCION and other routing approaches
 
-   _TODO: complete this part - There is an increasing motivation to
-   extend existing inter-domain routing approaches beyond mere
-   reachability.  To this extent, extensions to BGP have been proposed.
-   For example, BGP with colors, aims at TODO...  Semantic routing
-   [I-D.irtf-introduction-to-semantic-routing] aims at.. TODO
+   There is an increasing motivation to extend inter-domain routing
+   beyond mere reachability, as discussed in
+   [I-D.trossen-routing-beyond-reachability].  This document provides a
+   summary of some of the existing approaches, and states that wider
+   architectural approaches are needed.  One proposed approach is
+   semantic routing [I-D.irtf-introduction-to-semantic-routing], which
+   adds support for advanced routing and forwarding into packets and
+   into the data-plane.  SCION takes a different approach: path
+   selection is carried out by end hosts, which have the ability to
+   select network paths based on application requirements.  This means
+   that there is no need to include semantics in packets.  This comes
+   with the benefit that the SCION data plane can provide advanced
+   routing without increased complexity or strain on routers.
+   Similarly, other approaches that extend BGP, often result in
+   additional work to be carried out at routers, facing scalability
+   challenges.
 
-   Such approaches result in additional work to be carried out at
-   routers, facing scalability challenges.  In addition, when comparing
-   to proposed semantic routing approaches (_TODO: reference_), with
-   SCION, hosts gain better visibility into network paths.
+   _TODO: @Adrian, I also wanted to mention Color-Aware Routing
+   [I-D.dskc-bess-bgp-car], but it seems quite complex to be able to
+   argue which challenges it faces.  My guess is that it faces the same
+   challenges ad BGP.. Do you know something about it?
 
 5.  Dependency analysis
 
@@ -754,6 +762,11 @@ Table of Contents
               Overview", 2022, <https://datatracker.ietf.org/doc/draft-
               dekater-panrg-scion-overview/>.
 
+   [I-D.dskc-bess-bgp-car]
+              Rao, D. and Et Al, "BGP Color-Aware Routing (CAR)", 2022,
+              <https://datatracker.ietf.org/doc/draft-dskc-bess-bgp-
+              car/>.
+
    [I-D.garciapardo-drkey]
               Pardo, J., Krähenbühl, C., Rothenberger, B., and A.
               Perrig, "Dynamically Recreatable Keys", 2022,
@@ -776,6 +789,12 @@ Table of Contents
               Considerations for SRv6 Networks", 2022,
               <https://datatracker.ietf.org/doc/draft-li-spring-srv6-
               security-consideration/>.
+
+   [I-D.trossen-routing-beyond-reachability]
+              Trossen, D., Lou, D., and S. Jiang, "Continuing to Evolve
+              Internet Routing Beyond 'Mere' Reachability", 2022,
+              <https://datatracker.ietf.org/doc/draft-trossen-rtgwg-
+              routing-beyond-reachability/>.
 
    [KATZ2012] Katz-Bassett, E., Scott, C., Choffnes, D., Cunha, Í.,
               Valancius, V., Feamster, N., Madhyastha, H., Anderson, T.,

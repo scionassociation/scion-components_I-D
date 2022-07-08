@@ -1261,7 +1261,7 @@ End hosts select one or more of the end-to-end network paths, based on the appli
 The data plane is responsible for forwarding SCION packets while authenticating them at each hop.<a href="#section-2-2" class="pilcrow">¶</a></p>
 <p id="section-2-3">Both the control and data plane rely on the Control-Plane PKI (CP-PKI) for authentication.
 SCION's authentication mechanisms aim at protecting the whole end-to-end path at each hop. SCION Autonomous Systems are organised in Isolation Domains (ISDs), that independently define their own roots of trust.
-ISD members share a uniform trust environment (i.e., a common jurisdiction). They can transparently define trust relationships between parts of the network by deciding whether to trust other ISDs. SCION therefore relies on a unique trust model, which differs from other PKIs. We clarify the motivation behind this design choice in [Authentication] <a href="#pki" class="xref">Section 2.3</a>.<a href="#section-2-3" class="pilcrow">¶</a></p>
+ISD members share a uniform trust environment (i.e., a common jurisdiction). They can transparently define trust relationships between parts of the network by deciding whether to trust other ISDs. SCION therefore relies on a unique trust model, which differs from other PKIs. We clarify the motivation behind this design choice in <a href="#pki" class="xref">Section 2.3</a>.<a href="#section-2-3" class="pilcrow">¶</a></p>
 <p id="section-2-4">All above mentioned core components are deployed in production (e.g., they are in use within the SSFN, the Swiss Finance Network). There are commercial implementations of all core components (including a high performance data-plane).<a href="#section-2-4" class="pilcrow">¶</a></p>
 <div id="routing-control-plane">
 <section id="section-2.1">
@@ -1346,8 +1346,7 @@ The header contains a variable type and length end-host address, and can therefo
 <ul class="normal">
 <li class="normal" id="section-2.2.1-2.1">
               <em>Path selection.</em> In SCION, end hosts select network paths, rather than routers. The end hosts are empowered to make end-to-end path choices based on application requirements.
-This means that routers do not carry the burden of making enhanced routing or forwarding decisions.
-When comparing to other approaches, such as semantic routing <span>[<a href="#I-D.irtf-introduction-to-semantic-routing" class="xref">I-D.irtf-introduction-to-semantic-routing</a>]</span>, this has the advantage that there is no need to include semantics in packets.<a href="#section-2.2.1-2.1" class="pilcrow">¶</a>
+This means that routers do not carry the burden of making enhanced routing or forwarding decisions.<a href="#section-2.2.1-2.1" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-2.2.1-2.2">
               <em>Scalability.</em> SCION routers can efficiently forward packets without the need to look up forwarding tables or keeping per-connection state. Routers only need to verify  MACs in hop fields. This operation is based on modern block ciphers such as AES, can be computed faster than performing a memory lookup and is widely supported in modern CPUs.
@@ -1521,12 +1520,13 @@ A possible integration of their path-aware properties remain for now an open que
         <h3 id="name-scion-and-other-routing-app">
 <a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-scion-and-other-routing-app" class="section-name selfRef">SCION and other routing approaches</a>
         </h3>
-<p id="section-4.3-1">_TODO:  complete this part
-- There is an increasing motivation to extend existing inter-domain routing approaches beyond mere reachability.
-To this extent, extensions to BGP have been proposed.
-For example, BGP with colors, aims at TODO...  Semantic routing <span>[<a href="#I-D.irtf-introduction-to-semantic-routing" class="xref">I-D.irtf-introduction-to-semantic-routing</a>]</span> aims at.. TODO<a href="#section-4.3-1" class="pilcrow">¶</a></p>
-<p id="section-4.3-2">Such approaches result in additional work to be carried out at routers, facing scalability challenges.
-In addition, when comparing to proposed semantic routing approaches (<em>TODO: reference</em>), with SCION,  hosts gain better visibility into network paths.<a href="#section-4.3-2" class="pilcrow">¶</a></p>
+<p id="section-4.3-1">There is an increasing motivation to extend  inter-domain routing beyond mere reachability, as discussed in <span>[<a href="#I-D.trossen-routing-beyond-reachability" class="xref">I-D.trossen-routing-beyond-reachability</a>]</span>.
+This document provides a summary of some of the existing approaches, and states that wider architectural approaches are needed.
+One proposed approach is  semantic routing <span>[<a href="#I-D.irtf-introduction-to-semantic-routing" class="xref">I-D.irtf-introduction-to-semantic-routing</a>]</span>, which adds support for advanced routing and forwarding into packets and into the data-plane.
+SCION takes a different approach:  path selection is carried out by end hosts, which have the ability to select network paths based on application requirements.
+This means that there is no need to include semantics in packets. This comes with the benefit that the SCION data plane can provide advanced routing without increased complexity or strain on routers.
+Similarly, other approaches that extend BGP, often result in additional work to be carried out at routers, facing scalability challenges.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+<p id="section-4.3-2">_TODO: @Adrian, I also wanted to mention Color-Aware Routing <span>[<a href="#I-D.dskc-bess-bgp-car" class="xref">I-D.dskc-bess-bgp-car</a>]</span>, but it seems quite complex to be able to argue which challenges it faces. My guess is that it faces the same challenges ad BGP.. Do you know something about it?<a href="#section-4.3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1610,6 +1610,10 @@ If not, it would not make sense to have SCION for inter-domain.. We would just m
       <dd>
 <span class="refAuthor">de Kater, C.</span>, <span class="refAuthor">Rustignoli, N.</span>, and <span class="refAuthor">A. Perrig</span>, <span class="refTitle">"SCION Overview"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-dekater-panrg-scion-overview/">https://datatracker.ietf.org/doc/draft-dekater-panrg-scion-overview/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="I-D.dskc-bess-bgp-car">[I-D.dskc-bess-bgp-car]</dt>
+      <dd>
+<span class="refAuthor">Rao, D.</span> and <span class="refAuthor">Et Al</span>, <span class="refTitle">"BGP Color-Aware Routing (CAR)"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-dskc-bess-bgp-car/">https://datatracker.ietf.org/doc/draft-dskc-bess-bgp-car/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.garciapardo-drkey">[I-D.garciapardo-drkey]</dt>
       <dd>
 <span class="refAuthor">Pardo, J.</span>, <span class="refAuthor">Krähenbühl, C.</span>, <span class="refAuthor">Rothenberger, B.</span>, and <span class="refAuthor">A. Perrig</span>, <span class="refTitle">"Dynamically Recreatable Keys"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-garciapardo-panrg-drkey/">https://datatracker.ietf.org/doc/draft-garciapardo-panrg-drkey/</a>&gt;</span>. </dd>
@@ -1625,6 +1629,10 @@ If not, it would not make sense to have SCION for inter-domain.. We would just m
 <dt id="I-D.spring-srv6-security-consideration">[I-D.spring-srv6-security-consideration]</dt>
       <dd>
 <span class="refAuthor">Li, C.</span>, <span class="refAuthor">Li, Z.</span>, <span class="refAuthor">Xie, C.</span>, <span class="refAuthor">Tian, H.</span>, and <span class="refAuthor">J. Mao</span>, <span class="refTitle">"Security Considerations for SRv6 Networks"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-li-spring-srv6-security-consideration/">https://datatracker.ietf.org/doc/draft-li-spring-srv6-security-consideration/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.trossen-routing-beyond-reachability">[I-D.trossen-routing-beyond-reachability]</dt>
+      <dd>
+<span class="refAuthor">Trossen, D.</span>, <span class="refAuthor">Lou, D.</span>, and <span class="refAuthor">S. Jiang</span>, <span class="refTitle">"Continuing to Evolve Internet Routing Beyond 'Mere' Reachability"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-trossen-rtgwg-routing-beyond-reachability/">https://datatracker.ietf.org/doc/draft-trossen-rtgwg-routing-beyond-reachability/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="KATZ2012">[KATZ2012]</dt>
       <dd>
