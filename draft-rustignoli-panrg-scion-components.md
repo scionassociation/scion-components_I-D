@@ -66,6 +66,7 @@ informative:
   KATZ2012: DOI.10.1145/2377677.2377756
   KUSHMAN2007: DOI.10.1145/1232919.1232927
   COOPER2013: DOI.10.1145/2535771.2535787
+  GIULIARI2021: DOI.10.1145/3485983.3494871
   PERRIG2017:
     title: "SCION: A Secure Internet Architecture"
     date: 2017
@@ -146,6 +147,20 @@ informative:
         ins:  A. Farrel
       -
         ins:  D. King
+  slides-113-taps-panapi:
+    title: PANAPI, a Path-Aware Networking API
+    date: 2022
+    target: https://datatracker.ietf.org/meeting/113/materials/slides-113-taps-panapi-implementation-00.pdf
+    author:
+      -
+        ins:  T. Krüger
+  slides-111-panrg-lightning-filter:
+    title: Lightning Filter: High-Speed Traffic Filtering based on DRKey
+    date: 2022
+    target: https://datatracker.ietf.org/meeting/111/materials/slides-111-panrg-lightning-filter-high-speed-traffic-filtering-based-on-drkey-00.pdf
+    author:
+      -
+        ins:  J. A. Garcia-Pardo
 
   I-D.garciapardo-drkey:
     title: Dynamically Recreatable Keys
@@ -482,26 +497,46 @@ This helps avoiding some of the obstacles to deployment mentioned in {{RFC9049}}
 
 # Additional components
 This document mainly focuses on describing the fundamental components needed to run a minimal SCION network.
-**CdK: If this document mainly focuses on the description of the fundamental components, why this section "Additional components"? To explain this, it would be good to add one or two sentences here why we also have this section about additional components in the draft.**
-
+Beyond that, SCION comprises a number of extensions and transition mechanisms that provide additional properties, as improved incremental deployability, security, additional features.
+For the sake of completeness, this paragraph briefly mentions some of these transition mechanisms and extensions.
 
 ## Transition mechanisms {#transition-mechanisms}
-As we presented in {{I-D.dekater-scion-overview}}, SCION comprises multiple transition mechanisms that allow an incremental deployment and coexistence with existing protocols. These mechanisms require different levels of changes in existing systems, and have different maturity levels (from research to production). Rather than describing how each mechanism works, this document provides a short summary of each approach, focusing on its functions and properties, as well as on the protocols it reuses, extends or interacts with.
+As we presented in {{I-D.dekater-scion-overview}}, incremental deployability is a strong component of SCION's design.
+It comprises transition mechanisms that allow partial deployment and coexistence with existing protocols.
+These mechanisms require different levels of changes in existing systems, and have different maturity levels (from research to production).
+Rather than describing how each mechanism works, this document provides a short summary of each approach, focusing on its functions and properties, as well as on how it reuses, extends or interacts with existing protocols.
 
--  *SCION-IP-Gateway (SIG).*  A SCION-IP-Gateway (SIG) encapsulates regular IP packets into SCION packets with a corresponding SIG at the destination that performs the decapsulation. This mechanism enables legacy IP end hosts to benefit from a SCION deployment by transparently obtaining improved security and availability properties. SCION routing policies can be configured on SIGs, in order to select appropriate SCION paths based on application requirements. SIGs have the ability to dynamically exchange prefix information, currently using their own encapsulation and prefix exchange protocol. This does not exclude reusing existing protocols in the future. SIGs are deployed in production SCION networks, and there are commercial implementations.
+-  *SCION-IP-Gateway (SIG).*  A SCION-IP-Gateway (SIG) encapsulates regular IP packets into SCION packets with a corresponding SIG at the destination that performs the decapsulation.
+This mechanism enables IP end hosts to benefit from a SCION deployment by transparently obtaining improved security and availability properties.
+SCION routing policies can be configured on SIGs, in order to select appropriate SCION paths based on application requirements.
+SIGs have the ability to dynamically exchange prefix information, currently using their own encapsulation and prefix exchange protocol.
+This does not exclude reusing existing protocols in the future.
+SIGs are deployed in production SCION networks, and there are commercial implementations.
 
-- *SIAM.* To make SIGs a viable transition mechanism in an Internet-scale network with tens of thousands of ASes, an automatic configuration system is required. SIAM creates mappings between legacy IPs and SCION addresses, relying on the authorisations in the Resource Public Key Infrastructure (RPKI). SIAM  is currently a research prototype, further described in {{SUPRAJA2021}}.
+- *SIAM.* To make SIGs a viable transition mechanism in an Internet-scale network with tens of thousands of ASes, an automatic configuration system is required.
+SIAM creates mappings between IP prefixes and SCION addresses, relying on the authorisations in the Resource Public Key Infrastructure (RPKI).
+SIAM is currently a research prototype, further described in {{SUPRAJA2021}}.
 
 - *SBAS* is an experimental architecture aiming at extending the benefits of SCION (in terms of performance and routing security) to potentially any IP host on the Internet.
-SBAS consists of a federated backbone of entities. SBAS appears on the outside Internet as a regular BGP-speaking AS. Customers of SBAS can leverage the system to route traffic across the SCION network according to their requirements (i.e., latency, geography, ... ). SBAS contains globally distributed PoPs that advertise its customer's announcements. Traffic is therefore routed as close as possible to the source onto the SCION network. The system is further described in chapter 13 of {{CHUAT22}}.
+SBAS consists of a federated backbone of entities. SBAS appears on the outside Internet as a regular BGP-speaking AS.
+Customers of SBAS can leverage the system to route traffic across the SCION network according to their requirements (i.e., latency, geography, ... ).
+SBAS contains globally distributed PoPs that advertise its customer's announcements.
+SBAS relies on RPKI to validate IP prefix authorization.
+Traffic is therefore routed as close as possible to the source onto the SCION network. The system is further described in chapter 13 of {{CHUAT22}}.
 
 ## Extensions and other components
 
-In addition to the components mentioned above, there are others that aim at facilitating deployment or better integrating SCION with existing networks. As an example, a prototype is being developed to explore whether happy eyeballs  {{RFC8305}} could be extended to support SCION in addition to IPv4 and IPv6. Additionally,  DRKey {{I-D.garciapardo-drkey}} is a SCION extension that provides an Internet-wide key-establishment system allowing any two hosts to efficiently derive a symmetric key. This extension can be leveraged to provide additional security properties.
+In addition to the components mentioned above, there are others that aim at facilitating deployment or better integrating SCION with existing networks. As an example, a prototype is being developed to explore whether happy eyeballs  {{RFC8305}} could be extended to support SCION in addition to IPv4 and IPv6.
+PANAPI (Path-Aware Networking API) {{slides-113-taps-panapi}} aims at making path-awareness and multipath to the transport layer at end-hosts.
+DRKey {{I-D.garciapardo-drkey}} is a SCION extension that provides an Internet-wide key-establishment system allowing any two hosts to efficiently derive a symmetric key. This extension can be leveraged by other components to provide additional security properties.
+For example, LightningFilter {{slides-111-panrg-lightning-filter}} leverages DRKey to provide high speed packet filtering between trusted SCION ASes.
+The SCION Control Message Protocol (SCMP) provides authenticated error messages and network diagnostics.
+COLIBRI {{GIULIARI2021}} is SCION's inter-domain bandwidth reservation system.
+RHINE (Robust and High-performance Internet Naming for End-to-end security, formerly RAINS) is a secure-by-design naming system that provides a set of desired security, reliability, and performance properties beyond what the DNS security infrastructure offers today.
 
-
- - LightningFilter --> https://datatracker.ietf.org/meeting/111/materials/slides-111-panrg-lightning-filter-high-speed-traffic-filtering-based-on-drkey - SCMP - COLIBRI (Bandwidth Reservations) - *RHINE* (formerly RAINS)_
-
+Such additional components are briefly mentioned here in order to provide additional context.
+Being them extensions, they build upon the three SCION core components described earlier in this document.
+They are therefore
 
 # Related work
 A question that is often asked is whether SCION could simply reuse or extend existing protocols.
