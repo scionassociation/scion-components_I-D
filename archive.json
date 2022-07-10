@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-07-07T00:32:47.854170+00:00",
+  "timestamp": "2022-07-10T00:32:58.986612+00:00",
   "repo": "scionassociation/scion-components_I-D",
   "labels": [
     {
@@ -62,9 +62,9 @@
         "nicorusti"
       ],
       "labels": [],
-      "body": "This issue tracks some final review tasks:\r\n- [ ] Give some love to the dependency analysis (wording)\r\n- [ ] Delete RFC9049 part \r\n- [ ] Remove unused references\r\n- [ ] Check format of all references & links\r\n- [ ] Search for missed TODOs ",
+      "body": "This issue tracks some final review tasks:\r\n- [x] Give some love to the dependency analysis (wording)\r\n- [x] Remove \"we\"\r\n- [x] Delete RFC9049 part (and add a few sentences in each one of the 3 main components) --> \r\n- [x] Remove unused references\r\n- [x] Check format of all references & links\r\n- [ ] Search for missed TODOs \r\n- [ ] Remove related work part & store commit #b2a738b0e9f37d4875c9ae8de55dc20b00bc4813 somewhere",
       "createdAt": "2022-07-05T16:26:33Z",
-      "updatedAt": "2022-07-05T16:40:32Z",
+      "updatedAt": "2022-07-08T16:29:50Z",
       "closedAt": null,
       "comments": []
     }
@@ -160,6 +160,118 @@
           "body": "\n\n> *[Reviewable](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1)* status: 0 of 1 files reviewed, 4 unresolved discussions (waiting on @cdekater and @nicorusti)\n\n___\n*[`draft-rustignoli-panrg-scion-components.md` line 303 at r1](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1#-N5noIv5A2tYwt1L_hNA:-N5u3sbD83iWHbE6n6af:b-896fix) ([raw file](https://github.com/scionassociation/scion-components_i-d/blob/3da4ef9ab5b944b7f35383bf93eaa6bf76992d77/draft-rustignoli-panrg-scion-components.md#L303)):*\n<details><summary><i>Previously, cdekater wrote\u2026</i></summary><blockquote>\n\nMaybe not use the word \"markably\"? Different is enough.\n</blockquote></details>\n\nDone.\n___\n*[`draft-rustignoli-panrg-scion-components.md` line 320 at r2](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1#-N5uj24z5x17ziRhE5Xh:-N5uj25-1-6RvtPfA2qH:b-vi1x04) ([raw file](https://github.com/scionassociation/scion-components_i-d/blob/ba4d14d59292aee7199f2dace77cb5acba460c2d/draft-rustignoli-panrg-scion-components.md#L320)):*\n> ```Markdown\n> \n> ```\n\n@cdekater I added this section. Besides that, I could add even more. Something like: \n```\nThere are many use cases where existing protocols show the limitations of existing inter-domain routing approaches: \n- Cloud to customer connectivity:  \n- Enterprise communication: \n- ... \n```\n\nBut I'd update the other draft (where we already have a motivation paragraph), rather than having a \"duplicate\" motivation paragraph here. Thoughts?  \n\n\n\n_Code quote:_\n```Markdown\n## Design goals\nSCION was created from inception with the intention of providing the following properties for inter-domain communication.\n\n- *Availability*. SCION is meant to provide highly available communication. The focus is not only on handling failures (both on the last hop or anywhere along the path), but also on allowing communication in presence of adversaries.\nAvailability is fundamental as applications move to cloud datacenters and enterprises increasingly rely on Internet communication for mission-critical communication.\n\n- *Security*. SCION was designed by security researchers with the goal of making most network-based and routing attacks either impossible or easy to mitigate.\nSecurity means also offering end-hosts transparency and control over forwarding paths. In addition, SCION's design starts from the assumption that any two entities on the global Internet do not mutually trust each other.\nSCION therefore enables trust agility, allowing users to decide the roots of trust they wish to rely upon.\n\n- *Scalability*.  Security and high availability should not result in compromises on scalability.\nThe S in SCION, indeed, stands for scalability.\nThe goal is to achieve routing that scales with network growth, both in the control plane and in the data plane (forwarding should be as efficient as possible).\n```\n\n\n<!-- Sent from Reviewable.io -->\n",
           "createdAt": "2022-07-01T17:09:38Z",
           "updatedAt": "2022-07-01T17:09:38Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDOHiDowc47AH7S",
+      "title": "Review and Comments - Corine",
+      "url": "https://github.com/scionassociation/scion-components_I-D/pull/3",
+      "state": "MERGED",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "\n\n<!-- Reviewable:start -->\nThis change is\u2002[<img src=\"https://reviewable.io/review_button.svg\" height=\"34\" align=\"absmiddle\" alt=\"Reviewable\"/>](https://reviewable.io/reviews/scionassociation/scion-components_i-d/3)\n<!-- Reviewable:end -->\n",
+      "createdAt": "2022-07-07T08:55:58Z",
+      "updatedAt": "2022-07-07T08:59:45Z",
+      "baseRepository": "scionassociation/scion-components_I-D",
+      "baseRefName": "main",
+      "baseRefOid": "90287a58581d90433c6ce9a26b0f729c309753af",
+      "headRepository": "cdekater/scion-components_I-D",
+      "headRefName": "id-components_corines-review",
+      "headRefOid": "0cbc7d1b217005f7aa1a3e2caf1323743a714ca9",
+      "closedAt": "2022-07-07T08:59:44Z",
+      "mergedAt": "2022-07-07T08:59:44Z",
+      "mergedBy": "cdekater",
+      "mergeCommit": {
+        "oid": "dd8bd55cea9b1c76030b768439220a2ae6312e72"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHiDowc49d1bt",
+          "commit": {
+            "abbreviatedOid": "0cbc7d1"
+          },
+          "author": "cdekater",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "\n\n> Reviewed 1 of 1 files at r1, all commit messages.\n> *[Reviewable](https://reviewable.io/reviews/scionassociation/scion-components_i-d/3)* status: :shipit: complete! all files reviewed, all discussions resolved (waiting on @nicorusti)\n\n\n\n<!-- Sent from Reviewable.io -->\n",
+          "createdAt": "2022-07-07T08:59:28Z",
+          "updatedAt": "2022-07-07T08:59:28Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDOHiDowc47DAlY",
+      "title": "Implement feedback & final pass",
+      "url": "https://github.com/scionassociation/scion-components_I-D/pull/4",
+      "state": "MERGED",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "See points in #2 \r\n\r\n<!-- Reviewable:start -->\r\n---\r\nThis change is\u2002[<img src=\"https://reviewable.io/review_button.svg\" height=\"34\" align=\"absmiddle\" alt=\"Reviewable\"/>](https://reviewable.io/reviews/scionassociation/scion-components_i-d/4)\r\n<!-- Reviewable:end -->\r\n",
+      "createdAt": "2022-07-07T18:24:12Z",
+      "updatedAt": "2022-07-08T17:00:53Z",
+      "baseRepository": "scionassociation/scion-components_I-D",
+      "baseRefName": "main",
+      "baseRefOid": "dd8bd55cea9b1c76030b768439220a2ae6312e72",
+      "headRepository": "scionassociation/scion-components_I-D",
+      "headRefName": "nic-writing",
+      "headRefOid": "1a9d27c00b03035760fbd049f117ba9ad5d44b7c",
+      "closedAt": "2022-07-08T17:00:53Z",
+      "mergedAt": "2022-07-08T17:00:53Z",
+      "mergedBy": "nicorusti",
+      "mergeCommit": {
+        "oid": "9ffc1fea4cbb25853324b366a1e642498e7ca1fa"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDOHiDowc47GLvw",
+      "title": "Review Corine",
+      "url": "https://github.com/scionassociation/scion-components_I-D/pull/5",
+      "state": "MERGED",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "\n\n<!-- Reviewable:start -->\nThis change is\u2002[<img src=\"https://reviewable.io/review_button.svg\" height=\"34\" align=\"absmiddle\" alt=\"Reviewable\"/>](https://reviewable.io/reviews/scionassociation/scion-components_i-d/5)\n<!-- Reviewable:end -->\n",
+      "createdAt": "2022-07-08T10:18:37Z",
+      "updatedAt": "2022-07-08T10:27:34Z",
+      "baseRepository": "scionassociation/scion-components_I-D",
+      "baseRefName": "nic-writing",
+      "baseRefOid": "b2a738b0e9f37d4875c9ae8de55dc20b00bc4813",
+      "headRepository": "scionassociation/scion-components_I-D",
+      "headRefName": "corine-review",
+      "headRefOid": "ac503fcabf51b301509f152e7839a966887190b3",
+      "closedAt": "2022-07-08T10:27:33Z",
+      "mergedAt": "2022-07-08T10:27:33Z",
+      "mergedBy": "cdekater",
+      "mergeCommit": {
+        "oid": "47a86a8758a855b411b600d54f00773bbe84e46e"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHiDowc49jgmQ",
+          "commit": {
+            "abbreviatedOid": "ac503fc"
+          },
+          "author": "cdekater",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "\n\n> Reviewed 1 of 1 files at r1, all commit messages.\n> *[Reviewable](https://reviewable.io/reviews/scionassociation/scion-components_i-d/5)* status: :shipit: complete! all files reviewed, all discussions resolved (waiting on @nicorusti)\n\n\n\n<!-- Sent from Reviewable.io -->\n",
+          "createdAt": "2022-07-08T10:27:18Z",
+          "updatedAt": "2022-07-08T10:27:18Z",
           "comments": []
         }
       ]
