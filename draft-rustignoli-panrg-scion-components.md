@@ -84,33 +84,6 @@ informative:
       -
         ins: K. Majumdar
 
-  I-D.dskc-bess-bgp-car:
-    title: BGP Color-Aware Routing (CAR)
-    date: 2022
-    target: https://datatracker.ietf.org/doc/draft-dskc-bess-bgp-car/
-    author:
-      -
-        ins: D. Rao
-      -
-        ins: S. Agrawal
-      -
-        ins: C. Filsfils
-      -
-        ins: D. Steinberg
-      -
-        ins: L. Jalil
-      -
-        ins: Y. Su
-      -
-        ins: B. Decraene
-      -
-        ins: J. Guichard
-      -
-        ins: K. Talaulikar
-      -
-        ins: H. Wang
-      -
-        ins:  J. Uttaro
   I-D.spring-srv6-security-consideration:
     title: Security Considerations for SRv6 Networks
     date: 2022
@@ -561,8 +534,6 @@ One proposed approach is semantic routing {{I-D.irtf-introduction-to-semantic-ro
 SCION takes a different approach: Path selection is carried out by end hosts, which have the ability to select network paths based on application requirements.
 This means that there is no need to include semantics in packets. This comes with the benefit that the SCION data plane can provide advanced routing without increased complexity or strain on routers.
 Similarly, other approaches that extend BGP often result in additional work to be carried out at routers, facing scalability challenges.
-
-_TODO:  I'm not sure if I should mention Color-Aware Routing {{I-D.dskc-bess-bgp-car}}, but it seems quite complex to be able to argue which challenges it faces. My guess is that it faces the same challenges ad BGP..  any hints?_
 
 
 # Dependency analysis
