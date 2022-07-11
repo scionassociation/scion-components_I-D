@@ -1287,7 +1287,7 @@ This design decision  has two outcomes: First of all, SCION can reuse existing h
 </li>
             <li class="normal" id="section-2.1.1-2.2">
               <em>Multipath.</em> SCION ASes can select PCBs according to their policies, and register the corresponding path segments, making them available to other ASes and end hosts. SCION hosts can leverage a wide range of inter-domain paths, selecting them at each hop based on application requirements or path conditions.
-One existing mechanism is BGP multipath <span>[<a href="#RFC7911" class="xref">RFC7911</a>]</span>, focusing on advertising multiple paths for the same prefix in order to provide a backup path.
+One existing mechanism is BGP ADD-PATH <span>[<a href="#RFC7911" class="xref">RFC7911</a>]</span>, focusing on advertising multiple paths for the same prefix in order to provide a backup path.
 However, BGP multipath does not allow end hosts to select the whole end-to-end paths, therefore traffic cannot be routed based on application requirements. In addition, it faces scalability concerns typical for BGP (i.e., increased resource requirement on routers), as discussed in the above-mentioned RFC.
 Similarly to BGP multipath, other approaches based on BGP either are only able to provide backup paths that can solely be activated in case of failure (i.e., "Diverse BGP Paths" <span>[<a href="#RFC6774" class="xref">RFC6774</a>]</span>), or they face scalability limitations. Such concerns motivate an alternative approach, such as SCION.<a href="#section-2.1.1-2.2" class="pilcrow">¶</a>
 </li>
@@ -1473,15 +1473,14 @@ Traffic is therefore routed as close as possible to the source onto the SCION ne
         <h3 id="name-extensions-and-other-compon">
 <a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-extensions-and-other-compon" class="section-name selfRef">Extensions and other components</a>
         </h3>
-<p id="section-3.2-1">In addition to the components mentioned above, there are others that aim at facilitating deployment or at better integrating SCION with existing networks. As an example, a prototype is being developed to explore whether happy eyeballs  <span>[<a href="#RFC8305" class="xref">RFC8305</a>]</span> could be extended to support SCION in addition to IPv4 and IPv6.
-PANAPI (Path-Aware Networking API) <span>[<a href="#slides-113-taps-panapi" class="xref">slides-113-taps-panapi</a>]</span> aims at making path-awareness and multipath to the transport layer at end hosts.
+<p id="section-3.2-1">In addition to the components mentioned above, there are others that aim at facilitating deployment or at better integrating SCION with existing networks. As an example, PANAPI (Path-Aware Networking API) <span>[<a href="#slides-113-taps-panapi" class="xref">slides-113-taps-panapi</a>]</span> aims at making path-awareness and multipath to the transport layer at end hosts.
 DRKey <span>[<a href="#I-D.garciapardo-drkey" class="xref">I-D.garciapardo-drkey</a>]</span> is a SCION extension that provides an Internet-wide key-establishment system allowing any two hosts to efficiently derive a symmetric key. This extension can be leveraged by other components to provide additional security properties.
 For example, LightningFilter <span>[<a href="#slides-111-panrg-lightning-filter" class="xref">slides-111-panrg-lightning-filter</a>]</span> leverages DRKey to provide high-speed packet filtering between trusted SCION ASes.
 The SCION Control Message Protocol (SCMP) provides authenticated error messages and network diagnostics.
 COLIBRI <span>[<a href="#GIULIARI2021" class="xref">GIULIARI2021</a>]</span> is SCION's inter-domain bandwidth reservation system.
 RHINE (Robust and High-performance Internet Naming for End-to-end security, formerly RAINS) is a secure-by-design naming system that provides a set of desired security, reliability, and performance properties beyond what the DNS security infrastructure offers today. It is further described in chapter 19 of <span>[<a href="#CHUAT22" class="xref">CHUAT22</a>]</span>.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 <p id="section-3.2-2">These additional components are briefly mentioned here in order to provide additional context.
-Being them extensions, they build upon the three SCION core components described earlier in this document.
+As extensions, they build upon the three SCION core components described earlier in this document.
 They are therefore unlikely to be the first components being standardised.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1511,10 +1510,10 @@ In addition, RPKI is only meant to provide authorisation, but not authentication
 <a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-scion-and-segment-routing" class="section-name selfRef">SCION and Segment Routing</a>
         </h3>
 <p id="section-4.2-1">Given its path-aware properties, some of SCION's characteristics might seem similar to the ones provided by Segment Routing (SR) <span>[<a href="#RFC8402" class="xref">RFC8402</a>]</span>. There are, however, fundamental differences that distinguish and motivate SCION. The most salient one is that Segment Routing is designed to be deployed across a single trusted domain. SR therefore does not focus on security, which remains an open question, as outlined in <span>[<a href="#I-D.spring-srv6-security-consideration" class="xref">I-D.spring-srv6-security-consideration</a>]</span>.
-SCION, instead, is designed from the start to allow inter-domain communication between mutually distrustful entities. It comes, therefore, with built-in security measures to prevent attacks (i.e., authenticating all control-plane messages and all critical fields in the data-plane header).
-Rather than competing, SCION and SR could potentially complement each other.
-SCION relies on existing intra-domain routing protocols, therefore SR can be one of the possible intra-domain routing protocols.
-A possible integration of their path-aware properties remains for now an open question.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+SCION, instead, is designed from the start to facilitate inter-domain communication between (potentially mutually distrustful) entities. It comes, therefore, with built-in security measures to prevent attacks (i.e., authenticating all control-plane messages and all critical fields in the data-plane header).
+Rather than competing, SCION and SR complement each other.
+SCION relies on existing intra-domain routing protocols, therefore SR can be one of the possible intra-domain forwarding mechanisms.
+A possible integration of its path-aware properties remains for now an open question.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="scion-and-other-routing-approaches">
@@ -1526,7 +1525,8 @@ A possible integration of their path-aware properties remains for now an open qu
 One proposed approach is semantic routing <span>[<a href="#I-D.irtf-introduction-to-semantic-routing" class="xref">I-D.irtf-introduction-to-semantic-routing</a>]</span>, which adds support for advanced routing and forwarding into packets and into the data-plane.
 SCION takes a different approach: Path selection is carried out by end hosts, which have the ability to select network paths based on application requirements.
 This means that there is no need to include semantics in packets. This comes with the benefit that the SCION data plane can provide advanced routing without increased complexity or strain on routers.
-Similarly, other approaches that extend BGP often result in additional work to be carried out at routers, facing scalability challenges.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+BGP ADD-PATH <span>[<a href="#RFC7911" class="xref">RFC7911</a>]</span> extends BGP to allow additional path announcements for a certain prefix, without implicitly revoking the existing path.
+However, when additional paths are advertised for a large number of prefixes, router memory consumption is significantly increased. Furthermore, the additional path diversity is not exposed to end-hosts, therefore the additional paths can only be used for redundancy.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1540,7 +1540,7 @@ Similarly, other approaches that extend BGP often result in additional work to b
 <ul class="normal">
 <li class="normal" id="section-5-2.1">
           <em>Control-plane PKI.</em>
-The CP-PKI enables the verification of signatures, e.g., on path-segment construction beacons (PCBs).
+The CP PKI enables the verification of signatures, e.g., on path-segment construction beacons (PCBs).
 As discussed in <a href="#pki" class="xref">Section 2.3</a>, it is built on top of a peculiar trust model, where entities are able to select their roots of trust.
 Overall, it constitutes the most independent and self-contained building block, as it could potentially be leveraged by SCION or other protocols.
 The PKI itself does not have significant dependencies on other SCION components, therefore it could represent a good starting point for standardisation.
@@ -1666,10 +1666,6 @@ As this document is an early draft, the authors welcome feedback from the IETF c
 <dt id="RFC8205">[RFC8205]</dt>
       <dd>
 <span class="refAuthor">Lepinski, M., Ed.</span> and <span class="refAuthor">K. Sriram, Ed.</span>, <span class="refTitle">"BGPsec Protocol Specification"</span>, <span class="seriesInfo">RFC 8205</span>, <span class="seriesInfo">DOI 10.17487/RFC8205</span>, <time datetime="2017-09" class="refDate">September 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8205">https://www.rfc-editor.org/rfc/rfc8205</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC8305">[RFC8305]</dt>
-      <dd>
-<span class="refAuthor">Schinazi, D.</span> and <span class="refAuthor">T. Pauly</span>, <span class="refTitle">"Happy Eyeballs Version 2: Better Connectivity Using Concurrency"</span>, <span class="seriesInfo">RFC 8305</span>, <span class="seriesInfo">DOI 10.17487/RFC8305</span>, <time datetime="2017-12" class="refDate">December 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8305">https://www.rfc-editor.org/rfc/rfc8305</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8402">[RFC8402]</dt>
       <dd>
