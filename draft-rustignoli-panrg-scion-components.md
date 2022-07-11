@@ -39,6 +39,7 @@ informative:
   RFC5880:
   RFC8402:
   RFC5280:
+  RFC6774:
   SCHUCHARD2011: DOI.10.1145/1866307.1866411
 
   I-D.dekater-scion-overview:
