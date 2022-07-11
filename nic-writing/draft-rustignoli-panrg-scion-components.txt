@@ -73,22 +73,22 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
-     1.1.  Design goals
-   2.  Minimal stack - core components
+     1.1.  Design Goals
+   2.  Minimal Stack - Core Components
      2.1.  Routing - Control Plane
-       2.1.1.  Key properties in relationship to existing protocols
-     2.2.  Forwarding - Data plane
-       2.2.1.  Key properties in relationship to existing protocols
+       2.1.1.  Key Properties in Relationship to Existing Protocols
+     2.2.  Forwarding - Data Plane
+       2.2.1.  Key Properties in Relationship to Existing Protocols
      2.3.  Authentication - SCION PKI
-       2.3.1.  Key properties
-   3.  Additional components
-     3.1.  Transition mechanisms
-     3.2.  Extensions and other components
-   4.  Related work
+       2.3.1.  Key Properties
+   3.  Additional Components
+     3.1.  Transition Mechanisms
+     3.2.  Extensions and Other Components
+   4.  Related Work
      4.1.  SCION and RPKI
      4.2.  SCION and Segment Routing
-     4.3.  SCION and other routing approaches
-   5.  Dependency analysis
+     4.3.  SCION and Other Routing Approaches
+   5.  Dependency Analysis
    6.  Conclusions
    7.  Informative References
    Acknowledgments
@@ -115,7 +115,7 @@ Table of Contents
    components, the problems it solves, and existing deployments.  For an
    in-depth description of SCION, refer to [CHUAT22].
 
-1.1.  Design goals
+1.1.  Design Goals
 
    SCION was created from the start with the intention to provide the
    following properties for inter-domain communication.
@@ -166,7 +166,7 @@ Table of Contents
    components.  They then describe the components' mutual dependencies
    and their relation with existing protocols.
 
-2.  Minimal stack - core components
+2.  Minimal Stack - Core Components
 
    In order to establish end-to-end connectivity, SCION relies on three
    main components.  SCION's data plane carries out secure path-aware
@@ -214,7 +214,7 @@ Table of Contents
    overview of the process to create and disseminate path information,
    refer to [I-D.dekater-scion-overview], section 1.2.2.
 
-2.1.1.  Key properties in relationship to existing protocols
+2.1.1.  Key Properties in Relationship to Existing Protocols
 
    On first sight, it might seem that the SCION control plane takes care
    of similar duties as BGP.  While both focus on disseminating routing
@@ -348,7 +348,7 @@ Table of Contents
    SCION Control-Plane PKI (see Section 2.3) for authenticating control
    information.
 
-2.2.  Forwarding - Data plane
+2.2.  Forwarding - Data Plane
 
    SCION is an inter-domain network architecture and as such does not
    interfere with intra-domain forwarding.  This corresponds to the
@@ -373,7 +373,7 @@ Table of Contents
    sometimes encapsulated into an IP packet, for backwards
    compatibility.
 
-2.2.1.  Key properties in relationship to existing protocols
+2.2.1.  Key Properties in Relationship to Existing Protocols
 
    Thanks to its data plane, SCION achieves properties that are
    difficult to achieve when exclusively extending existing protocols.
@@ -437,7 +437,7 @@ Table of Contents
    usage of certificates, which enables the verification of signatures
    of, e.g., path-segment construction beacons (PCBs).
 
-2.3.1.  Key properties
+2.3.1.  Key Properties
 
    One might ask why SCION requires its own PKI, rather than reusing
    some of the existing PKI architectures.  There are several properties
@@ -513,7 +513,7 @@ Table of Contents
    deployment because of lack of authentication or lack of mutual trust
    between end hosts and the intermediate network.
 
-3.  Additional components
+3.  Additional Components
 
    This document mainly focuses on describing the fundamental components
    needed to run a minimal SCION network.  Beyond that, SCION comprises
@@ -523,7 +523,7 @@ Table of Contents
    paragraph briefly mentions some of these transition mechanisms and
    extensions.
 
-3.1.  Transition mechanisms
+3.1.  Transition Mechanisms
 
    As presented in [I-D.dekater-scion-overview], incremental
    deployability is a focus area of SCION's design.  It comprises
@@ -568,7 +568,7 @@ Table of Contents
       possible to the source onto the SCION network.  The system is
       further described in chapter 13 of [CHUAT22].
 
-3.2.  Extensions and other components
+3.2.  Extensions and Other Components
 
    In addition to the components mentioned above, there are others that
    aim at facilitating deployment or at better integrating SCION with
@@ -595,7 +595,7 @@ Table of Contents
    SCION core components described earlier in this document.  They are
    therefore unlikely to be the first components being standardised.
 
-4.  Related work
+4.  Related Work
 
    A question that is often asked is whether SCION could simply reuse or
    extend existing protocols.  This section tries to clarify this
@@ -639,7 +639,7 @@ Table of Contents
    intra-domain forwarding mechanisms.  A possible integration of its
    path-aware properties remains for now an open question.
 
-4.3.  SCION and other routing approaches
+4.3.  SCION and Other Routing Approaches
 
    There is an increasing motivation to extend inter-domain routing
    beyond mere reachability.  See for example
@@ -661,7 +661,7 @@ Table of Contents
    path diversity is not exposed to end-hosts, therefore the additional
    paths can only be used for redundancy.
 
-5.  Dependency analysis
+5.  Dependency Analysis
 
    This section briefly discusses dependencies between SCION's core
    components, with the goal of facilitating a discussion on whether it
