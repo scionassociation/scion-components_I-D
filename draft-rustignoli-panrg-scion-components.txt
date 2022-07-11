@@ -73,22 +73,22 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
-     1.1.  Design goals
-   2.  Minimal stack - core components
+     1.1.  Design Goals
+   2.  Minimal Stack - Core Components
      2.1.  Routing - Control Plane
-       2.1.1.  Key properties in relationship to existing protocols
-     2.2.  Forwarding - Data plane
-       2.2.1.  Key properties in relationship to existing protocols
+       2.1.1.  Key Properties in Relationship to Existing Protocols
+     2.2.  Forwarding - Data Plane
+       2.2.1.  Key Properties in Relationship to Existing Protocols
      2.3.  Authentication - SCION PKI
-       2.3.1.  Key properties
-   3.  Additional components
-     3.1.  Transition mechanisms
-     3.2.  Extensions and other components
-   4.  Related work
+       2.3.1.  Key Properties
+   3.  Additional Components
+     3.1.  Transition Mechanisms
+     3.2.  Extensions and Other Components
+   4.  Related Work
      4.1.  SCION and RPKI
      4.2.  SCION and Segment Routing
-     4.3.  SCION and other routing approaches
-   5.  Dependency analysis
+     4.3.  SCION and Other Routing Approaches
+   5.  Dependency Analysis
    6.  Conclusions
    7.  Informative References
    Acknowledgments
@@ -115,7 +115,7 @@ Table of Contents
    components, the problems it solves, and existing deployments.  For an
    in-depth description of SCION, refer to [CHUAT22].
 
-1.1.  Design goals
+1.1.  Design Goals
 
    SCION was created from the start with the intention to provide the
    following properties for inter-domain communication.
@@ -166,7 +166,7 @@ Table of Contents
    components.  They then describe the components' mutual dependencies
    and their relation with existing protocols.
 
-2.  Minimal stack - core components
+2.  Minimal Stack - Core Components
 
    In order to establish end-to-end connectivity, SCION relies on three
    main components.  SCION's data plane carries out secure path-aware
@@ -214,7 +214,7 @@ Table of Contents
    overview of the process to create and disseminate path information,
    refer to [I-D.dekater-scion-overview], section 1.2.2.
 
-2.1.1.  Key properties in relationship to existing protocols
+2.1.1.  Key Properties in Relationship to Existing Protocols
 
    On first sight, it might seem that the SCION control plane takes care
    of similar duties as BGP.  While both focus on disseminating routing
@@ -237,7 +237,7 @@ Table of Contents
       them available to other ASes and end hosts.  SCION hosts can
       leverage a wide range of inter-domain paths, selecting them at
       each hop based on application requirements or path conditions.
-      One existing mechanism is BGP multipath [RFC7911], focusing on
+      One existing mechanism is BGP ADD-PATH [RFC7911], focusing on
       advertising multiple paths for the same prefix in order to provide
       a backup path.  However, BGP multipath does not allow end hosts to
       select the whole end-to-end paths, therefore traffic cannot be
@@ -348,7 +348,7 @@ Table of Contents
    SCION Control-Plane PKI (see Section 2.3) for authenticating control
    information.
 
-2.2.  Forwarding - Data plane
+2.2.  Forwarding - Data Plane
 
    SCION is an inter-domain network architecture and as such does not
    interfere with intra-domain forwarding.  This corresponds to the
@@ -373,7 +373,7 @@ Table of Contents
    sometimes encapsulated into an IP packet, for backwards
    compatibility.
 
-2.2.1.  Key properties in relationship to existing protocols
+2.2.1.  Key Properties in Relationship to Existing Protocols
 
    Thanks to its data plane, SCION achieves properties that are
    difficult to achieve when exclusively extending existing protocols.
@@ -437,7 +437,7 @@ Table of Contents
    usage of certificates, which enables the verification of signatures
    of, e.g., path-segment construction beacons (PCBs).
 
-2.3.1.  Key properties
+2.3.1.  Key Properties
 
    One might ask why SCION requires its own PKI, rather than reusing
    some of the existing PKI architectures.  There are several properties
@@ -513,7 +513,7 @@ Table of Contents
    deployment because of lack of authentication or lack of mutual trust
    between end hosts and the intermediate network.
 
-3.  Additional components
+3.  Additional Components
 
    This document mainly focuses on describing the fundamental components
    needed to run a minimal SCION network.  Beyond that, SCION comprises
@@ -523,7 +523,7 @@ Table of Contents
    paragraph briefly mentions some of these transition mechanisms and
    extensions.
 
-3.1.  Transition mechanisms
+3.1.  Transition Mechanisms
 
    As presented in [I-D.dekater-scion-overview], incremental
    deployability is a focus area of SCION's design.  It comprises
@@ -568,37 +568,34 @@ Table of Contents
       possible to the source onto the SCION network.  The system is
       further described in chapter 13 of [CHUAT22].
 
-3.2.  Extensions and other components
+3.2.  Extensions and Other Components
 
    In addition to the components mentioned above, there are others that
    aim at facilitating deployment or at better integrating SCION with
-   existing networks.  As an example, a prototype is being developed to
-   explore whether happy eyeballs [RFC8305] could be extended to support
-   SCION in addition to IPv4 and IPv6.  PANAPI (Path-Aware Networking
-   API) [slides-113-taps-panapi] aims at making path-awareness and
-   multipath to the transport layer at end hosts.  DRKey
-   [I-D.garciapardo-drkey] is a SCION extension that provides an
-   Internet-wide key-establishment system allowing any two hosts to
-   efficiently derive a symmetric key.  This extension can be leveraged
-   by other components to provide additional security properties.  For
-   example, LightningFilter [slides-111-panrg-lightning-filter]
-   leverages DRKey to provide high-speed packet filtering between
-   trusted SCION ASes.  The SCION Control Message Protocol (SCMP)
-   provides authenticated error messages and network diagnostics.
-   COLIBRI [GIULIARI2021] is SCION's inter-domain bandwidth reservation
-   system.  RHINE (Robust and High-performance Internet Naming for End-
-   to-end security, formerly RAINS) is a secure-by-design naming system
-   that provides a set of desired security, reliability, and performance
-   properties beyond what the DNS security infrastructure offers today.
-   It is further described in chapter 19 of [CHUAT22].
+   existing networks.  As an example, PANAPI (Path-Aware Networking API)
+   [slides-113-taps-panapi] aims at making path-awareness and multipath
+   to the transport layer at end hosts.  DRKey [I-D.garciapardo-drkey]
+   is a SCION extension that provides an Internet-wide key-establishment
+   system allowing any two hosts to efficiently derive a symmetric key.
+   This extension can be leveraged by other components to provide
+   additional security properties.  For example, LightningFilter
+   [slides-111-panrg-lightning-filter] leverages DRKey to provide high-
+   speed packet filtering between trusted SCION ASes.  The SCION Control
+   Message Protocol (SCMP) provides authenticated error messages and
+   network diagnostics.  COLIBRI [GIULIARI2021] is SCION's inter-domain
+   bandwidth reservation system.  RHINE (Robust and High-performance
+   Internet Naming for End-to-end security, formerly RAINS) is a secure-
+   by-design naming system that provides a set of desired security,
+   reliability, and performance properties beyond what the DNS security
+   infrastructure offers today.  It is further described in chapter 19
+   of [CHUAT22].
 
    These additional components are briefly mentioned here in order to
-   provide additional context.  Being them extensions, they build upon
-   the three SCION core components described earlier in this document.
-   They are therefore unlikely to be the first components being
-   standardised.
+   provide additional context.  As extensions, they build upon the three
+   SCION core components described earlier in this document.  They are
+   therefore unlikely to be the first components being standardised.
 
-4.  Related work
+4.  Related Work
 
    A question that is often asked is whether SCION could simply reuse or
    extend existing protocols.  This section tries to clarify this
@@ -632,17 +629,17 @@ Table of Contents
    Routing is designed to be deployed across a single trusted domain.
    SR therefore does not focus on security, which remains an open
    question, as outlined in [I-D.spring-srv6-security-consideration].
-   SCION, instead, is designed from the start to allow inter-domain
-   communication between mutually distrustful entities.  It comes,
-   therefore, with built-in security measures to prevent attacks (i.e.,
-   authenticating all control-plane messages and all critical fields in
-   the data-plane header).  Rather than competing, SCION and SR could
-   potentially complement each other.  SCION relies on existing intra-
+   SCION, instead, is designed from the start to facilitate inter-domain
+   communication between (potentially mutually distrustful) entities.
+   It comes, therefore, with built-in security measures to prevent
+   attacks (i.e., authenticating all control-plane messages and all
+   critical fields in the data-plane header).  Rather than competing,
+   SCION and SR complement each other.  SCION relies on existing intra-
    domain routing protocols, therefore SR can be one of the possible
-   intra-domain routing protocols.  A possible integration of their
+   intra-domain forwarding mechanisms.  A possible integration of its
    path-aware properties remains for now an open question.
 
-4.3.  SCION and other routing approaches
+4.3.  SCION and Other Routing Approaches
 
    There is an increasing motivation to extend inter-domain routing
    beyond mere reachability.  See for example
@@ -656,18 +653,22 @@ Table of Contents
    application requirements.  This means that there is no need to
    include semantics in packets.  This comes with the benefit that the
    SCION data plane can provide advanced routing without increased
-   complexity or strain on routers.  Similarly, other approaches that
-   extend BGP often result in additional work to be carried out at
-   routers, facing scalability challenges.
+   complexity or strain on routers.  BGP ADD-PATH [RFC7911] extends BGP
+   to allow additional path announcements for a certain prefix, without
+   implicitly revoking the existing path.  However, when additional
+   paths are advertised for a large number of prefixes, router memory
+   consumption is significantly increased.  Furthermore, the additional
+   path diversity is not exposed to end-hosts, therefore the additional
+   paths can only be used for redundancy.
 
-5.  Dependency analysis
+5.  Dependency Analysis
 
    This section briefly discusses dependencies between SCION's core
    components, with the goal of facilitating a discussion on whether it
    is possible to implement each of SCION's core components on its own,
    independently from other core components.
 
-   *  _Control-plane PKI._ The CP-PKI enables the verification of
+   *  _Control-plane PKI._ The CP PKI enables the verification of
       signatures, e.g., on path-segment construction beacons (PCBs).  As
       discussed in Section 2.3, it is built on top of a peculiar trust
       model, where entities are able to select their roots of trust.
@@ -843,11 +844,6 @@ Table of Contents
    [RFC8205]  Lepinski, M., Ed. and K. Sriram, Ed., "BGPsec Protocol
               Specification", RFC 8205, DOI 10.17487/RFC8205, September
               2017, <https://www.rfc-editor.org/rfc/rfc8205>.
-
-   [RFC8305]  Schinazi, D. and T. Pauly, "Happy Eyeballs Version 2:
-              Better Connectivity Using Concurrency", RFC 8305,
-              DOI 10.17487/RFC8305, December 2017,
-              <https://www.rfc-editor.org/rfc/rfc8305>.
 
    [RFC8402]  Filsfils, C., Ed., Previdi, S., Ed., Ginsberg, L.,
               Decraene, B., Litkowski, S., and R. Shakir, "Segment
