@@ -659,11 +659,6 @@ Table of Contents
    extend BGP often result in additional work to be carried out at
    routers, facing scalability challenges.
 
-   _TODO: I'm not sure if I should mention Color-Aware Routing
-   [I-D.dskc-bess-bgp-car], but it seems quite complex to be able to
-   argue which challenges it faces.  My guess is that it faces the same
-   challenges ad BGP..  any hints?_
-
 5.  Dependency analysis
 
    This section briefly discusses dependencies between SCION's core
@@ -765,13 +760,6 @@ Table of Contents
               de Kater, C., Rustignoli, N., and A. Perrig, "SCION
               Overview", 2022, <https://datatracker.ietf.org/doc/draft-
               dekater-panrg-scion-overview/>.
-
-   [I-D.dskc-bess-bgp-car]
-              Rao, D., Agrawal, S., Filsfils, C., Steinberg, D., Jalil,
-              L., Su, Y., Decraene, B., Guichard, J., Talaulikar, K.,
-              Wang, H., and J. Uttaro, "BGP Color-Aware Routing (CAR)",
-              2022, <https://datatracker.ietf.org/doc/draft-dskc-bess-
-              bgp-car/>.
 
    [I-D.garciapardo-drkey]
               Pardo, J., Krähenbühl, C., Rothenberger, B., and A.
