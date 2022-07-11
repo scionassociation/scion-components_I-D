@@ -84,33 +84,6 @@ informative:
       -
         ins: K. Majumdar
 
-  I-D.dskc-bess-bgp-car:
-    title: BGP Color-Aware Routing (CAR)
-    date: 2022
-    target: https://datatracker.ietf.org/doc/draft-dskc-bess-bgp-car/
-    author:
-      -
-        ins: D. Rao
-      -
-        ins: S. Agrawal
-      -
-        ins: C. Filsfils
-      -
-        ins: D. Steinberg
-      -
-        ins: L. Jalil
-      -
-        ins: Y. Su
-      -
-        ins: B. Decraene
-      -
-        ins: J. Guichard
-      -
-        ins: K. Talaulikar
-      -
-        ins: H. Wang
-      -
-        ins:  J. Uttaro
   I-D.spring-srv6-security-consideration:
     title: Security Considerations for SRv6 Networks
     date: 2022
@@ -340,7 +313,7 @@ This document illustrates the dependencies between its core components and exten
 While SCION  was initially developed in academia, the architecture  has now "slipped out of the lab" and counts its early productive deployments (including the Swiss inter-banking network SSFN).
 The architecture is composed of a system of related components, some of which are  essential to set up end-to-end SCION connectivity.
 Add-ons provide additional functionality, security, or backwards compatibility. Discussions at PANRG {{PANRG-INTERIM-Min}} showed the need to describe the relationships between SCION's core components.
-This document, therefore focuses on each component, describing its functionality, properties, dependencies and relationships to existing protocols. The goal is not to describe each component's specification, but to provide a basis for discussions about the engineering decisions that made SCION what it is.
+This document, therefore focuses on each component, describing its functionality, properties, dependencies and relationships to existing protocols. The goal is not to describe each component's specification, but to illustrate the engineering decisions that made SCION what it is and to provide a basis for further discussions.
 
 Before reading this document, please refer to {{I-D.dekater-scion-overview}} for a generic overview of SCION and its components, the problems it solves, and existing deployments. For an in-depth description of SCION, refer to {{CHUAT22}}.
 
@@ -362,7 +335,7 @@ The S in SCION, indeed, stands for scalability. The architecture proposes a desi
 
 Many research efforts have analysed whether such properties could be achieved by extending the existing Internet architecture. But as described in {{existing-protocols}}, tradeoffs between properties would be unavoidable when exclusively relying on or extending existing protocols.
 
-The following paragraphs describe the key properties of SCION's core components. It then describes the components' mutual dependencies and their relation with existing protocols.
+The following paragraphs describe the key properties of SCION's core components. They then describe the components' mutual dependencies and their relation with existing protocols.
 
 # Minimal stack - core components
 In order to establish end-to-end connectivity, SCION relies on three main components.
@@ -397,7 +370,7 @@ One existing mechanism is BGP multipath {{RFC7911}}, focusing on advertising mul
 However, BGP multipath does not allow end hosts to select the whole end-to-end paths, therefore traffic cannot be routed based on application requirements. In addition, it faces scalability concerns typical for BGP (i.e., increased resource requirement on routers), as discussed in the above-mentioned RFC.
 Similarly to BGP multipath, other approaches based on BGP either are only able to provide backup paths that can solely be activated in case of failure (i.e., "Diverse BGP Paths" {{RFC6774}}), or they face scalability limitations. Such concerns motivate an alternative approach, such as SCION.
 
-- *Hop-by-hop path authorization.* SCION packets can only be forwarded along authorized segments. This is achieved thanks to message authentication codes (MACs) within each hop field. During beaconing, each AS's control plane creates MACs, which are then verified at forwarding. This gives end hosts strong guarantees about the path where the data is routed. Other approaches, such as BGPSec ({{RFC8205}}), suffer from challenges with scalability, introduce circular dependencies {{COOPER2013}} and global kill switches {{ROTHENBERGER2017}}.
+- *Hop-by-hop path authorization.* SCION packets can only be forwarded along authorized path segments. This is achieved thanks to message authentication codes (MACs) within each hop field. During beaconing, each AS's control plane creates MACs, which are then verified during forwarding. This gives end hosts strong guarantees about the path where the data is routed. Other approaches, such as BGPSec ({{RFC8205}}), suffer from challenges with scalability, introduce circular dependencies {{COOPER2013}} and global kill switches {{ROTHENBERGER2017}}.
 Giving end hosts guarantees about the full inter-domain path is important in order to avoid traffic interception, and to enable geofencing (i.e., keeping data in transit within a well-defined trusted area of the global Internet).
 
 - *Scalability.* The SCION's beaconing algorithm is around two orders of magnitude more efficient than BGP due to the following reasons: The routing process is divided in a process within each ISD (intra-ISD) and one between ISDs (inter-ISD), SCION beaconing does not need to iteratively converge, and SCION makes AS-based announcements instead of BGP’s IP prefix-based announcements.
@@ -405,7 +378,7 @@ Scalability of the routing process is fundamental not only in order to support n
 
 - *Convergence time.* Since routing decisions are decoupled from the dissemination of path information, SCION features faster convergence times than path-vector protocols such as BGP.
 Path information is propagated across the network by PCBs in times that are within the same order of magnitude of network round trip time. In addition, the division of the beaconing process into intra- and inter-ISD helps in speeding up global distribution of routing information. This means that SCION has the capability to restore global reachability, even after catastrophic failures, within tens of seconds.
-This is in stark contrast to BGP, which in certain situations will never converge to a stable state, or converge only non-deterministically (see {{GRIFFIN1999}} and {{RFC4264}}). Convergence under BGP may also simply take too much time {{SAHOO2009}}.
+This is in contrast to BGP, which in certain situations will never converge to a stable state, or converge only non-deterministically (see {{GRIFFIN1999}} and {{RFC4264}}). Convergence under BGP may also simply take too much time {{SAHOO2009}}.
 
 - *Transparency.* SCION end hosts have full visibility about the inter-domain path where their data is forwarded. This is a property that is missing in traditional IP networks, where routing decisions are made by each hop, therefore end hosts have no visibility nor guarantees on where their traffic is going.
 Additionally, SCION users have visibility on the roots of trust that are used to forward traffic. SCION therefore makes it harder to redirect traffic through an adversary's vantage point. Moreover, SCION gives end users the ability to select which parts of the Internet to trust. This is particularly relevant for workloads that currently use segregated networks.
@@ -423,7 +396,7 @@ In addition, currently the Internet Control Message Protocol (ICMP) lacks authen
 SCION therefore provides the SCION Control Message Protocol (SCMP), which is analogous to ICMP. It provides functionality for network diagnostics, such as ping and traceroute, and error messages that signal packet processing or network layer problems.
 SCMP is the first control message protocol that supports the authentication of network control messages.
 
-Additionally, the SCION control plane design takes into account some of the lessons learned discussed in {{RFC9049}}: It does not try to outperform end-to-end mechanisms, as path selection is performed by end hosts. SCION, therefore, can leverage existing end-to-end mechanisms to switch paths, rather than competing with them. In addition, there is no component in the architecture that needs to keep connection state, as this is  pushed to end hosts.
+Additionally, the SCION control plane design takes into account some of the lessons learned discussed in {{RFC9049}}: It does not try to outperform end-to-end mechanisms, as path selection is performed by end hosts. SCION, therefore, can leverage existing end-to-end mechanisms to switch paths, rather than competing with them. In addition, there is no component in the architecture that needs to keep connection state, as this task is  pushed to end hosts.
 
 Overall, several of the SCION control plane properties and key mechanisms depend on the fact that SCION ASes are grouped into Isolation Domains (ISDs). For example, ISDs are fundamental to achieve transparency, routing scalability, fault isolation, and fast propagation of routing information. The SCION control plane therefore is built around the concept of ISDs, and relies on the SCION Control-Plane PKI (see {{pki}}) for authenticating control information.
 
@@ -439,7 +412,7 @@ The header contains a variable type and length end-host address, and can therefo
 ### Key properties in relationship to existing protocols {#existing-protocols}
 Thanks to its data plane, SCION achieves properties that are difficult to achieve when exclusively extending existing protocols.
 
-- *Path selection.* In SCION, end hosts select network paths, rather than routers. The end hosts are empowered to make end-to-end path choices based on application requirements.
+- *Path selection.* In SCION, end hosts select inter-domain network paths, rather than routers. The end hosts are empowered to make end-to-end path choices based on application requirements.
 This means that routers do not carry the burden of making enhanced routing or forwarding decisions.
 
 
@@ -448,7 +421,7 @@ Routers, therefore, do not require expensive and energy-intensive dedicated hard
 
 - *Recovery from failures.* SCION hosts usually receive more than one path to a given destination.
 Each host can select (potentially disjoint) backup paths that are available in case of failure.
-In contrast to the IP Internet, SCION packets are not dynamically rerouted by the network in case of failures.
+In contrast to the IP-based Internet, SCION packets are not dynamically rerouted by the network in case of failures.
 Routers use BFD {{RFC5880}} to detect link failures, and in case they cannot forward a packet, they send an authenticated SCMP message triggering path revocation.
 End hosts can use this information, or alternatively perform active monitoring, to quickly reroute traffic in case of failures.
 There is therefore no need to wait for inter-domain routing protocol convergence.
@@ -483,7 +456,7 @@ Second, the trust roots of each ISD are located in a single file, the TRC, which
 - *Scalability.* The authentication infrastructure scales to the size of the Internet and is adapted to the heterogeneity of today’s Internet constituents.
 
 - *A basis for authentication of data-plane messages.* Authentication based on digital signatures works well for the relatively low message rates in the control plane, but it does not meet the performance requirements for the high message rate of the data plane.
-The authentication of data-plane traffic and control messages requires a highly efficient and ideally stateless system to achieve bandwidths of several Gbps on commodity hardware, and to avoid creating opportunities for DoS attacks. SCION comprises a component called  DRKey, which enables high-speed data-plane elements, like border routers, to derive symmetric cryptographic keys from local secrets only. This DRKey component is used to authenticate SCMP messages.
+The authentication of data-plane traffic and control messages requires a highly efficient and ideally stateless system to achieve high bandwidths on commodity hardware, and to avoid creating opportunities for DoS attacks. SCION comprises a component called  DRKey, which enables high-speed data-plane elements, like border routers, to derive symmetric cryptographic keys from local secrets only. This DRKey component is used to authenticate SCMP messages.
 Today's Internet also lacks a fundamental mechanism to share a secret key between two end hosts for secure end-to-end communication. Existing approaches (i.e., SSH) resort to trust-on-first-use (TOFU), where a host's initial public key is accepted without verification. DRKey addresses this issue as well. For more information, refer to the draft {{I-D.garciapardo-drkey}}.
 
 The CP-PKI is based on certificates that follow the X.509v3 standard {{RFC5280}}. There are already several professional industry-grade implementations.
@@ -500,7 +473,7 @@ Beyond that, SCION comprises a number of extensions and transition mechanisms th
 For the sake of completeness, this paragraph briefly mentions some of these transition mechanisms and extensions.
 
 ## Transition mechanisms {#transition-mechanisms}
-As presented in {{I-D.dekater-scion-overview}}, incremental deployability is a strong component of SCION's design.
+As presented in {{I-D.dekater-scion-overview}}, incremental deployability is a focus area of SCION's design.
 It comprises transition mechanisms that allow partial deployment and coexistence with existing protocols.
 These mechanisms require different levels of changes in existing systems, and have different maturity levels (from research to production).
 Rather than describing how each mechanism works, this document provides a short summary of each approach, focusing on its functions and properties, as well as on how it reuses, extends or interacts with existing protocols.
@@ -531,7 +504,7 @@ DRKey {{I-D.garciapardo-drkey}} is a SCION extension that provides an Internet-w
 For example, LightningFilter {{slides-111-panrg-lightning-filter}} leverages DRKey to provide high-speed packet filtering between trusted SCION ASes.
 The SCION Control Message Protocol (SCMP) provides authenticated error messages and network diagnostics.
 COLIBRI {{GIULIARI2021}} is SCION's inter-domain bandwidth reservation system.
-RHINE (Robust and High-performance Internet Naming for End-to-end security, formerly RAINS) is a secure-by-design naming system that provides a set of desired security, reliability, and performance properties beyond what the DNS security infrastructure offers today.
+RHINE (Robust and High-performance Internet Naming for End-to-end security, formerly RAINS) is a secure-by-design naming system that provides a set of desired security, reliability, and performance properties beyond what the DNS security infrastructure offers today. It is further described in chapter 19 of {{CHUAT22}}.
 
 These additional components are briefly mentioned here in order to provide additional context.
 Being them extensions, they build upon the three SCION core components described earlier in this document.
@@ -552,7 +525,7 @@ Given its path-aware properties, some of SCION's characteristics might seem simi
 SCION, instead, is designed from the start to allow inter-domain communication between mutually distrustful entities. It comes, therefore, with built-in security measures to prevent attacks (i.e., authenticating all control-plane messages and all critical fields in the data-plane header).
 Rather than competing, SCION and SR could potentially complement each other.
 SCION relies on existing intra-domain routing protocols, therefore SR can be one of the possible intra-domain routing protocols.
-A possible integration of their path-aware properties remain for now an open question.
+A possible integration of their path-aware properties remains for now an open question.
 
 
 ## SCION and other routing approaches
@@ -561,8 +534,6 @@ One proposed approach is semantic routing {{I-D.irtf-introduction-to-semantic-ro
 SCION takes a different approach: Path selection is carried out by end hosts, which have the ability to select network paths based on application requirements.
 This means that there is no need to include semantics in packets. This comes with the benefit that the SCION data plane can provide advanced routing without increased complexity or strain on routers.
 Similarly, other approaches that extend BGP often result in additional work to be carried out at routers, facing scalability challenges.
-
-_TODO:  I'm not sure if I should mention Color-Aware Routing {{I-D.dskc-bess-bgp-car}}, but it seems quite complex to be able to argue which challenges it faces. My guess is that it faces the same challenges ad BGP..  any hints?_
 
 
 # Dependency analysis
