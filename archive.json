@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-07-10T00:32:58.986612+00:00",
+  "timestamp": "2022-07-12T00:29:44.785796+00:00",
   "repo": "scionassociation/scion-components_I-D",
   "labels": [
     {
@@ -55,17 +55,17 @@
       "id": "I_kwDOHiDowc5NKLoB",
       "title": "Draft final review",
       "url": "https://github.com/scionassociation/scion-components_I-D/issues/2",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "nicorusti",
       "authorAssociation": "MEMBER",
       "assignees": [
         "nicorusti"
       ],
       "labels": [],
-      "body": "This issue tracks some final review tasks:\r\n- [x] Give some love to the dependency analysis (wording)\r\n- [x] Remove \"we\"\r\n- [x] Delete RFC9049 part (and add a few sentences in each one of the 3 main components) --> \r\n- [x] Remove unused references\r\n- [x] Check format of all references & links\r\n- [ ] Search for missed TODOs \r\n- [ ] Remove related work part & store commit #b2a738b0e9f37d4875c9ae8de55dc20b00bc4813 somewhere",
+      "body": "This issue tracks some final review tasks:\r\n- [x] Give some love to the dependency analysis (wording)\r\n- [x] Remove \"we\"\r\n- [x] Delete RFC9049 part (and add a few sentences in each one of the 3 main components) --> \r\n- [x] Remove unused references\r\n- [x] Check format of all references & links\r\n- [x] Search for missed TODOs \r\n- [x] Remove related work part & store commit #b2a738b0e9f37d4875c9ae8de55dc20b00bc4813 somewhere",
       "createdAt": "2022-07-05T16:26:33Z",
-      "updatedAt": "2022-07-08T16:29:50Z",
-      "closedAt": null,
+      "updatedAt": "2022-07-11T15:43:01Z",
+      "closedAt": "2022-07-11T15:43:01Z",
       "comments": []
     }
   ],
@@ -272,6 +272,132 @@
           "body": "\n\n> Reviewed 1 of 1 files at r1, all commit messages.\n> *[Reviewable](https://reviewable.io/reviews/scionassociation/scion-components_i-d/5)* status: :shipit: complete! all files reviewed, all discussions resolved (waiting on @nicorusti)\n\n\n\n<!-- Sent from Reviewable.io -->\n",
           "createdAt": "2022-07-08T10:27:18Z",
           "updatedAt": "2022-07-08T10:27:18Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "id": "PR_kwDOHiDowc47LUzi",
+      "title": "Corine review",
+      "url": "https://github.com/scionassociation/scion-components_I-D/pull/6",
+      "state": "MERGED",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "\n\n<!-- Reviewable:start -->\nThis change is\u2002[<img src=\"https://reviewable.io/review_button.svg\" height=\"34\" align=\"absmiddle\" alt=\"Reviewable\"/>](https://reviewable.io/reviews/scionassociation/scion-components_i-d/6)\n<!-- Reviewable:end -->\n",
+      "createdAt": "2022-07-11T08:41:12Z",
+      "updatedAt": "2022-07-11T08:52:49Z",
+      "baseRepository": "scionassociation/scion-components_I-D",
+      "baseRefName": "main",
+      "baseRefOid": "9ffc1fea4cbb25853324b366a1e642498e7ca1fa",
+      "headRepository": "scionassociation/scion-components_I-D",
+      "headRefName": "corine-review2",
+      "headRefOid": "f43842b0511070757ef520e1e3bba8c9acde61c5",
+      "closedAt": "2022-07-11T08:52:47Z",
+      "mergedAt": "2022-07-11T08:52:47Z",
+      "mergedBy": "nicorusti",
+      "mergeCommit": {
+        "oid": "6762f03408bb47a773b4852569d86bcf8b31f2e9"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHiDowc49obJe",
+          "commit": {
+            "abbreviatedOid": "f43842b"
+          },
+          "author": "nicorusti",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "\n\n> Reviewed 1 of 1 files at r2, all commit messages.\n> *[Reviewable](https://reviewable.io/reviews/scionassociation/scion-components_i-d/6)* status: :shipit: complete! all files reviewed, all discussions resolved (waiting on @cdekater)\n\n\n\n<!-- Sent from Reviewable.io -->\n",
+          "createdAt": "2022-07-11T08:52:14Z",
+          "updatedAt": "2022-07-11T08:52:15Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "id": "PR_kwDOHiDowc47MZGK",
+      "title": "Final review",
+      "url": "https://github.com/scionassociation/scion-components_I-D/pull/7",
+      "state": "MERGED",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "\n\n<!-- Reviewable:start -->\nThis change is\u2002[<img src=\"https://reviewable.io/review_button.svg\" height=\"34\" align=\"absmiddle\" alt=\"Reviewable\"/>](https://reviewable.io/reviews/scionassociation/scion-components_i-d/7)\n<!-- Reviewable:end -->\n",
+      "createdAt": "2022-07-11T13:25:00Z",
+      "updatedAt": "2022-07-11T13:30:44Z",
+      "baseRepository": "scionassociation/scion-components_I-D",
+      "baseRefName": "main",
+      "baseRefOid": "6762f03408bb47a773b4852569d86bcf8b31f2e9",
+      "headRepository": "scionassociation/scion-components_I-D",
+      "headRefName": "nic-writing",
+      "headRefOid": "3e64cb6935d2ed5d96a3262fb249b5d63eab8b19",
+      "closedAt": "2022-07-11T13:30:43Z",
+      "mergedAt": "2022-07-11T13:30:43Z",
+      "mergedBy": "cdekater",
+      "mergeCommit": {
+        "oid": "0b7f065c6abef5309660fb24b0918afdc6b561ab"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHiDowc49ptoF",
+          "commit": {
+            "abbreviatedOid": "3e64cb6"
+          },
+          "author": "cdekater",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "\n\n> Reviewed 1 of 1 files at r1, all commit messages.\n> *[Reviewable](https://reviewable.io/reviews/scionassociation/scion-components_i-d/7)* status: :shipit: complete! all files reviewed, all discussions resolved (waiting on @nicorusti)\n\n\n\n<!-- Sent from Reviewable.io -->\n",
+          "createdAt": "2022-07-11T13:30:36Z",
+          "updatedAt": "2022-07-11T13:30:36Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "id": "PR_kwDOHiDowc47MyHp",
+      "title": "Adrian's feedback",
+      "url": "https://github.com/scionassociation/scion-components_I-D/pull/8",
+      "state": "MERGED",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "do not merge yet\n\n<!-- Reviewable:start -->\n---\nThis change is\u2002[<img src=\"https://reviewable.io/review_button.svg\" height=\"34\" align=\"absmiddle\" alt=\"Reviewable\"/>](https://reviewable.io/reviews/scionassociation/scion-components_i-d/8)\n<!-- Reviewable:end -->\n",
+      "createdAt": "2022-07-11T14:51:31Z",
+      "updatedAt": "2022-07-11T15:44:07Z",
+      "baseRepository": "scionassociation/scion-components_I-D",
+      "baseRefName": "main",
+      "baseRefOid": "0b7f065c6abef5309660fb24b0918afdc6b561ab",
+      "headRepository": "scionassociation/scion-components_I-D",
+      "headRefName": "nic-writing",
+      "headRefOid": "e146ebdafda2fbdf9c8648c6066d21ae34495837",
+      "closedAt": "2022-07-11T15:44:06Z",
+      "mergedAt": "2022-07-11T15:44:05Z",
+      "mergedBy": "nicorusti",
+      "mergeCommit": {
+        "oid": "cc802db1a14b531e2d5d82d27571db6f5201c80d"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHiDowc49qiVA",
+          "commit": {
+            "abbreviatedOid": "e146ebd"
+          },
+          "author": "nicorusti",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "\n\n> Reviewed 1 of 1 files at r1, all commit messages.\n> *[Reviewable](https://reviewable.io/reviews/scionassociation/scion-components_i-d/8)* status: :shipit: complete! all files reviewed, all discussions resolved (waiting on @nicorusti)\n\n\n\n<!-- Sent from Reviewable.io -->\n",
+          "createdAt": "2022-07-11T15:43:43Z",
+          "updatedAt": "2022-07-11T15:43:43Z",
           "comments": []
         }
       ]
