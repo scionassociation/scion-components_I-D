@@ -1032,7 +1032,7 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Rustignoli &amp; de Kater</td>
-<td class="center">Expires 12 January 2023</td>
+<td class="center">Expires 16 January 2023</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1045,12 +1045,12 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-rustignoli-panrg-scion-components-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2022-07-11" class="published">11 July 2022</time>
+<time datetime="2022-07-15" class="published">15 July 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-01-12">12 January 2023</time></dd>
+<dd class="expires"><time datetime="2023-01-16">16 January 2023</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1104,7 +1104,7 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 12 January 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 16 January 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1283,26 +1283,23 @@ This section describes the core properties provided by the SCION control plane, 
 <ul class="normal">
 <li class="normal" id="section-2.1.1-2.1">
               <em>Host addressing.</em>  SCION decouples routing from end-host addressing: inter-domain routing is based on ISD-AS tuples rather than on end-host addresses, making SCION agnostic to end-host addressing.
-This design decision  has two outcomes: First of all, SCION can reuse existing host addressing schemes, as IPv6,  IPv4, or others. Secondly, its control plane does not carry prefix information, avoiding known issues of using routing tables (i.e., scalability, the need for dedicated hardware).<a href="#section-2.1.1-2.1" class="pilcrow">¶</a>
+This design decision  has two outcomes: First of all, SCION can reuse existing host addressing schemes, as IPv6,  IPv4, or others. Secondly, its control plane does not carry prefix information. Packets contain hop by hop path information, so that routers do not need to look up routing tables (avoiding the need for dedicated hardware).<a href="#section-2.1.1-2.1" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-2.1.1-2.2">
-              <em>Multipath.</em> SCION ASes can select PCBs according to their policies, and register the corresponding path segments, making them available to other ASes and end hosts. SCION hosts can leverage a wide range of inter-domain paths, selecting them at each hop based on application requirements or path conditions.
-One existing mechanism is BGP ADD-PATH <span>[<a href="#RFC7911" class="xref">RFC7911</a>]</span>, focusing on advertising multiple paths for the same prefix in order to provide a backup path.
-However, BGP multipath does not allow end hosts to select the whole end-to-end paths, therefore traffic cannot be routed based on application requirements. In addition, it faces scalability concerns typical for BGP (i.e., increased resource requirement on routers), as discussed in the above-mentioned RFC.
-Similarly to BGP multipath, other approaches based on BGP either are only able to provide backup paths that can solely be activated in case of failure (i.e., "Diverse BGP Paths" <span>[<a href="#RFC6774" class="xref">RFC6774</a>]</span>), or they face scalability limitations. Such concerns motivate an alternative approach, such as SCION.<a href="#section-2.1.1-2.2" class="pilcrow">¶</a>
+              <em>Multipath.</em> SCION ASes can select PCBs according to their policies, and register the corresponding path segments, making them available to other ASes and end hosts. SCION hosts can leverage a wide range of (possibly disjoint) inter-domain paths, selecting them at each hop based on application requirements or path conditions.
+This goes beyond the capabilities of existing mechanism, as BGP ADD-PATH <span>[<a href="#RFC7911" class="xref">RFC7911</a>]</span>, that is focusing on advertising multiple paths for the same prefix in order to provide a backup path.<a href="#section-2.1.1-2.2" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-2.1.1-2.3">
-              <em>Hop-by-hop path authorization.</em> SCION packets can only be forwarded along authorized path segments. This is achieved thanks to message authentication codes (MACs) within each hop field. During beaconing, each AS's control plane creates MACs, which are then verified during forwarding. This gives end hosts strong guarantees about the path where the data is routed. Other approaches, such as BGPSec (<span>[<a href="#RFC8205" class="xref">RFC8205</a>]</span>), suffer from challenges with scalability, introduce circular dependencies <span>[<a href="#COOPER2013" class="xref">COOPER2013</a>]</span> and global kill switches <span>[<a href="#ROTHENBERGER2017" class="xref">ROTHENBERGER2017</a>]</span>.
+              <em>Hop-by-hop path authorization.</em> SCION packets can only be forwarded along authorized path segments. This is achieved thanks to message authentication codes (MACs) within each hop field. During beaconing, each AS's control plane creates MACs, which are then verified during forwarding. This gives end hosts strong guarantees about the path where the data is routed, with minimal overhead and resource requirement on routers.
 Giving end hosts guarantees about the full inter-domain path is important in order to avoid traffic interception, and to enable geofencing (i.e., keeping data in transit within a well-defined trusted area of the global Internet).<a href="#section-2.1.1-2.3" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-2.1.1-2.4">
-              <em>Scalability.</em> The SCION's beaconing algorithm is around two orders of magnitude more efficient than BGP due to the following reasons: The routing process is divided in a process within each ISD (intra-ISD) and one between ISDs (inter-ISD), SCION beaconing does not need to iteratively converge, and SCION makes AS-based announcements instead of BGP's IP prefix-based announcements.
-Scalability of the routing process is fundamental not only in order to support network size growth, but also in order to quickly react to failures. Refer to <span>[<a href="#KRAHENBUHL2022" class="xref">KRAHENBUHL2022</a>]</span> for an in-depth study of SCION's scalability in comparison to BGP.<a href="#section-2.1.1-2.4" class="pilcrow">¶</a>
+              <em>Scalability.</em> The SCION's beaconing algorithm is scalable and efficient due to the following reasons: The routing process is divided in a process within each ISD (intra-ISD) and one between ISDs (inter-ISD), SCION beaconing does not need to iteratively converge, and SCION makes AS-based announcements instead of IP prefix-based announcements.
+Scalability of the routing process is fundamental not only in order to support network size growth, but also in order to quickly react to failures. An in-depth study of SCION's scalability in comparison to BGP is available in <span>[<a href="#KRAHENBUHL2022" class="xref">KRAHENBUHL2022</a>]</span>.<a href="#section-2.1.1-2.4" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-2.1.1-2.5">
-              <em>Convergence time.</em> Since routing decisions are decoupled from the dissemination of path information, SCION features faster convergence times than path-vector protocols such as BGP.
-Path information is propagated across the network by PCBs in times that are within the same order of magnitude of network round trip time. In addition, the division of the beaconing process into intra- and inter-ISD helps in speeding up global distribution of routing information. This means that SCION has the capability to restore global reachability, even after catastrophic failures, within tens of seconds.
-This is in contrast to BGP, which in certain situations will never converge to a stable state, or converge only non-deterministically (see <span>[<a href="#GRIFFIN1999" class="xref">GRIFFIN1999</a>]</span> and <span>[<a href="#RFC4264" class="xref">RFC4264</a>]</span>). Convergence under BGP may also simply take too much time <span>[<a href="#SAHOO2009" class="xref">SAHOO2009</a>]</span>.<a href="#section-2.1.1-2.5" class="pilcrow">¶</a>
+              <em>Convergence time.</em> Since routing decisions are decoupled from the dissemination of path information, SCION features faster convergence times than path-vector protocols.
+Path information is propagated across the network by PCBs in times that are within the same order of magnitude of network round trip time. In addition, the division of the beaconing process into intra- and inter-ISD helps in speeding up global distribution of routing information. This means that SCION has the capability to restore global reachability, even after catastrophic failures, within tens of seconds.<a href="#section-2.1.1-2.5" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-2.1.1-2.6">
               <em>Transparency.</em> SCION end hosts have full visibility about the inter-domain path where their data is forwarded. This is a property that is missing in traditional IP networks, where routing decisions are made by each hop, therefore end hosts have no visibility nor guarantees on where their traffic is going.
@@ -1316,8 +1313,8 @@ The latter function is handled by end hosts upon detecting failures or eventuall
 This separation of control and data plane prevents the control plane from cutting off an existing communication.<a href="#section-2.1.1-2.7" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-2.1.1-2.8">
-              <em>Authenticated control messages.</em> BGP has no built-in security mechanisms and does not provide any tools for ASes to authenticate the information they receive through BGP update messages. This opens up a multitude of attack opportunities.
-SCION control-plane messages, instead, are all authenticated, avoiding pitfalls that could possibly prevent deployment, as discussed in <span>[<a href="#RFC9049" class="xref">RFC9049</a>]</span>.
+              <em>Authenticated control messages.</em>
+SCION control-plane messages are by default all authenticated, avoiding pitfalls that could possibly prevent deployment, as discussed in <span>[<a href="#RFC9049" class="xref">RFC9049</a>]</span>.
 In addition, currently the Internet Control Message Protocol (ICMP) lacks authentication support, see <span>[<a href="#RFC4443" class="xref">RFC4443</a>]</span> and <span>[<a href="#RFC0791" class="xref">RFC0791</a>]</span>. Unauthenticated ICMP messages can potentially be used to affect or even prevent traffic forwarding.
 SCION therefore provides the SCION Control Message Protocol (SCMP), which is analogous to ICMP. It provides functionality for network diagnostics, such as ping and traceroute, and error messages that signal packet processing or network layer problems.
 SCMP is the first control message protocol that supports the authentication of network control messages.<a href="#section-2.1.1-2.8" class="pilcrow">¶</a>
@@ -1334,7 +1331,7 @@ SCMP is the first control message protocol that supports the authentication of n
         <h3 id="name-forwarding-data-plane">
 <a href="#section-2.2" class="section-number selfRef">2.2. </a><a href="#name-forwarding-data-plane" class="section-name selfRef">Forwarding - Data Plane</a>
         </h3>
-<p id="section-2.2-1">SCION is an inter-domain network architecture and as such does not interfere with intra-domain forwarding. This corresponds to the practice today where BGP is used for inter-domain routing, while ASes use an intra-domain protocol of their choice (i.e., OSPF, IS-IS, MPLS, ...).
+<p id="section-2.2-1">SCION is an inter-domain network architecture and as such does not interfere with intra-domain forwarding. This corresponds to the practice today where ASes use an intra-domain protocol of their choice (i.e., OSPF, IS-IS, MPLS, ...).
 SCION therefore re-uses the intra-domain network fabric to provide connectivity among its infrastructure services, border routers, and end hosts, minimising changes to the internal infrastructure.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
 <p id="section-2.2-2">SCION routers are deployed at the network edge. They receive and validate SCION packets from neighbours, then they use their intra-domain forwarding information to transmit packets to the next border router or SCION end host.<a href="#section-2.2-2" class="pilcrow">¶</a></p>
 <p id="section-2.2-3">SCION packets are at the network layer (layer-3), and the SCION header sits in between the transport and link layer.
@@ -1501,7 +1498,7 @@ This section discusses what properties can be achieved by extending existing pro
         </h3>
 <p id="section-4.1-1">One might ask why SCION could not just rely on RPKI. Summarising the points discussed in this document, the CP-PKI distinguishes itself because of its trust model, which comprises independent trust roots that are a fundamental building block for SCION's Isolation Domains.
 RPKI's trust model follows the same structure as the IP allocation hierarchy, where the five RIRs run a CA. This clashes with the trust model required for SCION's Isolation Domains, therefore the SCION control plane would not be able to leverage RPKI instead of the CP-PKI.
-In addition, RPKI is only meant to provide authorisation, but not authentication. SCION indeed does not provide, by design, IP authorisation. Rather, one of IP-to-SCION's coexistence mechanisms mentioned earlier (SIAM) relies on RPKI for IP origin attestation.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+In addition, RPKI is only meant to provide authorisation, but not authentication. SCION indeed does not provide, by design, IP authorisation. Rather, some of IP-to-SCION's coexistence mechanisms mentioned earlier (SIAM, SBAS) leverage RPKI for IP origin attestation.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="scion-and-segment-routing">
@@ -1587,10 +1584,6 @@ As this document is an early draft, the authors welcome feedback from the IETF c
       <dd>
 <span class="refAuthor">Chuat, L.</span>, <span class="refAuthor">Legner, M.</span>, <span class="refAuthor">Basin, D.</span>, <span class="refAuthor">Hausheer, D.</span>, <span class="refAuthor">Hitz, S.</span>, <span class="refAuthor">Mueller, P.</span>, and <span class="refAuthor">A. Perrig</span>, <span class="refTitle">"The Complete Guide to SCION"</span>, <span class="seriesInfo">ISBN 978-3-031-05287-3</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://doi.org/10.1007/978-3-031-05288-0">https://doi.org/10.1007/978-3-031-05288-0</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="COOPER2013">[COOPER2013]</dt>
-      <dd>
-<span class="refAuthor">Cooper, D.</span>, <span class="refAuthor">Heilman, E.</span>, <span class="refAuthor">Brogle, K.</span>, <span class="refAuthor">Reyzin, L.</span>, and <span class="refAuthor">S. Goldberg</span>, <span class="refTitle">"On the risk of misbehaving RPKI authorities"</span>, <span class="seriesInfo">Proceedings of the Twelfth ACM Workshop on Hot Topics in Networks</span>, <span class="seriesInfo">DOI 10.1145/2535771.2535787</span>, <time datetime="2013-11" class="refDate">November 2013</time>, <span>&lt;<a href="https://doi.org/10.1145/2535771.2535787">https://doi.org/10.1145/2535771.2535787</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="FCC2022">[FCC2022]</dt>
       <dd>
 <span class="refAuthor">Federal Communications Commission</span>, <span class="refTitle">"Notice of Inquiry on Secure Internet Routing"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://www.fcc.gov/document/fcc-launches-inquiry-internet-routing-vulnerabilities">https://www.fcc.gov/document/fcc-launches-inquiry-internet-routing-vulnerabilities</a>&gt;</span>. </dd>
@@ -1598,10 +1591,6 @@ As this document is an early draft, the authors welcome feedback from the IETF c
 <dt id="GIULIARI2021">[GIULIARI2021]</dt>
       <dd>
 <span class="refAuthor">Giuliari, G.</span>, <span class="refAuthor">Roos, D.</span>, <span class="refAuthor">Wyss, M.</span>, <span class="refAuthor">García-Pardo, J.</span>, <span class="refAuthor">Legner, M.</span>, and <span class="refAuthor">A. Perrig</span>, <span class="refTitle">"Colibri: A Cooperative Lightweight Inter-domain Bandwidth-Reservation Infrastructure"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://netsec.ethz.ch/publications/papers/2021_conext_colibri.pdf">https://netsec.ethz.ch/publications/papers/2021_conext_colibri.pdf</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="GRIFFIN1999">[GRIFFIN1999]</dt>
-      <dd>
-<span class="refAuthor">Griffin, T.</span> and <span class="refAuthor">G. Wilfong</span>, <span class="refTitle">"An analysis of BGP convergence properties"</span>, <span class="seriesInfo">ACM SIGCOMM Computer Communication Review Vol. 29, pp. 277-288</span>, <span class="seriesInfo">DOI 10.1145/316194.316231</span>, <time datetime="1999-10" class="refDate">October 1999</time>, <span>&lt;<a href="https://doi.org/10.1145/316194.316231">https://doi.org/10.1145/316194.316231</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.dekater-scion-overview">[I-D.dekater-scion-overview]</dt>
       <dd>
@@ -1639,10 +1628,6 @@ As this document is an early draft, the authors welcome feedback from the IETF c
       <dd>
 <span class="refAuthor">Postel, J.</span>, <span class="refTitle">"Internet Protocol"</span>, <span class="seriesInfo">STD 5</span>, <span class="seriesInfo">RFC 791</span>, <span class="seriesInfo">DOI 10.17487/RFC0791</span>, <time datetime="1981-09" class="refDate">September 1981</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc791">https://www.rfc-editor.org/rfc/rfc791</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC4264">[RFC4264]</dt>
-      <dd>
-<span class="refAuthor">Griffin, T.</span> and <span class="refAuthor">G. Huston</span>, <span class="refTitle">"BGP Wedgies"</span>, <span class="seriesInfo">RFC 4264</span>, <span class="seriesInfo">DOI 10.17487/RFC4264</span>, <time datetime="2005-11" class="refDate">November 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4264">https://www.rfc-editor.org/rfc/rfc4264</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC4443">[RFC4443]</dt>
       <dd>
 <span class="refAuthor">Conta, A.</span>, <span class="refAuthor">Deering, S.</span>, and <span class="refAuthor">M. Gupta, Ed.</span>, <span class="refTitle">"Internet Control Message Protocol (ICMPv6) for the Internet Protocol Version 6 (IPv6) Specification"</span>, <span class="seriesInfo">STD 89</span>, <span class="seriesInfo">RFC 4443</span>, <span class="seriesInfo">DOI 10.17487/RFC4443</span>, <time datetime="2006-03" class="refDate">March 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4443">https://www.rfc-editor.org/rfc/rfc4443</a>&gt;</span>. </dd>
@@ -1655,17 +1640,9 @@ As this document is an early draft, the authors welcome feedback from the IETF c
       <dd>
 <span class="refAuthor">Katz, D.</span> and <span class="refAuthor">D. Ward</span>, <span class="refTitle">"Bidirectional Forwarding Detection (BFD)"</span>, <span class="seriesInfo">RFC 5880</span>, <span class="seriesInfo">DOI 10.17487/RFC5880</span>, <time datetime="2010-06" class="refDate">June 2010</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc5880">https://www.rfc-editor.org/rfc/rfc5880</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC6774">[RFC6774]</dt>
-      <dd>
-<span class="refAuthor">Raszuk, R., Ed.</span>, <span class="refAuthor">Fernando, R.</span>, <span class="refAuthor">Patel, K.</span>, <span class="refAuthor">McPherson, D.</span>, and <span class="refAuthor">K. Kumaki</span>, <span class="refTitle">"Distribution of Diverse BGP Paths"</span>, <span class="seriesInfo">RFC 6774</span>, <span class="seriesInfo">DOI 10.17487/RFC6774</span>, <time datetime="2012-11" class="refDate">November 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6774">https://www.rfc-editor.org/rfc/rfc6774</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC7911">[RFC7911]</dt>
       <dd>
 <span class="refAuthor">Walton, D.</span>, <span class="refAuthor">Retana, A.</span>, <span class="refAuthor">Chen, E.</span>, and <span class="refAuthor">J. Scudder</span>, <span class="refTitle">"Advertisement of Multiple Paths in BGP"</span>, <span class="seriesInfo">RFC 7911</span>, <span class="seriesInfo">DOI 10.17487/RFC7911</span>, <time datetime="2016-07" class="refDate">July 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7911">https://www.rfc-editor.org/rfc/rfc7911</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC8205">[RFC8205]</dt>
-      <dd>
-<span class="refAuthor">Lepinski, M., Ed.</span> and <span class="refAuthor">K. Sriram, Ed.</span>, <span class="refTitle">"BGPsec Protocol Specification"</span>, <span class="seriesInfo">RFC 8205</span>, <span class="seriesInfo">DOI 10.17487/RFC8205</span>, <time datetime="2017-09" class="refDate">September 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8205">https://www.rfc-editor.org/rfc/rfc8205</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8402">[RFC8402]</dt>
       <dd>
@@ -1674,14 +1651,6 @@ As this document is an early draft, the authors welcome feedback from the IETF c
 <dt id="RFC9049">[RFC9049]</dt>
       <dd>
 <span class="refAuthor">Dawkins, S., Ed.</span>, <span class="refTitle">"Path Aware Networking: Obstacles to Deployment (A Bestiary of Roads Not Taken)"</span>, <span class="seriesInfo">RFC 9049</span>, <span class="seriesInfo">DOI 10.17487/RFC9049</span>, <time datetime="2021-06" class="refDate">June 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9049">https://www.rfc-editor.org/rfc/rfc9049</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="ROTHENBERGER2017">[ROTHENBERGER2017]</dt>
-      <dd>
-<span class="refAuthor">Rothenberger, B.</span>, <span class="refAuthor">Asoni, D.</span>, <span class="refAuthor">Barrera, D.</span>, and <span class="refAuthor">A. Perrig</span>, <span class="refTitle">"Internet Kill Switches Demystified"</span>, <span class="seriesInfo">Proceedings of the 10th European Workshop on Systems Security</span>, <span class="seriesInfo">DOI 10.1145/3065913.3065922</span>, <time datetime="2017-04" class="refDate">April 2017</time>, <span>&lt;<a href="https://doi.org/10.1145/3065913.3065922">https://doi.org/10.1145/3065913.3065922</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="SAHOO2009">[SAHOO2009]</dt>
-      <dd>
-<span class="refAuthor">Sahoo, A.</span>, <span class="refAuthor">Kant, K.</span>, and <span class="refAuthor">P. Mohapatra</span>, <span class="refTitle">"BGP convergence delay after multiple simultaneous router failures: Characterization and solutions"</span>, <span class="seriesInfo">Computer Communications Vol. 32, pp. 1207-1218</span>, <span class="seriesInfo">DOI 10.1016/j.comcom.2009.03.009</span>, <time datetime="2009-05" class="refDate">May 2009</time>, <span>&lt;<a href="https://doi.org/10.1016/j.comcom.2009.03.009">https://doi.org/10.1016/j.comcom.2009.03.009</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="SCHUCHARD2011">[SCHUCHARD2011]</dt>
       <dd>
