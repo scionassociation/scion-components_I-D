@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-07-12T00:29:44.785796+00:00",
+  "timestamp": "2022-07-17T00:31:14.879438+00:00",
   "repo": "scionassociation/scion-components_I-D",
   "labels": [
     {
@@ -401,6 +401,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 9,
+      "id": "PR_kwDOHiDowc47dIGB",
+      "title": "Control plane: rewording of related work",
+      "url": "https://github.com/scionassociation/scion-components_I-D/pull/9",
+      "state": "OPEN",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "\n\n<!-- Reviewable:start -->\nThis change is\u2002[<img src=\"https://reviewable.io/review_button.svg\" height=\"34\" align=\"absmiddle\" alt=\"Reviewable\"/>](https://reviewable.io/reviews/scionassociation/scion-components_i-d/9)\n<!-- Reviewable:end -->\n",
+      "createdAt": "2022-07-15T08:20:21Z",
+      "updatedAt": "2022-07-15T08:20:28Z",
+      "baseRepository": "scionassociation/scion-components_I-D",
+      "baseRefName": "main",
+      "baseRefOid": "cc802db1a14b531e2d5d82d27571db6f5201c80d",
+      "headRepository": "scionassociation/scion-components_I-D",
+      "headRefName": "nic-writing",
+      "headRefOid": "c61c0014eeb907dd1fa5d201a34a4576ee3ac8be",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
