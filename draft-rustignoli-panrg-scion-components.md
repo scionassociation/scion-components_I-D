@@ -356,41 +356,65 @@ Such mechanisms are based on a trust model that is provided by the concept of Is
 An ISD is a group of Autonomous Systems that independently defines its own roots of trust.
 ISD members share therefore a uniform trust environment (i.e., a common jurisdiction). They can transparently define trust relationships between parts of the network by deciding whether to trust other ISDs. SCION trust model, therefore, differs from the one provided by other PKI architectures. The motivation behind this design choice is clarified in {{pki}}.
 
-We now look at each component. Rather than looking at how they work, we quickly mention the properties they offer, and their inputs/outputs.
-We try to take a step back, and don’t care about the component name, but we care  that we get the needed properties. We think about the components about a black box (input/output).
+The following paragraphs look at each component individually.
+Rather than describing how each component works, they focus on each component's required dependencies and properties provided to other components.
+The idea is to try to think of each component as a black box, and look at its "inputs"  and "outputs".
+
+TODO: I'm not so sure about the naming for each component: I used Required/provided, but maybe input/outputs would be more immediate to understand?
 
 ## Authentication -  SCION PKI {#pki}
-SCION's control plane messages are all authenticated. The verification of those messages relies on a public-key infrastructure (PKI) called the Control-Plane PKI or CP-PKI. It consists of a set of mechanisms, roles, and policies related to the management and usage of certificates, which enables the verification of signatures of, e.g., path-segment construction beacons (PCBs).
+SCION's control plane messages and path information are all authenticated.
+This helps it avoiding some of the obstacles to deployment mentioned in {{RFC9049}}, where several path-aware methods failed to achieve deployment because of lack of authentication or lack of mutual trust between end hosts and the intermediate network.
+The verification of messages relies on a public-key infrastructure (PKI) called the Control-Plane PKI or CP-PKI.
+It consists of a set of mechanisms, roles, and policies related to the management and usage of certificates, which enables the verification of signatures of, e.g., path-segment construction beacons (PCBs).
+
+### Provided to Other Components
+*Trust Root Configuration (TRC)*: The PKI provides well-defined per-ISD trust policies, in the form of a per-ISD Trust Root Configuration (TRC).
+The TRC contains the ISD trust roots, and it is co-signed by multiple entities in a multilateral process called voting.
+
+*AS certificates*: For each Autonomous System that is part of an ISD, the PKI provides an AS certificate that is used by other components for authentication. It also provides a validation path up to the ISD trust root.
+
+*Symmetric AS keys*: Authentication based on digital signatures works well for the relatively low message rates in the control plane, but it does not meet the performance requirements for the high message rate of the data plane.
+The authentication of data-plane traffic and control messages requires a highly efficient and ideally stateless system to achieve high bandwidths on commodity hardware, and to avoid creating opportunities for DoS attacks.
+SCION PKI comprises an extension called  DRKey, which enables high-speed data-plane elements, like border routers, to efficiently derive symmetric cryptographic keys from local secrets only.
+They are used to authenticate some of the control messages. For more information, refer to the draft {{I-D.garciapardo-drkey}}.
+
 
 ### Key Properties
-One might ask why SCION requires its own PKI, rather than reusing some of the existing PKI architectures. There are several properties that distinguish the CP-PKI from others, and motivate SCION's distinct approach.
+One might ask why SCION requires its own PKI, rather than reusing some of the existing PKI architectures to issue AS certificates.
+There are several properties that distinguish the CP-PKI from others, and motivate SCION's distinct approach.
 
-- *Unique decentralised trust model.* SCION is designed to enable global secure connectivity, where ASes do not necessarily share mutual trust.
-This requires a trust model that is different from existing ones that are behind commonly deployed PKIs in today's Internet.
+- *Locally scoped and flexible trust.* SCION is designed to enable global secure connectivity among ASes that do not necessarily share mutual trust.
+This requires a trust model that is different from the ones that are behind commonly deployed PKIs in today's Internet.
 In a monopolistic model, all entities trust one or a small number of roots of trust. In an oligopolistic model, there are  multiple equally trusted roots  (e.g., in the Web PKI).
 In both models, some or all certification authorities are omnipotent. If their key is compromised, then the security of the entire system collapses.
 Both models do not scale well to a global environment, because mutually distrustful entities cannot agree on a single root of trust (monopoly) and because in the oligopoly model, the security is as strong as its weakest root.
-The SCION trust model differs from classic PKIs in two ways. First, no entity is omnipotent, as  Isolation Domains  elect their own root of trust, and the  capabilities of each ISD (authentication-wise) are limited to communication channels in which they are involved.
-Second, the trust roots of each ISD are located in a single file, the TRC, which is co-signed by multiple entities in a process  called voting.
+In the SCION PKI, trust is locally scoped within each ISD, and the  capabilities of each ISD (authentication-wise) are limited to communication channels in which they are involved. Each ISD can define its own trust policy. ASes must accept the trust policy of the ISD(s) in which they participate, but they can decide which ISDs they want to join, and they can participate in multiple ISDs.
 
-- *Resilience to compromised entities and keys.* Compromised or malicious trust roots outside an ISD cannot affect operations that stay within that ISD. Moreover, each ISD can be configured to withstand the compromise of any single voting key.
+- *Resilience to compromised entities and keys.* Compromised or malicious trust roots outside an ISD cannot affect operations that stay within that ISD. Moreover, as trust roots (in the form of a TRC)  can only be updated through a voting process, each ISD can be configured to withstand the compromise of a number of its root keys.
 
-- *Trust flexibility.* Each ISD can define its own trust policy. ASes must accept the trust policy of the ISD(s) in which they participate, but they can decide which ISDs they want to join, and they can participate in multiple ISDs.
+- *Multilateral governance.* The voting mechanism mentioned above makes sure that fundamental changes to the trust policies only happen with consent of multiple entities administering an ISD.
+Within an ISD, no single entity in full control, or owns a cryptographic "kill-switch".
+
+- *Support for versioning & updates.* Trust within an ISD is normally bootstrapped with an initial ceremony. Subsequent updates to the root of trust (TRC) are handled automatically. The PKI design makes sure that certificate rollover can be automated so that certificates can be rotated frequently (e.g., every few days for AS certificates).
 
 - *Scalability.* The authentication infrastructure scales to the size of the Internet and is adapted to the heterogeneity of today’s Internet constituents.
 
-- *A basis for authentication of data-plane messages.* Authentication based on digital signatures works well for the relatively low message rates in the control plane, but it does not meet the performance requirements for the high message rate of the data plane.
-The authentication of data-plane traffic and control messages requires a highly efficient and ideally stateless system to achieve high bandwidths on commodity hardware, and to avoid creating opportunities for DoS attacks. SCION comprises a component called  DRKey, which enables high-speed data-plane elements, like border routers, to derive symmetric cryptographic keys from local secrets only. This DRKey component is used to authenticate SCMP messages.
-Today's Internet also lacks a fundamental mechanism to share a secret key between two end hosts for secure end-to-end communication. Existing approaches (i.e., SSH) resort to trust-on-first-use (TOFU), where a host's initial public key is accepted without verification. DRKey addresses this issue as well. For more information, refer to the draft {{I-D.garciapardo-drkey}}.
+### Required Dependencies
+Setting up the PKI in a freshly created Isolation Domain requires an initial trust bootstrapping process among some of the ISD members (i.e. a key exchange ceremony, and manual distribution of the initial ISD trust anchor).
+As updates to the later roots of trust are automated, this process is in principle only required once.
 
+In addition, certificate verification requires that PKI components can mutually communicate and have coarsely synchronized time.
+Overall, the PKI does not have dependencies on other SCION components.
+
+### Relationship to Existing Protocols
 The CP-PKI is based on certificates that follow the X.509v3 standard {{RFC5280}}. There are already several professional industry-grade implementations.
-Trust within an ISD is normally bootstrapped with an initial ceremony. Subsequent updates to the root of trust are handled automatically.
 
-SCION is built around a unique trust model, allowing mutually distrustful entities to communicate.
-This justifies the existence of the CP-PKI, which differs from existing PKI architectures.
-Thanks to the CP-PKI, control and data plane packets are authenticated.
-This helps avoiding some of the obstacles to deployment mentioned in {{RFC9049}}, where several path-aware methods failed to achieve deployment because of lack of authentication or lack of mutual trust between end hosts and the intermediate network.
-
+The SCION trust model differs from existing PKIs in two ways.
+First, no entity is globally omnipotent, as Isolation Domains elect their own locally scoped root of trust.
+This property would be lost if SCION were to rely on an existing PKI (i.e., the web PKI, the RPKI).
+Second, changes to the trust roots require a voting process, making governance multilateral and each trust root resilient to the compromise of some of its keys.
+SCION is therefore built around a unique trust model, justifying the existence of the CP-PKI.
 
 ## Routing - Control Plane
 The SCION control plane's main purpose is to discover and disseminate routing information, in the form of path segments.
@@ -532,6 +556,9 @@ Rather than competing, SCION and SR complement each other.
 SCION relies on existing intra-domain routing protocols, therefore SR can be one of the possible intra-domain forwarding mechanisms.
 A possible integration of its path-aware properties remains for now an open question.
 
+## SCION and LISP
+TODO: write a short paragraph
+
 
 ## SCION and Other Routing Approaches
 There is an increasing motivation to extend inter-domain routing beyond mere reachability. See for example {{I-D.trossen-routing-beyond-reachability}}, which provides a summary of some of the existing methods, and states that wider architectural approaches are needed.
@@ -552,6 +579,7 @@ As discussed in {{pki}}, it is built on top of a peculiar trust model, where ent
 Overall, it constitutes the most independent and self-contained building block, as it could potentially be leveraged by SCION or other protocols.
 The PKI itself does not have significant dependencies on other SCION components, therefore it could represent a good starting point for standardisation.
 Its unique trust properties, interfaces, and processes (as voting), could be a good candidate for a first draft.
+TODO: update with link to other draft.
 
 - *Control plane.*
   The SCION control plane is built around the concept of Isolation Domains, being the routing process divided into an intra- and inter-ISD one.
