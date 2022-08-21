@@ -39,7 +39,6 @@ informative:
   RFC5880:
   RFC8402:
   RFC5280:
-  RFC6774:
   SCHUCHARD2011: DOI.10.1145/1866307.1866411
 
   I-D.dekater-scion-overview:
@@ -293,22 +292,32 @@ informative:
 
 --- abstract
 
-SCION is a future Internet architecture that focuses on security and availability. Its fundamental functions are carried out by a number of components.
+SCION is an inter-domain Internet architecture that focuses on security and availability. Its fundamental functions are carried out by a number of components.
 
-This document illustrates the dependencies between its core components and extensions. It also discusses the relationship between SCION and existing protocols, with focus on illustrating which existing protocols are reused or extended. Additionally, it describes the motivations behind cases where a greenfield approach is needed, and the properties that can be achieved thanks to it. It then briefly touches on the maturity level of components.
+This document analyzes its core components from a functionality perspective, describing their inputs, outputs, and properties provided.
+The goal is to answer the following questions:
+* What are SCION components and their dependencies? Can they be used independently or be split?
+* What existing protocols are reused or extended? Why (or why not)?
+
+In additions, it focuses on the properties achievable thanks to a greenfield approach, whenever used.
+It then briefly touches on the maturity level of components and on some extensions.
 
 --- middle
 
 # Introduction
 
 While SCION  was initially developed in academia, the architecture  has now "slipped out of the lab" and counts its early productive deployments (including the Swiss inter-banking network SSFN).
-The architecture is composed of a system of related components, some of which are  essential to set up end-to-end SCION connectivity.
-Add-ons provide additional functionality, security, or backwards compatibility. Discussions at PANRG {{PANRG-INTERIM-Min}} showed the need to describe the relationships between SCION's core components.
-This document, therefore focuses on each component, describing its functionality, properties, dependencies and relationships to existing protocols. The goal is not to describe each component's specification, but to illustrate the engineering decisions that made SCION what it is and to provide a basis for further discussions.
+The architecture consists of a system of related components, some of which are essential to set up end-to-end SCION connectivity.
+Core components are the data plane, the control plane, and the PKI. Add-ons provide additional functionality, security, or backwards compatibility. Discussions at PANRG {{PANRG-INTERIM-Min}} showed the need to describe the relationships between components.
+This document, therefore, takes a look at each core component individually and independently from others.
+It focuses on describing its inputs, outputs, functionality, and properties.
+It then touches on dependencies and relationships to existing protocols.
+The goal is not to describe each component's specification, but to illustrate the engineering decisions that made SCION what it is and to provide a basis for further discussions and work.
 
 Before reading this document, please refer to {{I-D.dekater-scion-overview}} for a generic overview of SCION and its components, the problems it solves, and existing deployments. For an in-depth description of SCION, refer to {{CHUAT22}}.
 
 ## Design Goals
+TODO: I'm not sure this section belongs to here. Perhaps we just move this into each component.
 SCION was created from the start with the intention to provide the following properties for inter-domain communication.
 
 - *Availability*. SCION aims to provide highly available communication. Its focus is not only on handling failures (both on the last hop or anywhere along the path), but also on allowing communication in the presence of adversaries.
@@ -326,22 +335,26 @@ The S in SCION, indeed, stands for scalability. The architecture proposes a desi
 
 Many research efforts have analysed whether such properties could be achieved by extending the existing Internet architecture. But as described in {{existing-protocols}}, tradeoffs between properties would be unavoidable when exclusively relying on or extending existing protocols.
 
-The following paragraphs describe the key properties of SCION's core components. They then describe the components' mutual dependencies and their relation with existing protocols.
 
 # Minimal Stack - Core Components
 In order to establish end-to-end connectivity, SCION relies on three main components.
-SCION's data plane carries out secure path-aware forwarding. Its control plane performs routing and provides a selection of path segments. The Control Plane PKI then handles cryptographic material.
+* Data plane: it carries out secure packet forwarding, providing path-aware inter-domain connectivity.
+* Control plane: it performs inter-domain routing by discovering and securely disseminating path information.
+* PKI: it handles cryptographic material and provides an unique trust model.
 
+Each SCION AS deploys all of the the three components above.
+Implementations of all of the above  components are deployed in production (e.g., they are in use within the SSFN, the Swiss Finance Network). There are commercial implementations (including a high performance data-plane).
+
+When a packet is sent through a SCION network,  it is forwarded between ASes by SCION data plane. It authenticates packets at each hop.
 The control plane is responsible for discovering and disseminating routing information. Path discovery is performed by each autonomous system (AS) thanks to an authenticated path-exploration mechanism called beaconing.
 SCION end hosts query their respective AS control plane and obtain authenticated and authorized network paths, in the form of path segments.
 End hosts select one or more of the end-to-end network paths, based on the application requirements (i.e., latency). End hosts then craft SCION packets containing the end-to-end path to the destination.
-The data plane is responsible for forwarding SCION packets while authenticating them at each hop.
 
-Both the control and data plane rely on the Control-Plane PKI (CP-PKI) for authentication.
-SCION's authentication mechanisms aim at protecting the whole end-to-end path at each hop. SCION Autonomous Systems are organised in Isolation Domains (ISDs), that independently define their own roots of trust.
-ISD members share a uniform trust environment (i.e., a common jurisdiction). They can transparently define trust relationships between parts of the network by deciding whether to trust other ISDs. SCION therefore relies on a unique trust model, which differs from other PKIs. The motivation behind this design choice is clarified in {{pki}}.
-
-All above mentioned core components are deployed in production (e.g., they are in use within the SSFN, the Swiss Finance Network). There are commercial implementations of all core components (including a high performance data-plane).
+The control plane relies on the Control-Plane PKI (CP-PKI) for authentication (e.g., of path segments).
+SCION's authentication mechanisms aim at protecting the whole end-to-end path at each hop.
+Such mechanisms are based on a trust model that is provided by the concept of Isolation Domains (ISDs).
+An ISD is a group of Autonomous Systems that independently defines its own roots of trust.
+ISD members share therefore a uniform trust environment (i.e., a common jurisdiction). They can transparently define trust relationships between parts of the network by deciding whether to trust other ISDs. SCION trust model, therefore, differs from the one provided by other PKI architectures. The motivation behind this design choice is clarified in {{pki}}.
 
 ## Routing - Control Plane
 The SCION control plane's main purpose is to discover and disseminate routing information, in the form of path segments.
