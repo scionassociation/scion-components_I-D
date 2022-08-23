@@ -20,12 +20,12 @@ venue:
 author:
  -   ins: N. Rustignoli
      name: Nicola Rustignoli
-     org: ETH Zuerich
+     org: ETH Zürich
      email: nicola.rustignoli@inf.ethz.ch
 
  -   ins: C. de Kater
      name: Corine de Kater
-     org: ETH Zuerich
+     org: ETH Zürich
      email: corine.dekatermuehlhaeuser@inf.ethz.ch
 
 normative:
@@ -49,15 +49,15 @@ informative:
       -
         ins: C. de Kater
         name: Corine de Kater
-        org: ETH Zuerich
+        org: ETH Zürich
       -
         ins: N. Rustignoli
         name: Nicola Rustignoli
-        org: ETH Zuerich
+        org: ETH Zürich
       -
         ins: A. Perrig
         name: Adrian Perrig
-        org: ETH Zuerich
+        org: ETH Zürich
 
   I-D.dekater-scion-pki:
     title: SCION Overview
@@ -67,15 +67,15 @@ informative:
       -
         ins: C. de Kater
         name: Corine de Kater
-        org: ETH Zuerich
+        org: ETH Zürich
       -
         ins: N. Rustignoli
         name: Nicola Rustignoli
-        org: ETH Zuerich
+        org: ETH Zürich
       -
         ins: A. Perrig
         name: Adrian Perrig
-        org: ETH Zuerich
+        org: ETH Zürich
 
   I-D.rtgwg-net2cloud-problem-statement:
     title: SCION Overview
@@ -133,19 +133,19 @@ informative:
       -
         ins: 	J. Pardo
         name: Juan A. García Pardo Giménez de los Galanes
-        org: ETH Zuerich
+        org: ETH Zürich
       -
         ins: C. Krähenbühl
         name: Cyrill Krähenbühl
-        org: ETH Zuerich
+        org: ETH Zürich
       -
         ins: B. Rothenberger
         name: Benjamin Rothenberger
-        org: ETH Zuerich
+        org: ETH Zürich
       -
         ins: A. Perrig
         name: Adrian Perrig
-        org: ETH Zuerich
+        org: ETH Zürich
 
   FCC2022:
     title: Notice of Inquiry on Secure Internet Routing
@@ -162,23 +162,23 @@ informative:
        -
          ins: C. Krähenbühl
          name: Cyrill Krähenbühl
-         org: ETH Zuerich
+         org: ETH Zürich
        -
          ins: S. Tabaeiaghdaei
          name: Seyedali Tabaeiaghdaei
-         org: ETH Zuerich
+         org: ETH Zürich
        -
          ins: C. Glοοr
          name: Christelle Glοοr
-         org: ETH Zuerich
+         org: ETH Zürich
        -
          ins: J. Kwon
          name: Jonghoon Kwon
-         org: ETH Zuerich
+         org: ETH Zürich
        -
          ins: A. Perrig
          name: Adrian Perrig
-         org: ETH Zuerich
+         org: ETH Zürich
        -
          ins: D. Hausheer
          name: David Hausheer
@@ -196,7 +196,7 @@ informative:
        -
          ins: G. Giuliari
          name: Giacomo Giuliari
-         org: ETH Zuerich
+         org: ETH Zürich
        -
          ins: D. Roos
          name: Dominik Roos
@@ -204,19 +204,19 @@ informative:
        -
          ins: M. Wyss
          name: Marc Wyss
-         org: ETH Zuerich
+         org: ETH Zürich
        -
          ins: J. García-Pardo
          name: Juan Angel García-Pardo
-         org: ETH Zuerich
+         org: ETH Zürich
        -
          ins: M. Legner
          name: Markus Legner
-         org: ETH Zuerich
+         org: ETH Zürich
        -
          ins: A. Perrig
          name: Adrian Perrig
-         org: ETH Zuerich
+         org: ETH Zürich
 
   BIRGLEE2022:
      title: "Creating a Secure Underlay for the Internet"
@@ -228,25 +228,25 @@ informative:
          org: Princeton University
        -
          ins: J. Wanner
-         org: ETH Zuerich
+         org: ETH Zürich
        -
          ins: G. H. Cimaszewski
          org: Princeton University
        -
          ins: J. Kwon
-         org: ETH Zuerich
+         org: ETH Zürich
        -
          ins: L. Wang
          org: Princeton University
        -
          ins: F. Wirz
-         org: ETH Zuerich
+         org: ETH Zürich
        -
          ins: P. Mittal
          org: Princeton University
        -
          ins: A. Perrig
-         org: ETH Zuerich
+         org: ETH Zürich
        -
          ins: Y. Sun
          org: University of Virginia
@@ -261,15 +261,15 @@ informative:
       -
         ins: L. Chuat
         name: Laurent Chuat
-        org: ETH Zuerich
+        org: ETH Zürich
       -
         ins: M. Legner
         name: Markus Legner
-        org: ETH Zuerich
+        org: ETH Zürich
       -
         ins: D. Basin
         name: David Basin
-        org: ETH Zuerich
+        org: ETH Zürich
       -
         ins: D. Hausheer
         name: David Hausheer
@@ -281,11 +281,11 @@ informative:
       -
         ins: P. Mueller
         name: Peter Mueller
-        org: ETH Zuerich
+        org: ETH Zürich
       -
         ins: A. Perrig
         name: Adrian Perrig
-        org: ETH Zuerich
+        org: ETH Zürich
 
   SUPRAJA2021:
     title: "Global Distributed Secure Mapping of Network Addresses"
@@ -295,11 +295,11 @@ informative:
       -
         ins: S. Supraja
         name: Supraja Sridhara
-        org: ETH Zuerich
+        org: ETH Zürich
       -
         ins: F. Wirz
         name: François Wirz
-        org: ETH Zuerich
+        org: ETH Zürich
       -
         ins: J. de Ruiter
         name: Joeri de Ruiter
@@ -311,11 +311,11 @@ informative:
       -
         ins: M. Legner
         name: Markus Legner
-        org: ETH Zuerich
+        org: ETH Zürich
       -
         ins: A. Perrig
         name: Adrian Perrig
-        org: ETH Zuerich
+        org: ETH Zürich
 
   PANRG-INTERIM-Min:
     title: Path Aware Networking Research Group - Interim  106 Minutes
@@ -329,7 +329,7 @@ SCION is an inter-domain Internet architecture that focuses on security and avai
 
 This document analyzes its core components from a functionality perspective, describing their inputs, outputs, and properties provided.
 The goal is to answer the following questions:
-* What are SCION components and their dependencies? Can they be used independently or be split?
+* What are the main components of SCION and their dependencies? Can they be used independently or be split?
 * What existing protocols are reused or extended? Why (or why not)?
 
 In additions, it focuses on the properties achievable thanks to a greenfield approach, whenever used.
@@ -357,12 +357,12 @@ Availability is fundamental as applications move to cloud data centers, and ente
 For example, as highlighted in {{I-D.rtgwg-net2cloud-problem-statement}}, achieving reliable inter-domain Internet connectivity remains an open challenge for cloud providers.
 
 - *Security*. SCION comes with an arsenal of mechanisms, designed by security researchers with the goal of making most network-based and routing attacks either impossible or easy to mitigate. The relevance of Internet's routing security issues is testified by the fact that these issues now  have the attention of policymakers, while previously they were only well known in industry and academia. One example is the 2022 FCC inquiry on routing security {{FCC2022}}.
-SCION strongly focuses on preventing routing attacks, IP prefix hijackings, DoS, providing stronger guarantees than the existing Internet. Security is tightly related to trust. SCION therefore offers end-hosts transparency and control over forwarding paths. In addition, SCION's design starts from the assumption that any two entities on the global Internet do not mutually trust each other. SCION therefore enables trust agility, allowing its users to decide the roots of trust they wish to rely upon.
+SCION strongly focuses on preventing routing attacks, IP prefix hijackings, and on providing stronger guarantees than the existing Internet. Security is tightly related to trust. SCION therefore offers end-hosts transparency and control over forwarding paths. In addition, SCION's design starts from the assumption that any two entities on the global Internet do not mutually trust each other. SCION therefore enables trust agility, allowing its users to decide the roots of trust they wish to rely upon.
 
 
 - *Scalability*.  Security and high availability should not result in compromises on scalability.
-At the same time, a next-generation Internet architecture should not suffer from scalability issues due to network growth or forwarding table size.
-The S in SCION, indeed, stands for scalability. The architecture proposes a design that is scalable both in the control plane and in the data plane (making secure forwarding efficient).
+At the same time, a next-generation Internet architecture should scale with global network growth and avoid limitations related to forwarding table size.
+The S in SCION, indeed, stands for scalability. The architecture proposes a design that is scalable both in the control plane and in the data plane (as described later in the document).
 
 
 Many research efforts have analysed whether such properties could be achieved by extending the existing Internet architecture. But as described in the following paragraphs, tradeoffs between properties would be unavoidable when exclusively relying on or extending existing protocols.
@@ -407,10 +407,10 @@ The TRC contains the ISD trust roots, and it is co-signed by multiple entities i
 
 *AS certificates*: For each Autonomous System that is part of an ISD, the PKI provides an AS certificate that is used by other components for authentication. It also provides a validation path up to the ISD trust root.
 
-*Symmetric AS keys*: Authentication based on digital signatures works well for the relatively low message rates in the control plane, but it does not meet the performance requirements for the high message rate of the data plane.
-The authentication of data-plane traffic and control messages requires a highly efficient and ideally stateless system to achieve high bandwidths on commodity hardware, and to avoid creating opportunities for DoS attacks.
-SCION PKI comprises an extension called  DRKey, which enables high-speed data-plane elements, like border routers, to efficiently derive symmetric cryptographic keys from local secrets only.
-They are used to authenticate some of the control messages. For more information, refer to the draft {{I-D.garciapardo-drkey}}.
+SCION PKI comprises an optional extension called  DRKey, which enables efficient symmetric key derivation between any two entities in possession of AS certificates.
+Such symmetric keys are used for additional authentication mechanisms for high-rate data-plane traffic and some control messages.
+As authentication based on digital signatures only scales well for relatively low message rates, using symmetric keys makes sure that the performance requirements for the high message rate of the data plane can be met.
+For more information, refer to the extension draft {{I-D.garciapardo-drkey}}.
 
 
 ### Key Properties
@@ -468,7 +468,7 @@ Overall, the Control Plane takes an unexplored topology and AS certificates as i
 The following section describes the core properties provided by the SCION control plane, its relationships with existing protocols and dependencies on the PKI.
 For an overview of the process to create and disseminate path information, refer to {{I-D.dekater-scion-overview}}, section 1.2.2.
 The control plane is internally formed by multiple sub-components (as the beacon service, responsible for path discovery, and the path service, responsible for path dissemination).
-Processes and interfaces specifications between these sub-components could be topic for one or multiple dedicaetd documents.
+Processes and interfaces specifications between these sub-components could be topic for one or multiple dedicated documents.
 
 ### Provided to Other Components
 In SCION, an end host sending a packet must specify, in the header, the SCION forwarding path the packet takes towards the destination.
@@ -481,13 +481,13 @@ Segments are designed so that each AS data plane is able to independently verify
 
 SCION control-plane messages are by default all authenticated, avoiding pitfalls that could possibly prevent deployment, as discussed in {{RFC9049}}.
 The control plane offers the data plane the ability to send such control messages, thanks to the the SCION Control Message Protocol (SCMP).
-It is analogous to ICMP, and it provides functionality for network diagnostics, such as ping and traceroute, and error messages that signal packet processing or network layer problems.
+It is analogous to ICMP, and it provides functionality for network diagnostics, such as ping and traceroute, and authenticated error messages that signal packet processing or network layer problems.
 SCMP is the first control message protocol that supports the authentication of network control messages, preventing that unauthenticated control messages can potentially be used to affect or even prevent traffic forwarding.
 SCMP is used, for example, by the data plane to achieve path revocation.
 
 ### Key Properties
 - *Massively multipath.* When exploring paths through beaconing, SCION ASes can select PCBs according to their policies, and register the corresponding path segments, making them available to other ASes and end hosts.
-SCION hosts can leverage a wide range of (possibly disjoint) inter-domain paths, selecting them at each hop based on application requirements or path conditions.
+SCION hosts can leverage a wide range of (possibly disjoint) inter-domain paths, based on application requirements or path conditions.
 This goes beyond the capabilities of existing multipath mechanism, as BGP ADD-PATH {{RFC7911}}, that is focusing on advertising multiple paths for the same prefix in order to provide a backup path.
 
 - *Scalability.* The SCION's beaconing algorithm is scalable and efficient due to the following reasons: The routing process is divided in a process within each ISD (intra-ISD) and one between ISDs (inter-ISD), SCION beaconing does not need to iteratively converge, and SCION makes AS-based announcements instead of IP prefix-based announcements.
@@ -519,10 +519,7 @@ Moreover, SCION gives end users the ability to select which parts of the Interne
 Misconfigurations, such as an erroneous path policy, may suppress some paths. However, as long as an alternative path exists, communication is possible.
 In addition, while the control plane is responsible for creating new paths, it does not invalidate existing paths.
 The latter function is handled by end hosts upon detecting failures or eventually receiving a SCMP message from the data plane.
-This separation of control and data plane prevents the control plane from cutting off an existing communication and prevents the control plane from having a global kill-switch.
-In addition, while the control plane is responsible for creating new paths, it does not invalidate existing paths.
-The latter function is handled by end hosts upon detecting failures or eventually receiving a SCMP message from the data plane.
-This separation of control and data plane prevents the control plane from cutting off an existing communication.
+This separation of control and data plane prevents the control plane from cutting off an existing communication or having a global kill-switch.
 
 
 ### Required Dependencies
@@ -532,7 +529,7 @@ Each Isolation Domain requires its own root of trust, in the form of a TRC, in o
 Decoupling the control plane from the CP-PKI would severely affect the properties and guarantees that can be provided by the control plane.
 The concept of ISD is also necessary to organize the routing process into a two-tiered architecture.
 
-TODO: We could mention here that the SCION CP could use another PKI (i.e., the web PKI), if we keep the concept of ISD (tough it would not make sense from a trust perspective). Opninions? I already touch on this topic in {{pki-related}}
+TODO: We could mention here that the SCION CP could use another PKI (i.e., the web PKI), if we keep the concept of ISD (tough it would not make sense from a trust perspective). Opinions? I already touch on this topic in {{pki-related}}
 
 ### Relationship to Existing Protocols
 On first sight, it might seem that the SCION control plane takes care of similar duties as existing routing protocols.
@@ -566,13 +563,12 @@ They receive and validate SCION packets from neighbours, then they use their int
 SCION packets are at the network layer (layer-3), and the SCION header sits in between the transport and link layer.
 The header contains a variable type and length end-host address, and can therefore carry any address (IPv4, IPv6, ...).
 In addition, end-host addresses only need to be unique within an AS, and can be, in principle, reused.
-In early deployments, intra-AS SCION packets are sometimes encapsulated into an IP packet, for backwards compatibility.
 
 ### Provided to Other Components
 The SCION data plane provides path-aware connectivity to applications.
 The SCION stack on an end host, therefore, takes application requirements as an input (i.e., latency, bandwidth, a list of trusted ASes, ... ), and crafts packets containing an appropriate path to a given destination.
 Exposing capabilities of path-aware networking to upper layers remains an open question.
-As an example, PANAPI (Path-Aware Networking API) {{slides-113-taps-panapi}} aims at making path-awareness and multipath to the transport layer at end hosts.
+As an example, PANAPI (Path-Aware Networking API) {{slides-113-taps-panapi}} aims at making path-awareness and multipath available to the transport layer at end hosts.
 
 
 ### Key Properties
@@ -596,12 +592,12 @@ Such extensions can be hop-by-hop (and are processed at each hop), or end-to-end
 
 In conclusion, in comparison to today's Internet, the SCION's data plane pushes some of the responsibilities away from routers onto end hosts (such as selecting paths or reacting to failures).
 This contributes to creating a data plane that is more efficient and scalable, and that does not require routers with specialised routing table lookup hardware.
-Routers validate network paths so that packets are only forwarded on previously authorized packets.
+Routers validate network paths so that packets are only forwarded on previously authorized paths.
 
 ### Required Dependencies
 The data plane is generally decoupled from the control plane.
 In order to be able to transmit data, end hosts need to fetch path information from their AS control plane.
-In addition, some operations (as path revocation) require the data plane to be able to use an authenticated control-plane mechanism, as SCMP.
+In addition, some operations (such as path revocation) require the data plane to be able to use an authenticated control-plane mechanism, as SCMP.
 
 Path information is assumed to be fresh and validated by the control plane, which in turns relies on the PKI for validation.
 The data plane, therefore, relies on both the control plane and indirectly on the SCION PKI in order to function.
@@ -613,6 +609,7 @@ As discussed in {{RFC9049}}, lack of authentication has often been the cause for
 ### Relationship to Existing Protocols
 SCION is an inter-domain network architecture and as such its data plane does not interfere with intra-domain forwarding.
 This corresponds to the practice today where ASes use an intra-domain protocol of their choice (i.e., OSPF, IS-IS, MPLS, ...).
+For example, in some of the early deployments, intra-AS SCION packets are encapsulated into an IP/UDP datagram, reusing the network's existing IGP.
 SCION therefore re-uses the intra-domain network fabric to provide connectivity among its infrastructure services, border routers, and end hosts, minimising changes to the internal infrastructure.
 
 
@@ -661,7 +658,6 @@ Traffic is therefore routed as close as possible to the source onto the SCION ne
 In addition to the components mentioned above, there are others that aim at facilitating deployment or at better integrating SCION with existing networks.
 DRKey {{I-D.garciapardo-drkey}} is a SCION extension that provides an Internet-wide key-establishment system allowing any two hosts to efficiently derive a symmetric key. This extension can be leveraged by other components to provide additional security properties.
 For example, LightningFilter {{slides-111-panrg-lightning-filter}} leverages DRKey to provide high-speed packet filtering between trusted SCION ASes.
-The SCION Control Message Protocol (SCMP) provides authenticated error messages and network diagnostics.
 COLIBRI {{GIULIARI2021}} is SCION's inter-domain bandwidth reservation system.
 RHINE (Robust and High-performance Internet Naming for End-to-end security, formerly RAINS) is a secure-by-design naming system that provides a set of desired security, reliability, and performance properties beyond what the DNS security infrastructure offers today. It is further described in chapter 19 of {{CHUAT22}}.
 
