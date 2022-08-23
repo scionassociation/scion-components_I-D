@@ -350,7 +350,7 @@ At the same time, a next-generation Internet architecture should not suffer from
 The S in SCION, indeed, stands for scalability. The architecture proposes a design that is scalable both in the control plane and in the data plane (making secure forwarding efficient).
 
 
-Many research efforts have analysed whether such properties could be achieved by extending the existing Internet architecture. But as described in {{existing-protocols}}, tradeoffs between properties would be unavoidable when exclusively relying on or extending existing protocols.
+Many research efforts have analysed whether such properties could be achieved by extending the existing Internet architecture. But as described in the following paragraphs, tradeoffs between properties would be unavoidable when exclusively relying on or extending existing protocols.
 
 
 # Minimal Stack - Core Components
@@ -423,7 +423,12 @@ Setting up the PKI in a freshly created Isolation Domain requires an initial tru
 As updates to the later roots of trust are automated, this process is in principle only required once.
 
 In addition, certificate verification requires that PKI components can mutually communicate and have coarsely synchronized time.
-Overall, the PKI does not have dependencies on other SCION components.
+
+
+The CP PKI enables the verification of signatures, e.g., on path-segment construction beacons (PCBs).
+It is built on top of a peculiar trust model, where entities are able to select their roots of trust.
+Overall, it constitutes the most independent and self-contained building block, as it could potentially be leveraged by SCION or other protocols.
+Overall, the PKI itself does not have significant dependencies on other SCION components.
 
 ### Relationship to Existing Protocols {#pki-related}
 The CP-PKI is based on certificates that follow the X.509v3 standard {{RFC5280}}. There are already several professional industry-grade implementations.
@@ -447,7 +452,8 @@ Overall, the Control Plane takes an unexplored topology and AS certificates as i
 
 The following section describes the core properties provided by the SCION control plane, its relationships with existing protocols and dependencies on the PKI.
 For an overview of the process to create and disseminate path information, refer to {{I-D.dekater-scion-overview}}, section 1.2.2.
-A full conrtol plane specification is to be described in a dedicated document.
+The control plane is internally formed by multiple sub-components (as the beacon service, responsible for path discovery, and the path service, responsible for path dissemination).
+Processes and interfaces specifications between these sub-components could be topic for one or multiple dedicaetd documents.
 
 ### Provided to Other Components
 In SCION, an end host sending a packet must specify, in the header, the SCION forwarding path the packet takes towards the destination.
@@ -506,7 +512,9 @@ This separation of control and data plane prevents the control plane from cuttin
 
 ### Required Dependencies
 The SCION control plane requires the SCION PKI in order to authenticate path information.
-It relies on per-AS certificates, and on ISD scoped trust roots, in the form of TRCs.
+It heavily relies on the CP-PKI for beaconing (i.e., for authenticating routing information).
+Each Isolation Domain requires its own root of trust, in the form of a TRC, in order to carry out path exploration and dissemination.
+Decoupling the control plane from the CP-PKI would severely affect the properties and guarantees that can be provided by the control plane.
 The concept of ISD is also necessary to organize the routing process into a two-tiered architecture.
 
 TODO: We could mention here that the SCION CP could use another PKI (i.e., the web PKI), if we keep the concept of ISD (tough it would not make sense from a trust perspective). Opninions? I already touch on this topic in {{pki-related}}
@@ -534,21 +542,27 @@ One last point is that several of the SCION control plane properties and key mec
 For example, ISDs are fundamental to achieve transparency, routing scalability, fault isolation, and fast propagation of routing information.
 No existing protocol provides such concept, motivating the existence of the control plane.
 
-## Forwarding - Data Plane {#data-plane}
-SCION is an inter-domain network architecture and as such does not interfere with intra-domain forwarding. This corresponds to the practice today where ASes use an intra-domain protocol of their choice (i.e., OSPF, IS-IS, MPLS, ...).
-SCION therefore re-uses the intra-domain network fabric to provide connectivity among its infrastructure services, border routers, and end hosts, minimising changes to the internal infrastructure.
 
-SCION routers are deployed at the network edge. They receive and validate SCION packets from neighbours, then they use their intra-domain forwarding information to transmit packets to the next border router or SCION end host.
+## Forwarding - Data Plane {#data-plane}
+The SCION data plane is responsible for inter-domain packet forwarding between ASes.
+SCION routers are deployed at their network edge.
+They receive and validate SCION packets from neighbours, then they use their intra-domain forwarding information to transmit packets to the next border router or SCION end host.
 
 SCION packets are at the network layer (layer-3), and the SCION header sits in between the transport and link layer.
-The header contains a variable type and length end-host address, and can therefore carry any address (IPv4, IPv6, ...). In addition, end-host addresses only need to be unique within an AS, and can be, in principle, reused. In early deployments, intra-AS SCION packets are sometimes encapsulated into an IP packet, for backwards compatibility.
+The header contains a variable type and length end-host address, and can therefore carry any address (IPv4, IPv6, ...).
+In addition, end-host addresses only need to be unique within an AS, and can be, in principle, reused.
+In early deployments, intra-AS SCION packets are sometimes encapsulated into an IP packet, for backwards compatibility.
 
-### Key Properties in Relationship to Existing Protocols {#existing-protocols}
-Thanks to its data plane, SCION achieves properties that are difficult to achieve when exclusively extending existing protocols.
+### Provided to Other Components
+The SCION data plane provides path-aware connectivity to applications.
+The SCION stack on an end host, therefore, takes application requirements as an input (i.e., latency, bandwidth, a list of trusted ASes, ... ), and crafts packets containing an appropriate path to a given destination.
+Exposing capabilities of path-aware networking to upper layers remains an open question.
+As an example, PANAPI (Path-Aware Networking API) {{slides-113-taps-panapi}} aims at making path-awareness and multipath to the transport layer at end hosts.
 
+
+### Key Properties
 - *Path selection.* In SCION, end hosts select inter-domain network paths, rather than routers. The end hosts are empowered to make end-to-end path choices based on application requirements.
 This means that routers do not carry the burden of making enhanced routing or forwarding decisions.
-
 
 - *Scalability.* SCION routers can efficiently forward packets without the need to look up forwarding tables or keeping per-connection state. Routers only need to verify  MACs in hop fields. This operation is based on modern block ciphers such as AES, can be computed faster than performing a memory lookup and is widely supported in modern CPUs.
 Routers, therefore, do not require expensive and energy-intensive dedicated hardware, and can be deployed on off-the-shelf hardware. Lack of forwarding tables also implies that the growing size of forwarding tables is of no concern to SCION. Additionally, routers that keep state of network information can suffer from denial-of-service (DoS) attacks exhausting the router’s state {{SCHUCHARD2011}}, which is less of a problem to SCION.
@@ -569,6 +583,34 @@ In conclusion, in comparison to today's Internet, the SCION's data plane pushes 
 This contributes to creating a data plane that is more efficient and scalable, and that does not require routers with specialised routing table lookup hardware.
 Routers validate network paths so that packets are only forwarded on previously authorized packets.
 
+### Required Dependencies
+The data plane is generally decoupled from the control plane.
+In order to be able to transmit data, end hosts need to fetch path information from their AS control plane.
+In addition, some operations (as path revocation) require the data plane to be able to use an authenticated control-plane mechanism, as SCMP.
+
+Path information is assumed to be fresh and validated by the control plane, which in turns relies on the PKI for validation.
+The data plane, therefore, relies on both the control plane and indirectly on the SCION PKI in order to function.
+
+Should the data plane be used independently, without end-to-end path validation, SCION would loose many of its security properties, which are fundamental in an inter-domain scenario where entities are mutually distrustful.
+As discussed in {{RFC9049}}, lack of authentication has often been the cause for path-aware protocols never being adopted because of security concerns. SCION should avoid such pitfalls and therefore its data plane should rely on the corresponding control plane and control-plane PKI.
+
+
+### Relationship to Existing Protocols
+SCION is an inter-domain network architecture and as such its data plane does not interfere with intra-domain forwarding.
+This corresponds to the practice today where ASes use an intra-domain protocol of their choice (i.e., OSPF, IS-IS, MPLS, ...).
+SCION therefore re-uses the intra-domain network fabric to provide connectivity among its infrastructure services, border routers, and end hosts, minimising changes to the internal infrastructure.
+
+
+Given its path-aware properties, some of SCION's data plane characteristics might seem similar to the ones provided by Segment Routing (SR) {{RFC8402}}.
+There are, however, fundamental differences that distinguish and motivate SCION.
+The most salient one is that Segment Routing is designed to be deployed across a single trusted domain. SR therefore does not focus on security, which remains an open question, as outlined in {{I-D.spring-srv6-security-consideration}}.
+SCION, instead, is designed from the start to facilitate inter-domain communication between (potentially mutually distrustful) entities. It comes, therefore, with built-in security measures to prevent attacks (i.e., authenticating all control-plane messages and all critical fields in the data-plane header).
+Rather than competing, SCION and SR complement each other.
+SCION relies on existing intra-domain routing protocols, therefore SR can be one of the possible intra-domain forwarding mechanisms.
+A possible integration of its path-aware properties remains for now an open question.
+
+
+In conclusion, thanks to its data plane, SCION achieves properties that are difficult to achieve when exclusively extending existing protocols.
 
 # Additional Components
 This document mainly focuses on describing the fundamental components needed to run a minimal SCION network.
@@ -601,7 +643,7 @@ Traffic is therefore routed as close as possible to the source onto the SCION ne
 
 ## Extensions and Other Components
 
-In addition to the components mentioned above, there are others that aim at facilitating deployment or at better integrating SCION with existing networks. As an example, PANAPI (Path-Aware Networking API) {{slides-113-taps-panapi}} aims at making path-awareness and multipath to the transport layer at end hosts.
+In addition to the components mentioned above, there are others that aim at facilitating deployment or at better integrating SCION with existing networks.
 DRKey {{I-D.garciapardo-drkey}} is a SCION extension that provides an Internet-wide key-establishment system allowing any two hosts to efficiently derive a symmetric key. This extension can be leveraged by other components to provide additional security properties.
 For example, LightningFilter {{slides-111-panrg-lightning-filter}} leverages DRKey to provide high-speed packet filtering between trusted SCION ASes.
 The SCION Control Message Protocol (SCMP) provides authenticated error messages and network diagnostics.
@@ -612,55 +654,12 @@ These additional components are briefly mentioned here in order to provide addit
 As extensions, they build upon the three SCION core components described earlier in this document.
 They are therefore unlikely to be the first components being standardised.
 
-# Related Work
-A question that is often asked is whether SCION could simply reuse or extend existing protocols.
-This section tries to clarify this question, giving an overview of the relationships between SCION and other approaches.
-This section discusses what properties can be achieved by extending existing protocols, already deployed in the wild, and what properties can only be achieved with an approach like SCION.
 
+# Component Dependencies Overview
+Each core component's requirement and dependencies were discussed in the previous paragraphs.
+This section briefly summarises the dependencies between SCION's core components, with the goal of facilitating a discussion on whether it is possible to implement each of SCION's core components on its own, independently from other core components.
 
-
-## SCION and Segment Routing
-Given its path-aware properties, some of SCION's characteristics might seem similar to the ones provided by Segment Routing (SR) {{RFC8402}}. There are, however, fundamental differences that distinguish and motivate SCION. The most salient one is that Segment Routing is designed to be deployed across a single trusted domain. SR therefore does not focus on security, which remains an open question, as outlined in {{I-D.spring-srv6-security-consideration}}.
-SCION, instead, is designed from the start to facilitate inter-domain communication between (potentially mutually distrustful) entities. It comes, therefore, with built-in security measures to prevent attacks (i.e., authenticating all control-plane messages and all critical fields in the data-plane header).
-Rather than competing, SCION and SR complement each other.
-SCION relies on existing intra-domain routing protocols, therefore SR can be one of the possible intra-domain forwarding mechanisms.
-A possible integration of its path-aware properties remains for now an open question.
-
-## SCION and LISP
-TODO: write a short paragraph
-
-
-## SCION and Other Routing Approaches
-
-
-# Dependency Analysis
-
-This section briefly discusses dependencies between SCION's core components, with the goal of facilitating a discussion on whether it is possible to implement each of SCION's core components on its own, independently from other core components.
-
-- *Control-plane PKI.*
-The CP PKI enables the verification of signatures, e.g., on path-segment construction beacons (PCBs).
-As discussed in {{pki}}, it is built on top of a peculiar trust model, where entities are able to select their roots of trust.
-Overall, it constitutes the most independent and self-contained building block, as it could potentially be leveraged by SCION or other protocols.
-The PKI itself does not have significant dependencies on other SCION components, therefore it could represent a good starting point for standardisation.
-Its unique trust properties, interfaces, and processes (as voting), could be a good candidate for a first draft.
-TODO: update with link to other draft.
-
-- *Control plane.*
-  The SCION control plane is built around the concept of Isolation Domains, being the routing process divided into an intra- and inter-ISD one.
-  It heavily relies on the CP-PKI for beaconing (i.e., for authenticating routing information).
-  Each Isolation Domain requires its own root of trust in order to carry out path exploration and dissemination.
-  Decoupling the control plane from the CP-PKI would severely affect the properties and guarantees that can be provided by the control plane.
-  The control plane could, therefore, be specified in parallel with the CP-PKI.
-  The control plane is internally formed by multiple sub-components (as the beacon service, responsible for path discovery, and the path service, responsible for path dissemination).
-  Processes and interfaces between these sub-components could be topic for one or multiple drafts.
-
-- *Data plane.*
-  In order to be able to transmit data, end hosts need to fetch path information from their AS control plane, as discussed in {{data-plane}}.
-  In addition, the SCION data plane requires that hosts validate paths, and that routers authenticate path information at each hop.
-  This authentication mechanism relies on the control-plane PKI. It is what allows SCION to distinguish itself from other proposals, gaining many of the security and availability proprieties discussed earlier.
-  The data plane, therefore, relies on both the control plane and the control-plane PKI in order to function.
-  Should the data plane be used independently, without end-to-end path validation, SCION would loose many of its security properties, which are fundamental in an inter-domain scenario where entities are mutually distrustful.
-  As discussed in {{RFC9049}}, lack of authentication has often been the cause for path-aware protocols never being adopted because of security concerns. SCION should avoid such pitfalls and therefore its data plane should rely on the corresponding control plane and control-plane PKI.
+TODO: maybe I could add an ASCII art like my slide 10 from the IETF presentation. That would be an overview of which component uses which other.
 
 
 # Conclusions
