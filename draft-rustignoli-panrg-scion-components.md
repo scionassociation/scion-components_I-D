@@ -40,7 +40,6 @@ informative:
   RFC6830:
   RFC8210:
   SCHUCHARD2011: DOI.10.1145/1866307.1866411
-  BIRGLEE2022: DOI.10.48550/arXiv.2206.06879
 
   I-D.dekater-scion-overview:
     title: SCION Overview
@@ -59,6 +58,7 @@ informative:
         ins: A. Perrig
         name: Adrian Perrig
         org: ETH Zuerich
+
   I-D.dekater-scion-pki:
     title: SCION Overview
     date: 2022
@@ -76,6 +76,7 @@ informative:
         ins: A. Perrig
         name: Adrian Perrig
         org: ETH Zuerich
+
   I-D.rtgwg-net2cloud-problem-statement:
     title: SCION Overview
     date: 2022
@@ -107,15 +108,7 @@ informative:
         ins: H. Tian
       -
         ins: J. Mao
-  I-D.irtf-introduction-to-semantic-routing:
-    title: An Introduction to Semantic Routing
-    date: 2022
-    target: https://datatracker.ietf.org/doc/draft-li-spring-srv6-security-consideration/
-    author:
-      -
-        ins:  A. Farrel
-      -
-        ins:  D. King
+
   slides-113-taps-panapi:
     title: PANAPI, a Path-Aware Networking API
     date: 2022
@@ -153,18 +146,6 @@ informative:
         ins: A. Perrig
         name: Adrian Perrig
         org: ETH Zuerich
-
-  I-D.trossen-routing-beyond-reachability:
-    title: Continuing to Evolve Internet Routing Beyond 'Mere' Reachability
-    date: 2022
-    target: https://datatracker.ietf.org/doc/draft-trossen-rtgwg-routing-beyond-reachability/
-    author:
-      -
-        ins: 	D. Trossen
-      -
-        ins:  D. Lou
-      -
-        ins: S. Jiang
 
   FCC2022:
     title: Notice of Inquiry on Secure Internet Routing
@@ -237,6 +218,38 @@ informative:
          name: Adrian Perrig
          org: ETH Zuerich
 
+  BIRGLEE2022:
+     title: "Creating a Secure Underlay for the Internet"
+     date: 2022
+     target: https://www.usenix.org/conference/usenixsecurity22/presentation/birge-lee
+     author:
+       -
+         ins: H. Birge-Lee
+         org: Princeton University
+       -
+         ins: J. Wanner
+         org: ETH Zuerich
+       -
+         ins: G. H. Cimaszewski
+         org: Princeton University
+       -
+         ins: J. Kwon
+         org: ETH Zuerich
+       -
+         ins: L. Wang
+         org: Princeton University
+       -
+         ins: F. Wirz
+         org: ETH Zuerich
+       -
+         ins: P. Mittal
+         org: Princeton University
+       -
+         ins: A. Perrig
+         org: ETH Zuerich
+       -
+         ins: Y. Sun
+         org: University of Virginia
 
   CHUAT22:
     title: "The Complete Guide to SCION"
@@ -273,6 +286,7 @@ informative:
         ins: A. Perrig
         name: Adrian Perrig
         org: ETH Zuerich
+
   SUPRAJA2021:
     title: "Global Distributed Secure Mapping of Network Addresses"
     date: 2021
@@ -302,6 +316,7 @@ informative:
         ins: A. Perrig
         name: Adrian Perrig
         org: ETH Zuerich
+
   PANRG-INTERIM-Min:
     title: Path Aware Networking Research Group - Interim  106 Minutes
     date: June 2022
