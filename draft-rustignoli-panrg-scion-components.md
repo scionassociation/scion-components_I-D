@@ -394,7 +394,7 @@ Such symmetric keys are used for additional authentication mechanisms for high-r
 As authentication based on digital signatures only scales well for relatively low message rates, using symmetric keys makes sure that the performance requirements for the high message rate of the data plane can be met.
 For more information, refer to the extension draft {{I-D.garciapardo-drkey}}.
 
-
+The trust model and certificates provided could be used not only by the SCION control plane, but also other systems and protocols.
 ### Key Properties
 One might ask why SCION requires its own PKI, rather than reusing some of the existing PKI architectures to issue AS certificates.
 There are several properties that distinguish the CP-PKI from others, and motivate SCION's distinct approach.
@@ -418,24 +418,22 @@ Within an ISD, no single entity is in full control, or owns a cryptographic "kil
 ### Dependencies
 Setting up the PKI in a freshly created Isolation Domain requires an initial trust bootstrapping process among some of the ISD members (i.e. a key exchange ceremony, and manual distribution of the initial ISD trust anchor).
 As updates to the later roots of trust are automated, this process is in principle only required once.
-
 In addition, certificate verification requires that PKI components can mutually communicate and have coarsely synchronized time.
-
 
 The CP PKI enables the verification of signatures, e.g., on path-segment construction beacons (PCBs).
 It is built on top of a peculiar trust model, where entities are able to select their roots of trust.
-Overall, it constitutes the most independent and self-contained building block, as it could potentially be leveraged by SCION or other protocols.
-Overall, the PKI itself does not have significant dependencies on other SCION components.
+It constitutes the most independent and self-contained core component, as it does not have significant dependencies on other SCION components.
 
 ### Relationship to Existing Protocols {#pki-related}
-The CP-PKI is based on certificates that follow the X.509v3 standard {{RFC5280}}. There are already several professional industry-grade implementations.
+The CP-PKI is based on certificates that use the X.509v3 standard {{RFC5280}}. There are already several professional industry-grade implementations.
 
 The SCION trust model differs from existing PKIs in two ways.
 First, no entity is globally omnipotent, as Isolation Domains elect their own locally scoped root of trust.
-This property would be lost if SCION were to rely on an existing PKI (i.e., the web PKI, the RPKI, ...).
 Second, changes to the trust roots require a voting process, making governance multilateral and each trust root resilient to the compromise of some of its keys.
-RPKI's trust model follows the same structure as the IP allocation hierarchy, where the five RIRs run a CA.
-This clashes with the trust model required for SCION's Isolation Domains, therefore the SCION control plane would not be able to leverage RPKI instead of the CP-PKI.
+
+These properties would be lost if SCION were to rely on an existing PKI (i.e., the web PKI, the RPKI, ...).
+For example, if SCION were to use the RPKI instead of the CP-PKI, the control plane would lack the trust model required for Isolation Domains.
+This is because RPKI's trust model follows the same structure as the IP allocation hierarchy, where the five RIRs represent the trust roots.
 Within SCION, RPKI is instead used to secure some of its transition mechanisms, as later explained in {{transition-mechanisms}}.
 
 
@@ -513,12 +511,14 @@ This separation of control and data plane prevents the control plane from cuttin
 
 ### Dependencies
 The SCION control plane requires the control-plane PKI to authenticate path information.
-It heavily relies on the CP-PKI for beaconing (i.e., for authenticating routing information).
+It heavily relies on certificates provided by the CP-PKI for beaconing (i.e., for authenticating routing information).
 Each Isolation Domain requires its own root of trust, in the form of a TRC, in order to carry out path exploration and dissemination.
-Decoupling the control plane from the CP-PKI would severely affect the properties and guarantees that can be provided by the control plane.
-The concept of ISD is also necessary to organize the routing process into a two-tiered architecture.
 
-TODO: We could mention here that the SCION CP could use another PKI (i.e., the web PKI), if we keep the concept of ISD (tough it would not make sense from a trust perspective). Opinions? I already touch on this topic in {{pki-related}}
+While in principle the control plane could use certificates provided by another PKI, it would be severely affected by a lack of the ISD concept.
+All security properties related to the trust model would be affected.
+The concept of ISD is also necessary for scalability and fault isolation to organize the routing process into a two-tiered architecture.
+
+In conclusion, the control plane depends on the CP-PKI. If it were to be used with another PKI, it would loose several if its fundamental properties.
 
 ### Relationship to Existing Protocols
 At first sight, it might seem that the SCION control plane takes care of similar duties as existing routing protocols.
