@@ -387,7 +387,7 @@ The PKI makes trust information available to the control plane through two eleme
 * *Trust Root Configuration (TRC)*: The PKI provides well-defined per-ISD trust policies, in the form of a per-ISD Trust Root Configuration (TRC).
 The TRC contains the ISD trust roots, and it is co-signed by multiple entities in a multilateral process called voting.
 
-* *AS certificates*: For each Autonomous System that is part of an ISD, the PKI provides an AS certificate that is used by other components for authentication. It also provides a validation path up to the ISD trust root.
+* *AS certificates*: For each Autonomous System that is part of an ISD, the PKI provides an AS certificate that is used by other components for authentication. It also provides a validation path up to the ISD trust root, through intermediate CA certificates.
 
 SCION CP-PKI comprises an optional extension called DRKey, which enables efficient symmetric key derivation between any two entities in possession of AS certificates.
 Such symmetric keys are used for additional authentication mechanisms for high-rate data-plane traffic and some control messages.
@@ -455,16 +455,21 @@ The control plane is internally formed by multiple sub-components (as the beacon
 Processes and interfaces specifications between these sub-components could be topic for one or multiple dedicated documents.
 
 ### Provided to Other Components
-In SCION, an end host sending a packet must specify, in the header, the SCION forwarding path the packet takes towards the destination.
+In SCION, an end host sending a packet must specify, in the header, the full SCION forwarding path the packet takes towards the destination.
+This concept is called packet-carried forwarding state (PCFS).
 Rather than having knowledge of the network topology, an end host's data plane relies on the control plane for getting such information.
-The end host stack queries path segments, then it selects one among the multiple provided, and combines them into a full forwarding path to the destination.
+The end host stack queries path segments, then it selects them and combines them into a full forwarding path to the destination.
 
-The control plane is responsible, therefore, for providing an authenticated (multipath) view of the explored global topology to end hosts.
-The "interface" towards the data plane is represented by path segments, that are provided to end hosts and used by SCION routers for forwarding.
+
+The control plane is responsible, therefore, for providing an authenticated (multipath) view of the explored global topology to end hosts (and, int turn, to the data plane).
+In addition, it provides the data plane the ability to send authenticated control messages.
+The "interfaces" towards the data plane are represented by:
+
+* *Path segments*, that are provided to end hosts and used by SCION routers for forwarding.
 Segments are designed so that each AS data plane can independently verify its own segments, while globally achieving full path authorization.
 
-SCION control-plane messages are by default all authenticated, avoiding pitfalls that could possibly prevent deployment, as discussed in {{RFC9049}}.
-The control plane offers the data plane the ability to send such control messages, thanks to the SCION Control Message Protocol (SCMP).
+* *SCMP.* SCION control-plane messages are by default all authenticated, avoiding pitfalls that could possibly prevent deployment, as discussed in {{RFC9049}}.
+In addition to beacons, the control plane offers the SCION Control Message Protocol (SCMP).
 It is analogous to ICMP, and it provides functionality for network diagnostics, such as ping and traceroute, and authenticated error messages that signal packet processing or network layer problems.
 SCMP is the first control message protocol that supports the authentication of network control messages, preventing that unauthenticated control messages can potentially be used to affect or even prevent traffic forwarding.
 SCMP is used, for example, by the data plane to achieve path revocation.
@@ -493,7 +498,7 @@ This facilitated early adoption in the finance industry.
 - *Host addressing agnostic.* SCION decouples routing from end-host addressing: inter-domain routing is based on ISD-AS tuples rather than on end-host addresses.
 This design decision has two outcomes: First of all, SCION can reuse existing host addressing schemes, such as IPv6, IPv4, or others.
 Second, the control plane does not carry prefix information.
-Packets contain hop-by-hop path information so that routers do not need to look up routing tables (avoiding the need for dedicated hardware).
+Thanks to PCFS, packets contain forwarding state, so routers do not need to look up routing tables (avoiding the need for dedicated hardware).
 
 - *Transparency.* SCION end hosts have full visibility of the inter-domain path where their data is forwarded. This is a property that is missing in traditional IP networks, where routing decisions are made by each hop, therefore end hosts have no visibility nor guarantees on where their traffic is going.
 Additionally, SCION users have visibility on the roots of trust that are used to forward traffic. SCION, therefore, makes it harder to redirect traffic through an adversary's vantage point.
@@ -552,7 +557,7 @@ In addition, end-host addresses only need to be unique within an AS, and can be,
 The SCION data plane provides path-aware connectivity to applications.
 The SCION stack on an end host, therefore, takes application requirements as an input (i.e., latency, bandwidth, a list of trusted ASes, ... ), and crafts packets containing an appropriate path to a given destination.
 Exposing capabilities of path-aware networking to upper layers remains an open question.
-As an example, PANAPI (Path-Aware Networking API) {{slides-113-taps-panapi}} aims at making path-awareness and multipath available to the transport layer at end hosts.
+PANAPI (Path-Aware Networking API) {{slides-113-taps-panapi}} is being evaluated as a way of making path-awareness and multipath available to the transport layer at end hosts, using the TAPS abstraction layer.
 
 
 ### Key Properties
@@ -671,3 +676,4 @@ Markus Legner, David Basin, David Hausheer, Samuel Hitz, and Peter
 Mueller, for writing the book "The Complete Guide to SCION"
 [CHUAT22], which provides the background information needed to write
 this document.
+Many thanks also to Francois Wirz for reviewing this document.
