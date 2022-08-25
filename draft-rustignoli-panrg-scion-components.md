@@ -653,17 +653,44 @@ As extensions, they build upon the three SCION core components described earlier
 They are therefore unlikely to be the first components being standardized.
 
 
-# Component Dependencies Overview
-Each core component's requirement and dependencies were discussed in the previous paragraphs.
-This section briefly summarises the dependencies between SCION's core components, to facilitate a discussion on whether it is possible to implement each of SCION's core components on its own, independently from other core components.
+# Component Dependencies Summary
+{{components}} briefly summarises on a high level the dependencies between SCION's core components discussed in the previous paragraphs.
 
-TODO: maybe I could add an ASCII art like my slide 10 from the IETF presentation. That would be an overview of which component uses which other.
+~~~~
 
+                                  * Initial trust ceremony
+                                  * Loose time synchronization
+                                  * Communication
+                  ┌────────────────────────────┐
+                  │     Control Plane PKI      │
+                  └────────────────────────────┘
+                                 │ * TRC
+                                 ▼ * AS Certificates
+                  ┌────────────────────────────┐
+                  │       Control Plane        │
+                  └────────────────────────────┘
+                                 │ * Path segments
+                                 ▼ * SCMP
+                  ┌────────────────────────────┐
+                  │         Data Plane         │
+                  └────────────────────────────┘
+                                 │ * Secure  inter-domain paths
+                                 ▼ to destination
+                  ┌────────────────────────────┐
+                  │  Applications on end host  │
+                  └────────────────────────────┘
+~~~~
+{: #components title="Dependencies overview"}
+
+Overall, the control plane PKI represents the most independent building block, as it does not rely on other SCION components.
+The control plane relies on the trust model and on certificate material provided by the PKI.
+It provides the data plane with path segments, that are then used at forwarding, and with SCMP, that is used for secure error messages.
+The data plane makes multipath communication available to applications on SCION end hosts.  
 
 # Conclusions
 This document describes the three fundamental SCION core components, together with their properties and dependencies.
 It highlights how such components allow SCION to provide unique properties. It then discusses how the main components are interlinked, to foster a discussion on the standardization of key components.
-As this document is an early draft, the authors welcome feedback from the IETF community for future iterations.
+The authors welcome feedback from the IETF community for future iterations.
 
 
 --- back
