@@ -307,7 +307,7 @@ SCION is an inter-domain Internet architecture that focuses on security and avai
 This document analyzes its core components from a functionality perspective, describing their dependencies, outputs, and properties provided.
 The goal is to answer the following questions:
 
-* What are the main components of SCION and their dependencies? Can they be used independently or be split?
+* What are the main components of SCION and their dependencies? Can they be used independently?
 
 * What existing protocols are reused or extended? Why (or why not)?
 
@@ -394,7 +394,7 @@ In the SCION CP-PKI, trust is locally scoped within each ISD, and the capabiliti
 
 - *Resilience to compromised entities and keys.* Compromised or malicious trust roots outside an ISD cannot affect operations that stay within that ISD. Moreover, as trust roots (in the form of a TRC) can only be updated through a voting process, each ISD can be configured to withstand the compromise of a number of its root keys.
 
-- *Multilateral governance.* The voting mechanism mentioned above makes sure that fundamental changes to the trust policies only happen with the consent of multiple entities administering an ISD.
+- *Multilateral governance.* The voting mechanism mentioned above makes sure that fundamental changes to the trust policies are only allowed with the consent of multiple entities administering an ISD.
 Within an ISD, no single entity is in full control, or owns a cryptographic "kill-switch".
 
 - *Support for versioning & updates.* Trust within an ISD is normally bootstrapped with an initial ceremony. Subsequent updates to the root of trust (TRC) are handled automatically. The PKI design makes sure that certificate rollover can be automated so that certificates can be rotated frequently (e.g., every few days for AS certificates).
@@ -536,8 +536,8 @@ In addition, LISP security proposals focus on protecting identifier to locator m
 Lastly, identifier to locator mapping in SCION not part of the core components, rather it is left to some of its transition mechanisms, later described in {{transition-mechanisms}}.
 
 
-The above-mentioned decoupling also implies that SCION does not provide, by design, IP authorization, which is currently provided by RPKI {{RFC8210}}.
-As IP authorization is outside of SCION's scope, IP-to-SCION's coexistence mechanisms (SIAM, SBAS) later discussed in {{transition-mechanisms}} build on top of RPKI for IP origin attestation.
+The above-mentioned decoupling also implies that SCION does not provide, by design, IP prefix origin validation, which is currently provided by RPKI {{RFC8210}}.
+As prefix origin validation is outside of SCION's scope, IP-to-SCION's coexistence mechanisms (SIAM, SBAS) later discussed in {{transition-mechanisms}} build on top of RPKI for IP origin attestation.
 
 Additionally, the SCION control plane design takes into account some of the lessons learned discussed in {{RFC9049}}: It does not try to outperform end-to-end mechanisms, as path selection is performed by end hosts. SCION, therefore, can leverage existing end-to-end mechanisms to switch paths, rather than compete with them. In addition, no single component in the architecture needs to keep connection state, as this task is pushed to end hosts.
 
@@ -592,7 +592,8 @@ As discussed in {{RFC9049}}, lack of authentication has often been the cause for
 ### Provided to Other Components
 The SCION data plane provides path-aware connectivity to applications.
 The SCION stack on an end host, therefore, takes application requirements as an input (i.e., latency, bandwidth, a list of trusted ASes, ... ), and crafts packets containing an appropriate path to a given destination.
-Exposing capabilities of path-aware networking to upper layers remains an open question.
+
+How to expose capabilities of path-aware networking to upper layers remains an open question.
 PANAPI (Path-Aware Networking API) {{slides-113-taps-panapi}} is being evaluated as a way of making path-awareness and multipath available to the transport layer at end hosts, using the TAPS abstraction layer.
 
 ### Relationship to Existing Protocols
@@ -621,7 +622,7 @@ For the sake of completeness, this paragraph briefly mentions some of these tran
 ## Transition Mechanisms {#transition-mechanisms}
 As presented in {{I-D.dekater-scion-overview}}, incremental deployability is a focus area of SCION's design.
 It comprises transition mechanisms that allow partial deployment and coexistence with existing protocols.
-These mechanisms require different levels of changes in existing systems and have different maturity levels (from research to production).
+These mechanisms require different levels of changes in existing systems and have different maturity levels (from production-grade to research prototype).
 Rather than describing how each mechanism works, this document provides a short summary of each approach, focusing on its functions and properties, as well as on how it reuses, extends, or interacts with existing protocols.
 
 - *SCION-IP-Gateway (SIG).* A SCION-IP-Gateway (SIG) encapsulates regular IP packets into SCION packets with a corresponding SIG at the destination that performs the decapsulation.
@@ -644,13 +645,12 @@ Traffic is therefore routed as close as possible to the source onto the SCION ne
 
 ## Extensions and Other Components
 
-In addition to transition mechanisms, there are other proposed extensions.
+In addition to transition mechanisms, there are other proposed extensions, that build upon the three SCION core components described earlier in this document.
 DRKey {{I-D.garciapardo-drkey}} is a SCION extension that provides an Internet-wide key-establishment system allowing any two hosts to efficiently derive a symmetric key. This extension can be leveraged by other components to provide additional security properties.
 For example, LightningFilter {{slides-111-panrg-lightning-filter}} leverages DRKey to provide high-speed packet filtering between trusted SCION ASes.
 COLIBRI {{GIULIARI2021}} is SCION's inter-domain bandwidth reservation system.
 These additional components are briefly mentioned here in order to provide additional context.
-As extensions, they build upon the three SCION core components described earlier in this document.
-They are therefore unlikely to be the first components being standardized.
+They are therefore unlikely to be the best candidates for future IETF work.
 
 
 # Component Dependencies Summary
@@ -703,4 +703,4 @@ Markus Legner, David Basin, David Hausheer, Samuel Hitz, and Peter
 Mueller, for writing the book "The Complete Guide to SCION"
 [CHUAT22], which provides the background information needed to write
 this document.
-Many thanks also to Francois Wirz and Juan A. Garcia-Pardo for reviewing this document.
+Many thanks also to François Wirz and Juan A. Garcia-Pardo for reviewing this document.
