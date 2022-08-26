@@ -528,14 +528,15 @@ The SCION control plane was designed to carry out inter-domain routing, while in
 Existing IGPs are used within an AS, allowing the reuse of existing intra-domain routing infrastructure and reducing the amount of changes required for deployment.
 
 End-host addressing is decoupled from routing.
-Similar to LISP {{RFC6830}}, SCION's routing is based on locator (an ISD-AS tuple), and not on host identifier (e.g., IPv6, IPv4).
-While this approach might seem similar to the one adopted by LISP, there are notable differences.
-SCION provides secure multipath routing and brings many security properties for inter-domain forwarding.
-LISP, instead, builds on top of IP for inter-domain forwarding, making it difficult to achieve similar properties.
+Similar to LISP {{RFC6830}}, SCION separates routing, that is based on locator (an ISD-AS tuple), and host identifiers (e.g., IPv6, IPv4, ...).
+While the two architectures have this concept in common, there are notable differences.
+SCION brings improvements to inter-domain routing and provides secure multipath, while LISP provides a framework to build overlays on top of the existing Internet.
+In addition, LISP security proposals focus on protecting identifier to locator mappings, while SCION focuses on securing inter-domain routing.
+Lastly, identifier to locator mapping in SCION not part of the core components, rather it is left to some of its transition mechanisms, later described in {{transition-mechanisms}}.
 
-The above mentioned decoupling also implies that SCION does not provide, by design, IP  authorization.
-This property is currently provided in  {{RFC8210}}.
-As IP  authorization is outside of SCION's scope, IP-to-SCION's coexistence mechanisms (SIAM, SBAS) later discussed in {{transition-mechanisms}} build on top of RPKI for IP origin attestation.
+
+The above mentioned decoupling also implies that SCION does not provide, by design, IP authorization, which is currently provided by RPKI {{RFC8210}}.
+As IP authorization is outside of SCION's scope, IP-to-SCION's coexistence mechanisms (SIAM, SBAS) later discussed in {{transition-mechanisms}} build on top of RPKI for IP origin attestation.
 
 Additionally, the SCION control plane design takes into account some of the lessons learned discussed in {{RFC9049}}: It does not try to outperform end-to-end mechanisms, as path selection is performed by end hosts. SCION, therefore, can leverage existing end-to-end mechanisms to switch paths, rather than compete with them. In addition, no single component in the architecture needs to keep connection state, as this task is pushed to end hosts.
 
@@ -685,7 +686,7 @@ They are therefore unlikely to be the first components being standardized.
 Overall, the control plane PKI represents the most independent building block, as it does not rely on other SCION components.
 The control plane relies on the trust model and on certificate material provided by the PKI.
 It provides the data plane with path segments, that are then used at forwarding, and with SCMP, that is used for secure error messages.
-The data plane makes multipath communication available to applications on SCION end hosts.  
+The data plane makes multipath communication available to applications on SCION end hosts.
 
 # Conclusions
 This document describes the three fundamental SCION core components, together with their properties and dependencies.
