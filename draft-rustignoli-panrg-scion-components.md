@@ -381,20 +381,6 @@ The verification of messages relies on a public-key infrastructure (PKI) called 
 It consists of a set of mechanisms, roles, and policies related to the management and usage of certificates, which enables the verification of signatures of, e.g., path-segment construction beacons (PCBs).
 A detailed specification of the PKI is available in {{I-D.dekater-scion-pki}}.
 
-### Provided to Other Components
-The PKI makes trust information available to the control plane through two elements:
-
-* *Trust Root Configuration (TRC)*: The PKI provides well-defined per-ISD trust policies, in the form of a per-ISD Trust Root Configuration (TRC).
-The TRC contains the ISD trust roots, and it is co-signed by multiple entities in a multilateral process called voting.
-
-* *AS certificates*: For each Autonomous System that is part of an ISD, the PKI provides an AS certificate that is used by other components for authentication. It also provides a validation path up to the ISD trust root, through intermediate CA certificates.
-
-SCION CP-PKI comprises an optional extension called DRKey, which enables efficient symmetric key derivation between any two entities in possession of AS certificates.
-Such symmetric keys are used for additional authentication mechanisms for high-rate data-plane traffic and some control messages.
-As authentication based on digital signatures only scales well for relatively low message rates, using symmetric keys makes sure that the performance requirements for the high message rate of the data plane can be met.
-For more information, refer to the extension draft {{I-D.garciapardo-drkey}}.
-
-The trust model and certificates provided could be used not only by the SCION control plane, but also other systems and protocols.
 ### Key Properties
 One might ask why SCION requires its own PKI, rather than reusing some of the existing PKI architectures to issue AS certificates.
 There are several properties that distinguish the CP-PKI from others, and motivate SCION's distinct approach.
@@ -424,6 +410,21 @@ The CP PKI enables the verification of signatures, e.g., on path-segment constru
 It is built on top of a peculiar trust model, where entities are able to select their roots of trust.
 It constitutes the most independent and self-contained core component, as it does not have significant dependencies on other SCION components.
 
+### Provided to Other Components
+The PKI makes trust information available to the control plane through two elements:
+
+* *Trust Root Configuration (TRC)*: The PKI provides well-defined per-ISD trust policies, in the form of a per-ISD Trust Root Configuration (TRC).
+The TRC contains the ISD trust roots, and it is co-signed by multiple entities in a multilateral process called voting.
+
+* *AS certificates*: For each Autonomous System that is part of an ISD, the PKI provides an AS certificate that is used by other components for authentication. It also provides a validation path up to the ISD trust root, through intermediate CA certificates.
+
+SCION CP-PKI comprises an optional extension called DRKey, which enables efficient symmetric key derivation between any two entities in possession of AS certificates.
+Such symmetric keys are used for additional authentication mechanisms for high-rate data-plane traffic and some control messages.
+As authentication based on digital signatures only scales well for relatively low message rates, using symmetric keys makes sure that the performance requirements for the high message rate of the data plane can be met.
+For more information, refer to the extension draft {{I-D.garciapardo-drkey}}.
+
+The trust model and certificates provided could be used not only by the SCION control plane, but also other systems and protocols.
+
 ### Relationship to Existing Protocols {#pki-related}
 The CP-PKI is based on certificates that use the X.509v3 standard {{RFC5280}}. There are already several professional industry-grade implementations.
 
@@ -451,26 +452,6 @@ The following section describes the core properties provided by the SCION contro
 For an overview of the process to create and disseminate path information, refer to {{I-D.dekater-scion-overview}}, section 1.2.2.
 The control plane is internally formed by multiple sub-components (as the beacon service, responsible for path discovery, and the path service, responsible for path dissemination).
 Processes and interfaces specifications between these sub-components could be topic for one or multiple dedicated documents.
-
-### Provided to Other Components
-In SCION, an end host sending a packet must specify, in the header, the full SCION forwarding path the packet takes towards the destination.
-This concept is called packet-carried forwarding state (PCFS).
-Rather than having knowledge of the network topology, an end host's data plane relies on the control plane for getting such information.
-The end host stack queries path segments, then it selects them and combines them into a full forwarding path to the destination.
-
-
-The control plane is responsible, therefore, for providing an authenticated (multipath) view of the explored global topology to end hosts (and, int turn, to the data plane).
-In addition, it provides the data plane the ability to send authenticated control messages.
-The "interfaces" towards the data plane are represented by:
-
-* *Path segments*, that are provided to end hosts and used by SCION routers for forwarding.
-Segments are designed so that each AS data plane can independently verify its own segments, while globally achieving full path authorization.
-
-* *SCMP.* SCION control-plane messages are by default all authenticated, avoiding pitfalls that could possibly prevent deployment, as discussed in {{RFC9049}}.
-In addition to beacons, the control plane offers the SCION Control Message Protocol (SCMP).
-It is analogous to ICMP, and it provides functionality for network diagnostics, such as ping and traceroute, and authenticated error messages that signal packet processing or network layer problems.
-SCMP is the first control message protocol that supports the authentication of network control messages, preventing that unauthenticated control messages can potentially be used to affect or even prevent traffic forwarding.
-SCMP is used, for example, by the data plane to achieve path revocation.
 
 ### Key Properties
 - *Massively multipath.* When exploring paths through beaconing, SCION ASes can select PCBs according to their policies, and register the corresponding path segments, making them available to other ASes and end hosts.
@@ -520,6 +501,26 @@ The concept of ISD is also necessary for scalability and fault isolation to orga
 
 In conclusion, the control plane depends on the CP-PKI. If it were to be used with another PKI, it would loose several if its fundamental properties.
 
+### Provided to Other Components
+In SCION, an end host sending a packet must specify, in the header, the full SCION forwarding path the packet takes towards the destination.
+This concept is called packet-carried forwarding state (PCFS).
+Rather than having knowledge of the network topology, an end host's data plane relies on the control plane for getting such information.
+The end host stack queries path segments, then it selects them and combines them into a full forwarding path to the destination.
+
+
+The control plane is responsible, therefore, for providing an authenticated (multipath) view of the explored global topology to end hosts (and, int turn, to the data plane).
+In addition, it provides the data plane the ability to send authenticated control messages.
+The "interfaces" towards the data plane are represented by:
+
+* *Path segments*, that are provided to end hosts and used by SCION routers for forwarding.
+Segments are designed so that each AS data plane can independently verify its own segments, while globally achieving full path authorization.
+
+* *SCMP.* SCION control-plane messages are by default all authenticated, avoiding pitfalls that could possibly prevent deployment, as discussed in {{RFC9049}}.
+In addition to beacons, the control plane offers the SCION Control Message Protocol (SCMP).
+It is analogous to ICMP, and it provides functionality for network diagnostics, such as ping and traceroute, and authenticated error messages that signal packet processing or network layer problems.
+SCMP is the first control message protocol that supports the authentication of network control messages, preventing that unauthenticated control messages can potentially be used to affect or even prevent traffic forwarding.
+SCMP is used, for example, by the data plane to achieve path revocation.
+
 ### Relationship to Existing Protocols
 At first sight, it might seem that the SCION control plane takes care of similar duties as existing routing protocols.
 While both focus on disseminating routing information, there are substantial differences in their mechanisms and properties offered.
@@ -553,13 +554,6 @@ They receive and validate SCION packets from neighbors, then they use their intr
 SCION packets are at the network layer (layer-3), and the SCION header sits in between the transport and link layer.
 The header contains a variable type and length end-host address, and can therefore carry any address (IPv4, IPv6, ...).
 In addition, end-host addresses only need to be unique within an AS, and can be, in principle, reused.
-
-### Provided to Other Components
-The SCION data plane provides path-aware connectivity to applications.
-The SCION stack on an end host, therefore, takes application requirements as an input (i.e., latency, bandwidth, a list of trusted ASes, ... ), and crafts packets containing an appropriate path to a given destination.
-Exposing capabilities of path-aware networking to upper layers remains an open question.
-PANAPI (Path-Aware Networking API) {{slides-113-taps-panapi}} is being evaluated as a way of making path-awareness and multipath available to the transport layer at end hosts, using the TAPS abstraction layer.
-
 
 ### Key Properties
 - *Path selection.* In SCION, end hosts select inter-domain network paths, rather than routers. The end hosts are empowered to make end-to-end path choices based on application requirements.
@@ -595,6 +589,11 @@ The data plane, therefore, relies on both the control plane and indirectly on th
 Should the data plane be used independently, without end-to-end path validation, SCION would lose many of its security properties, which are fundamental in an inter-domain scenario where entities are mutually distrustful.
 As discussed in {{RFC9049}}, lack of authentication has often been the cause for path-aware protocols never being adopted because of security concerns. SCION should avoid such pitfalls and therefore its data plane should rely on the corresponding control plane and control-plane PKI.
 
+### Provided to Other Components
+The SCION data plane provides path-aware connectivity to applications.
+The SCION stack on an end host, therefore, takes application requirements as an input (i.e., latency, bandwidth, a list of trusted ASes, ... ), and crafts packets containing an appropriate path to a given destination.
+Exposing capabilities of path-aware networking to upper layers remains an open question.
+PANAPI (Path-Aware Networking API) {{slides-113-taps-panapi}} is being evaluated as a way of making path-awareness and multipath available to the transport layer at end hosts, using the TAPS abstraction layer.
 
 ### Relationship to Existing Protocols
 SCION is an inter-domain network architecture and as such its data plane does not interfere with intra-domain forwarding.
