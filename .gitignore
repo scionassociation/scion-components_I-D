@@ -14,3 +14,4 @@ draft-rustignoli-panrg-scion-components.xml
 lib
 report.xml
 venv/
+.DS_Store
