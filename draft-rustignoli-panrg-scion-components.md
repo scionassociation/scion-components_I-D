@@ -39,6 +39,8 @@ informative:
   RFC5280:
   RFC6830:
   RFC8210:
+  RFC8200:
+  RFC7911:
   SCHUCHARD2011: DOI.10.1145/1866307.1866411
 
   I-D.dekater-scion-overview:
@@ -596,7 +598,10 @@ PANAPI (Path-Aware Networking API) {{slides-113-taps-panapi}} is being evaluated
 SCION is an inter-domain network architecture and as such its data plane does not interfere with intra-domain forwarding.
 It re-uses the existing intra-domain data and control plane to provide connectivity among its infrastructure services, border routers, and endpoints, minimizing changes to the internal infrastructure.
 This corresponds to the practice today where ASes use an intra-domain protocol of their choice (i.e., OSPF, IS-IS, MPLS, ...).
-For example, in some of the early deployments, intra-AS SCION packets are encapsulated into an IP/UDP datagram, reusing the network's existing IGP and IP-based data plane.
+
+In SCION's curret implementation and early deployments, intra-AS SCION packets are encapsulated into an IP/UDP datagram for AS-local packet delivery, reusing the network's existing IGP and IP-based data plane inside an AS.
+This design decision eased early deployments of SCION in IP-based networks.
+In the long term, it is not excluded that SCION's dataplane could be better integrated with IP, by implementing it as an IPv6 routing header {{rfc8200}}.
 
 
 Given its path-aware properties, some of SCION's data plane characteristics might seem similar to the ones provided by Segment Routing (SR) {{RFC8402}}.
