@@ -20,13 +20,13 @@ venue:
 author:
  -   ins: N. Rustignoli
      name: Nicola Rustignoli
-     org: ETH Zürich
-     email: nicola.rustignoli@inf.ethz.ch
+     org: SCION Association
+     email: nic@scion.org
 
  -   ins: C. de Kater
      name: Corine de Kater
-     org: ETH Zürich
-     email: corine.dekatermuehlhaeuser@inf.ethz.ch
+     org: SCION Association
+     email:  cdk@scion.org
 
 normative:
 
@@ -49,33 +49,29 @@ informative:
       -
         ins: C. de Kater
         name: Corine de Kater
-        org: ETH Zürich
+        org: SCION Association
       -
         ins: N. Rustignoli
         name: Nicola Rustignoli
-        org: ETH Zürich
+        org: SCION Association
       -
         ins: A. Perrig
         name: Adrian Perrig
         org: ETH Zürich
 
   I-D.dekater-scion-pki:
-    title: SCION Overview
+    title: SCION PKI
     date: 2022
     target: https://datatracker.ietf.org/doc/draft-dekater-scion-pki/
     author:
       -
         ins: C. de Kater
         name: Corine de Kater
-        org: ETH Zürich
+        org: SCION Association
       -
         ins: N. Rustignoli
         name: Nicola Rustignoli
-        org: ETH Zürich
-      -
-        ins: A. Perrig
-        name: Adrian Perrig
-        org: ETH Zürich
+        org: SCION Association
 
   I-D.spring-srv6-security-consideration:
     title: Security Considerations for SRv6 Networks
@@ -326,12 +322,12 @@ It focuses on describing its dependencies, outputs, functionality, and propertie
 It then touches on relationships to existing protocols.
 The goal is not to describe each component's specification, but to illustrate the engineering decisions that made SCION what it is and to provide a basis for further discussions and work.
 
-Before reading this document, please refer to {{I-D.dekater-scion-overview}} for a generic overview of SCION and its components, the problems it solves, and existing deployments. For an in-depth description of SCION, refer to {{CHUAT22}}.
+Before reading this document, please refer to {{I-D.dekater-scion-overview}} for a generic overview of SCION and its components, the problems it solves, and existing deployments. Each component is to be described in-depth in dedicated drafts: see {{I-D.dekater-scion-pki}} for the SCION PKI specification, and refer to {{CHUAT22}} for other components.
 
 ## Design Goals
 SCION was created from the start with the intention to provide the following properties for inter-domain communication.
 
-- *Availability*. SCION aims to provide highly available communication. Its focus is not only on handling failures (both on the last hop or anywhere along the path) but also on allowing communication in the presence of adversaries.
+- *Availability*. SCION aims to provide highly available communication. Its focus is not only on quickly handling failures (both on the last hop or anywhere along the path) but also on allowing communication in the presence of adversaries.
 Availability is fundamental as applications move to cloud data centers, and enterprises increasingly rely on the Internet for mission-critical communication.
 
 - *Security*. SCION comes with an arsenal of mechanisms, designed by security researchers with the goal of making most network-based and routing attacks either impossible or easy to mitigate.
@@ -356,13 +352,13 @@ To establish end-to-end connectivity, SCION relies on three main components.
 
 * PKI: it handles cryptographic material and provides a unique trust model.
 
-Each SCION AS deploys all of the three components above.
+A SCION network is formed of multiple interconnected administrative domains, called SCION autonomous systems (AS). Each AS deploys all of the three components above.
 Implementations of all of the above components are deployed in production (e.g., they are in use within the SSFN, the Swiss Finance Network). There are commercial implementations (including a high-performance data plane).
 
-When a packet is sent through a SCION network, it is forwarded between ASes by SCION data plane. It authenticates packets at each hop.
-The control plane is responsible for discovering and disseminating routing information. Path discovery is performed by each autonomous system (AS) thanks to an authenticated path-exploration mechanism called beaconing.
-SCION end hosts query their respective AS control plane and obtain authenticated and authorized network paths, in the form of path segments.
-End hosts select one or more of the end-to-end network paths, based on the application requirements (i.e., latency). End hosts then craft SCION packets containing the end-to-end path to the destination.
+A SCION packet is sent through a SCION network by SCION endpoints (i.e., an end host). It is then forwarded between ASes by the SCION data plane, which authenticates packets at each hop.
+The control plane is responsible for discovering and disseminating routing information. Path discovery is performed by each AS thanks to an authenticated path-exploration mechanism called beaconing.
+SCION endpoints query their respective AS control plane and obtain authenticated and authorized network paths, in the form of path segments.
+Endpoints select one or more of the end-to-end network paths, based on the application requirements (i.e., latency). Endpoints then craft SCION packets containing the end-to-end path to the destination.
 
 The control plane relies on the control-plane PKI (CP-PKI) for authentication (e.g., of path segments).
 SCION's authentication mechanisms aim at protecting the whole end-to-end path at each hop.
