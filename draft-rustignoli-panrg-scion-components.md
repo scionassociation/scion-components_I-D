@@ -601,7 +601,7 @@ This corresponds to the practice today where ASes use an intra-domain protocol o
 
 In SCION's curret implementation and early deployments, intra-AS SCION packets are encapsulated into an IP/UDP datagram for AS-local packet delivery, reusing the network's existing IGP and IP-based data plane inside an AS.
 This design decision eased early deployments of SCION in IP-based networks.
-In the long term, it is not excluded that SCION's dataplane could be better integrated with IP, by implementing it as an IPv6 routing header {{rfc8200}}.
+In the long term, it is not excluded that SCION's dataplane could be better integrated with IP, by implementing it as an IPv6 routing header {{RFC8200}}.
 
 
 Given its path-aware properties, some of SCION's data plane characteristics might seem similar to the ones provided by Segment Routing (SR) {{RFC8402}}.
