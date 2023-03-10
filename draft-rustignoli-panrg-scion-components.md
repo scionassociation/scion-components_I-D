@@ -62,7 +62,7 @@ informative:
         org: ETH Zürich
 
   I-D.dekater-scion-pki:
-    title: SCION PKI
+    title: SCION Control-Plane PKI
     date: 2022
     target: https://datatracker.ietf.org/doc/draft-dekater-scion-pki/
     author:
@@ -444,7 +444,7 @@ The SCION control plane's main purpose is to securely discover and disseminate r
 Path exploration is based on path-segment construction beacons (PCBs), which are initiated by a subset of ASes and accumulate cryptographically protected path forwarding information.
 Each AS selects a few PCBs and makes them available to endpoints via its path service, part of the control plane.
 
-Overall, the Control Plane takes an unexplored topology and AS certificates as input, it then discovers the inter-domain topology and makes routing information available to endpoints.
+Overall, the control plane takes an unexplored topology and AS certificates as input, it then discovers the inter-domain topology and makes routing information available to endpoints.
 
 The following section describes the core properties provided by the SCION control plane, its relationships with existing protocols, and its dependencies on the PKI.
 For an overview of the process to create and disseminate path information, refer to {{I-D.dekater-scion-overview}}, section 1.2.2.
@@ -572,7 +572,7 @@ Such extensions can be hop-by-hop (and are processed at each hop), or end-to-end
 
 - *Path validation.* SCION routers validate network paths in packets at each hop, so that they are only forwarded along paths that were authorized by all on-path ASes in the control plane. Thanks to a system of nested message authentication codes, traffic hijacking attacks are avoided.
 
-In conclusion, in comparison to today's Internet, the SCION's data plane pushes some of the responsibilities away from routers onto endpoints (such as selecting paths or reacting to failures).
+In conclusion, in comparison to today's Internet, the SCION's data plane takes some of the responsibilities away from routers and places them on endpoints (such as selecting paths or reacting to failures).
 This contributes to creating a data plane that is more efficient and scalable, and that does not require routers with specialized routing table lookup hardware.
 Routers validate network paths so that packets are only forwarded on previously authorized paths.
 
@@ -599,9 +599,9 @@ SCION is an inter-domain network architecture and as such its data plane does no
 It re-uses the existing intra-domain data and control plane to provide connectivity among its infrastructure services, border routers, and endpoints, minimizing changes to the internal infrastructure.
 This corresponds to the practice today where ASes use an intra-domain protocol of their choice (i.e., OSPF, IS-IS, MPLS, ...).
 
-In SCION's curret implementation and early deployments, intra-AS SCION packets are encapsulated into an IP/UDP datagram for AS-local packet delivery, reusing the network's existing IGP and IP-based data plane inside an AS.
+In SCION's current implementation and early deployments, intra-AS SCION packets are encapsulated into an IP/UDP datagram for AS-local packet delivery, reusing the network's existing IGP and IP-based data plane inside an AS.
 This design decision eased early deployments of SCION in IP-based networks.
-In the long term, it is not excluded that SCION's dataplane could be better integrated with IP, by implementing it as an IPv6 routing header {{RFC8200}}.
+In the long term, it is not excluded that SCION's data plane could be better integrated with IP, by implementing it as an IPv6 routing header {{RFC8200}}.
 
 
 Given its path-aware properties, some of SCION's data plane characteristics might seem similar to the ones provided by Segment Routing (SR) {{RFC8402}}.
@@ -663,17 +663,17 @@ They are therefore unlikely to be the best candidates for future IETF work.
                                   * Loose time synchronization
                                   * Communication
                   ┌────────────────────────────┐
-                  │     Control Plane PKI      │
+                  │     Control plane PKI      │
                   └────────────────────────────┘
                                  │ * TRC
                                  ▼ * AS Certificates
                   ┌────────────────────────────┐
-                  │       Control Plane        │
+                  │       Control plane        │
                   └────────────────────────────┘
                                  │ * Path segments
                                  ▼ * SCMP
                   ┌────────────────────────────┐
-                  │         Data Plane         │
+                  │         Data plane         │
                   └────────────────────────────┘
                                  │ * Secure  inter-domain paths
                                  ▼ to destination
@@ -704,4 +704,4 @@ Markus Legner, David Basin, David Hausheer, Samuel Hitz, and Peter
 Mueller, for writing the book "The Complete Guide to SCION"
 [CHUAT22], which provides the background information needed to write
 this document.
-Many thanks also to François Wirz and Juan A. Garcia-Pardo for reviewing this document.
+Many thanks also to François Wirz, Juan A. Garcia-Pardo and Matthias Frei for reviewing this document.
