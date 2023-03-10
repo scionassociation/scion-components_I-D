@@ -516,7 +516,7 @@ Segments are designed so that each AS data plane can independently verify its ow
 * *SCMP.* SCION control-plane messages are by default all authenticated.
 In addition to beacons, the control plane offers the SCION Control Message Protocol (SCMP).
 It is analogous to ICMP, and it provides functionality for network diagnostics, such as ping and traceroute, and authenticated error messages that signal packet processing or network layer problems.
-SCMP is the first control message protocol that supports the authentication of network control messages, preventing that unauthenticated control messages can potentially be used to affect or even prevent traffic forwarding.
+SCMP is the first control message protocol that supports the authentication of network control messages, preventing unauthenticated control messages from potentially being used to affect or even prevent traffic forwarding.
 SCMP is used, for example, by the data plane to achieve path revocation.
 
 ### Relationship to Existing Protocols
@@ -610,7 +610,7 @@ Possible integration of its path-aware properties with SR remains for now an ope
 In SCION's current implementation and early deployments, intra-AS SCION packets are encapsulated into an IP/UDP datagram for AS-local packet delivery, reusing the AS existing IGP and IP-based data plane.
 This design decision eased early deployments of SCION in IP-based networks.
 In the long term, it is not excluded that SCION's data plane could be better integrated with IP. For example, SCION path information could be included in a custom IPv6 routing extension header ({{RFC8200}} section 4.4).
-Such approach requires further exploration about its impact on intra-domain forwarding and on addressing, so further discussion on the topic is left to future revisions of this draft.
+Such approach requires further exploration on its impact on intra-domain forwarding and on addressing, so further discussion on the topic is left to future revisions of this draft.
 
 
 # Additional Components
