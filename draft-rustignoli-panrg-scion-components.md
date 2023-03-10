@@ -599,11 +599,6 @@ SCION is an inter-domain network architecture and as such its data plane does no
 It re-uses the existing intra-domain data and control plane to provide connectivity among its infrastructure services, border routers, and endpoints, minimizing changes to the internal infrastructure.
 This corresponds to the practice today where ASes use an intra-domain protocol of their choice (i.e., OSPF, IS-IS, MPLS, ...).
 
-In SCION's current implementation and early deployments, intra-AS SCION packets are encapsulated into an IP/UDP datagram for AS-local packet delivery, reusing the network's existing IGP and IP-based data plane inside an AS.
-This design decision eased early deployments of SCION in IP-based networks.
-In the long term, it is not excluded that SCION's data plane could be better integrated with IP, by implementing it as an IPv6 routing header {{RFC8200}}.
-
-
 Given its path-aware properties, some of SCION's data plane characteristics might seem similar to the ones provided by Segment Routing (SR) {{RFC8402}}.
 There are, however, fundamental differences that distinguish and motivate SCION.
 The most salient one is that Segment Routing is designed to be deployed across a single trusted domain. SR, therefore, does not focus on security, which remains an open question, as outlined in {{I-D.spring-srv6-security-consideration}}.
@@ -612,8 +607,11 @@ Rather than compete, SCION and SR complement each other.
 SCION relies on existing intra-domain routing protocols, therefore SR can be one of the possible intra-domain forwarding mechanisms.
 Possible integration of its path-aware properties with SR remains for now an open question.
 
+In SCION's current implementation and early deployments, intra-AS SCION packets are encapsulated into an IP/UDP datagram for AS-local packet delivery, reusing the AS existing IGP and IP-based data plane.
+This design decision eased early deployments of SCION in IP-based networks.
+In the long term, it is not excluded that SCION's data plane could be better integrated with IP. For example, SCION path information could be included in a custom IPv6 routing extension header ({{RFC8200}} section 4.4).
+Such approach requires further exploration about its impact on intra-domain forwarding and on addressing, so further discussion on the topic is left to future revisions of this draft.
 
-In conclusion, thanks to its data plane, SCION achieves properties that are difficult to achieve when exclusively extending existing protocols.
 
 # Additional Components
 This document mainly focuses on describing the fundamental components needed to run a minimal SCION network.
