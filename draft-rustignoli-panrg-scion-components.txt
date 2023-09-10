@@ -4,8 +4,8 @@
 
 Path Aware Networking RG                                   N. Rustignoli
 Internet-Draft                                               C. de Kater
-Intended status: Informational                                ETH Zürich
-Expires: 27 February 2023                                 26 August 2022
+Intended status: Informational                         SCION Association
+Expires: 13 March 2024                                 10 September 2023
 
 
                        SCION Components Analysis
@@ -63,11 +63,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 February 2023.
+   This Internet-Draft will expire on 13 March 2024.
 
 Copyright Notice
 
-   Copyright (c) 2022 IETF Trust and the persons identified as the
+   Copyright (c) 2023 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -109,11 +109,11 @@ Table of Contents
 
    While SCION was initially developed in academia, the architecture has
    now "slipped out of the lab" and counts its early productive
-   deployments (including the Swiss inter-banking network SSFN).  The
+   deployments (including the Swiss inter-banking network [SSFN]).  The
    architecture consists of a system of related components, some of
    which are essential to set up end-to-end SCION connectivity.  Core
-   components are the data plane, the control plane, and the PKI.  Add-
-   ons provide additional functionality, security, or backward
+   components are the data plane, the control plane, and the PKI.
+   Extensions provide additional functionality, security, or backward
    compatibility.  Discussions at PANRG [PANRG-INTERIM-Min] showed the
    need to describe the relationships between components.  This
    document, therefore, takes a look at each core component individually
@@ -126,8 +126,12 @@ Table of Contents
 
    Before reading this document, please refer to
    [I-D.dekater-scion-overview] for a generic overview of SCION and its
-   components, the problems it solves, and existing deployments.  For an
-   in-depth description of SCION, refer to [CHUAT22].
+   components, the problems it solves, and existing deployments.  Each
+   component is described in-depth in dedicated drafts: see
+   [I-D.dekater-scion-pki] for the SCION PKI,
+   [I-D.dekater-scion-controlplane] for the control plane.  The data
+   plane will be available within weeks from the last update of this
+   draft.  For any other components, please refer to [CHUAT22].
 
 1.1.  Design Goals
 
@@ -135,25 +139,28 @@ Table of Contents
    following properties for inter-domain communication.
 
    *  _Availability_. SCION aims to provide highly available
-      communication.  Its focus is not only on handling failures (both
-      on the last hop or anywhere along the path) but also on allowing
-      communication in the presence of adversaries.  Availability is
-      fundamental as applications move to cloud data centers, and
-      enterprises increasingly rely on the Internet for mission-critical
-      communication.
+      communication.  Its focus is not only on quickly handling failures
+      (both on the last hop or anywhere along the path) but also on
+      allowing communication in the presence of adversaries.
+      Availability is fundamental as applications move to cloud data
+      centers, and enterprises increasingly rely on the Internet for
+      mission-critical communication.
 
    *  _Security_. SCION comes with an arsenal of mechanisms, designed by
       security researchers with the goal of making most network-based
       and routing attacks either impossible or easy to mitigate.  SCION
-      strongly focuses on preventing routing attacks, IP prefix
+      strongly focuses on preventing routing attacks, traffic
       hijackings, and on providing stronger guarantees than the existing
-      Internet.  Security is tightly related to trust.  SCION,
-      therefore, offers a new trust model, transparency, and control to
-      end-hosts over forwarding paths.  In addition, SCION's design
-      starts from the assumption that any two entities on the global
-      Internet do not mutually trust each other.  SCION, therefore,
-      enables trust agility, allowing its users to decide the roots of
-      trust they wish to rely upon.
+      Internet.  Routing information can be unambiguously attributed to
+      an AS, and packets are only forwarded along authorized sections of
+      the network.  Payload encryption, on the other hand, is not within
+      the scope of SCION, as existing protocols can be reused.  Security
+      is tightly related to trust.  SCION, therefore, offers a new trust
+      model, transparency, and control to endpoints over forwarding
+      paths.  In addition, SCION's design starts from the assumption
+      that any two entities on the global Internet do not mutually trust
+      each other.  SCION, therefore, enables trust agility, allowing its
+      users to decide the roots of trust they wish to rely upon.
 
    *  _Scalability_. Security and high availability should not result in
       compromises on scalability.  At the same time, a next-generation
@@ -183,23 +190,25 @@ Table of Contents
    *  PKI: it handles cryptographic material and provides a unique trust
       model.
 
-   Each SCION AS deploys all of the three components above.
-   Implementations of all of the above components are deployed in
-   production (e.g., they are in use within the SSFN, the Swiss Finance
-   Network).  There are commercial implementations (including a high-
-   performance data plane).
+   A SCION network is formed of multiple interconnected administrative
+   domains, called SCION autonomous systems (AS).  Each AS deploys all
+   of the three components above.  Implementations of all of the above
+   components are deployed in production (e.g., they are in use within
+   the SSFN, the Swiss Finance Network).  There are commercial
+   implementations (including a high-performance data plane).
 
-   When a packet is sent through a SCION network, it is forwarded
-   between ASes by SCION data plane.  It authenticates packets at each
-   hop.  The control plane is responsible for discovering and
-   disseminating routing information.  Path discovery is performed by
-   each autonomous system (AS) thanks to an authenticated path-
-   exploration mechanism called beaconing.  SCION end hosts query their
-   respective AS control plane and obtain authenticated and authorized
-   network paths, in the form of path segments.  End hosts select one or
-   more of the end-to-end network paths, based on the application
-   requirements (i.e., latency).  End hosts then craft SCION packets
-   containing the end-to-end path to the destination.
+   A SCION packet is sent through a SCION network by SCION endpoints
+   (i.e., a network host).  It is then forwarded between ASes by the
+   SCION data plane, which authenticates packets at each hop.  The
+   control plane is responsible for discovering and disseminating
+   routing information.  Path discovery is performed by each AS thanks
+   to an authenticated path-exploration mechanism called beaconing.
+   SCION endpoints query their respective AS control plane and obtain
+   authenticated and authorized network paths, in the form of path
+   segments.  Endpoints select one or more of the end-to-end network
+   paths, based on the application requirements (i.e., latency).
+   Endpoints then craft SCION packets containing the end-to-end path to
+   the destination.
 
    The control plane relies on the control-plane PKI (CP-PKI) for
    authentication (e.g., of path segments).  SCION's authentication
@@ -226,12 +235,12 @@ Table of Contents
    authenticated.  This helps SCION avoid some of the obstacles to
    deployment mentioned in [RFC9049], where several path-aware methods
    failed to achieve deployment because of lack of authentication or
-   lack of mutual trust between end hosts and the intermediate network.
-   The verification of messages relies on a public-key infrastructure
-   (PKI) called the control-plane PKI or CP-PKI.  It consists of a set
-   of mechanisms, roles, and policies related to the management and
-   usage of certificates, which enables the verification of signatures
-   of, e.g., path-segment construction beacons (PCBs).  A detailed
+   lack of mutual trust between hosts and the intermediate network.  The
+   verification of messages relies on a public-key infrastructure (PKI)
+   called the control-plane PKI or CP-PKI.  It consists of a set of
+   mechanisms, roles, and policies related to the management and usage
+   of certificates, which enables the verification of signatures of,
+   e.g., path-segment construction beacons (PCBs).  A detailed
    specification of the PKI is available in [I-D.dekater-scion-pki].
 
 2.1.1.  Key Properties
@@ -283,7 +292,7 @@ Table of Contents
 
    *  _Scalability._ The authentication infrastructure scales to the
       size of the Internet and is adapted to the heterogeneity of
-      today's Internet constituents.
+      today’s Internet constituents.
 
 2.1.2.  Dependencies
 
@@ -345,11 +354,11 @@ Table of Contents
 
    These properties would be lost if SCION were to rely on an existing
    PKI (i.e., the web PKI, the RPKI, ...).  For example, if SCION were
-   to use the RPKI instead of the CP-PKI, the control plane would lack
-   the trust model required for Isolation Domains.  This is because
-   RPKI's trust model follows the same structure as the IP allocation
-   hierarchy, where the five RIRs represent the trust roots.  Within
-   SCION, RPKI is instead used to secure some of its transition
+   to use the RPKI instead of the CP-PKI, its control plane would lack
+   the trust model required to support Isolation Domains.  This is
+   because RPKI's trust model follows the same structure as the IP
+   allocation hierarchy, where the five RIRs represent the trust roots.
+   Within SCION, RPKI is instead used to secure some of its transition
    mechanisms, as later explained in Section 3.1.
 
    In conclusion, SCION is built around a unique trust model, justifying
@@ -362,34 +371,30 @@ Table of Contents
    segment construction beacons (PCBs), which are initiated by a subset
    of ASes and accumulate cryptographically protected path forwarding
    information.  Each AS selects a few PCBs and makes them available to
-   end hosts via its path service, part of the control plane.
+   endpoints via its path service, part of the control plane.
 
-   Overall, the Control Plane takes an unexplored topology and AS
+   Overall, the control plane takes an unexplored topology and AS
    certificates as input, it then discovers the inter-domain topology
-   and makes routing information available to end hosts.
+   and makes routing information available to endpoints.
 
    The following section describes the core properties provided by the
    SCION control plane, its relationships with existing protocols, and
-   its dependencies on the PKI.  For an overview of the process to
-   create and disseminate path information, refer to
-   [I-D.dekater-scion-overview], section 1.2.2.  The control plane is
-   internally formed by multiple sub-components (as the beacon service,
+   its dependencies on the PKI.  For an in-depth description of the
+   control plane, including its sub-components, as the beacon service,
    responsible for path discovery, and the path service, responsible for
-   path dissemination).  Processes and interfaces specifications between
-   these sub-components could be topic for one or multiple dedicated
-   documents.
+   path dissemination, refer to [I-D.dekater-scion-controlplane].
 
 2.2.1.  Key Properties
 
    *  _Massively multipath._ When exploring paths through beaconing,
       SCION ASes can select PCBs according to their policies, and
       register the corresponding path segments, making them available to
-      other ASes and end hosts.  SCION hosts can leverage a wide range
-      of (possibly disjoint) inter-domain paths, based on application
-      requirements or path conditions.  This goes beyond the
-      capabilities of existing multipath mechanisms, such as BGP ADD-
-      PATH [RFC7911], that is focusing on advertising multiple paths for
-      the same prefix to provide a backup path.
+      other ASes and endpoints inside their network.  SCION endpoints
+      can leverage a wide range of (possibly disjoint) inter-domain
+      paths, based on application requirements or path conditions.  This
+      goes beyond the capabilities of existing multipath mechanisms,
+      such as BGP ADD-PATH [RFC7911], that is focusing on advertising
+      multiple paths for the same prefix to provide a backup path.
 
    *  _Scalability._ The SCION's beaconing algorithm is scalable and
       efficient due to the following reasons: The routing process is
@@ -415,28 +420,28 @@ Table of Contents
       forwarded along authorized path segments.  This is achieved thanks
       to message authentication codes (MACs) within each hop field.
       During beaconing, each AS's control plane creates nested MACs,
-      which are then verified during forwarding.  This gives end hosts
-      strong guarantees about the path where the data is routed, with
-      minimal overhead and resource requirements on routers.  Giving end
-      hosts strong guarantees about the full inter-domain path is
-      important to avoid traffic interception, and to enable geofencing
-      (i.e., keeping data in transit within a well-defined trusted area
-      of the global Internet).  This facilitated early adoption in the
-      finance industry.
+      which are then verified during forwarding, giving ASes strong
+      guarantees about the path where the data is routed, with minimal
+      overhead and resource requirements on routers.  Giving endpoints
+      strong guarantees about the full inter-domain path is important to
+      avoid traffic interception, and to enable geofencing (i.e.,
+      keeping data in transit within a well-defined trusted area of the
+      SCION network).  This facilitated early adoption in the finance
+      industry.
 
-   *  _Host addressing agnostic._ SCION decouples routing from end-host
+   *  _Host addressing agnostic._ SCION decouples routing from host
       addressing: inter-domain routing is based on ISD-AS tuples rather
-      than on end-host addresses.  This design decision has two
-      outcomes: First of all, SCION can reuse existing host addressing
-      schemes, such as IPv6, IPv4, or others.  Second, the control plane
-      does not carry prefix information.  Thanks to PCFS, packets
-      contain forwarding state, so routers do not need to look up
-      routing tables (avoiding the need for dedicated hardware).
+      than on host addresses.  This design decision has two outcomes:
+      First of all, SCION can reuse existing host addressing schemes,
+      such as IPv6, IPv4, or others.  Second, the control plane does not
+      carry prefix information.  Since packets contain forwarding state,
+      routers do not need to look up routing tables (avoiding the need
+      for dedicated hardware).
 
-   *  _Transparency._ SCION end hosts have full visibility of the inter-
+   *  _Transparency._ SCION endpoints have full visibility of the inter-
       domain path where their data is forwarded.  This is a property
       that is missing in traditional IP networks, where routing
-      decisions are made by each hop, therefore end hosts have no
+      decisions are made by each hop, therefore endpoints have no
       visibility nor guarantees on where their traffic is going.
       Additionally, SCION users have visibility on the roots of trust
       that are used to forward traffic.  SCION, therefore, makes it
@@ -452,10 +457,11 @@ Table of Contents
       as an alternative path exists, communication is possible.  In
       addition, while the control plane is responsible for creating new
       paths, it does not invalidate existing paths.  The latter function
-      is handled by end hosts upon detecting failures or eventually
-      receiving an SCMP message from the data plane.  This separation of
-      control and data plane prevents the control plane from cutting off
-      an existing communication or having a global kill-switch.
+      is handled by endpoints upon detecting failures or eventually
+      receiving an authenticated signal from the data plane.  This
+      separation of control and data plane prevents the control plane
+      from cutting off an existing communication or having a global
+      kill-switch.
 
 2.2.2.  Dependencies
 
@@ -479,22 +485,22 @@ Table of Contents
 
 2.2.3.  Provided to Other Components
 
-   In SCION, an end host sending a packet must specify, in the header,
+   In SCION, an endpoint sending a packet must specify, in the header,
    the full SCION forwarding path the packet takes towards the
-   destination.  This concept is called packet-carried forwarding state
-   (PCFS).  Rather than having knowledge of the network topology, an end
-   host's data plane relies on the control plane for getting such
-   information.  The end host stack queries path segments, then it
-   selects them and combines them into a full forwarding path to the
+   destination.  Rather than having knowledge of the network topology,
+   an endpoint's data plane relies on the control plane for getting such
+   information.  The endpoint's SCION stack queries path segments, then
+   it selects them and combines them into a full forwarding path to the
    destination.
 
    The control plane is responsible, therefore, for providing an
-   authenticated (multipath) view of the explored global topology to end
-   hosts (and, in turn, to the data plane).  In addition, it provides
-   the data plane the ability to send authenticated control messages.
-   The "interfaces" towards the data plane are represented by:
+   authenticated (multipath) view of the explored global topology to
+   endpoints (and, in turn, to the data plane).  In addition, it
+   provides the data plane the ability to send authenticated control
+   messages.  The "interfaces" towards the data plane are represented
+   by:
 
-   *  _Path segments_, that are provided to end hosts and used by SCION
+   *  _Path segments_, that are provided to endpoints and used by SCION
       routers for forwarding.  Segments are designed so that each AS
       data plane can independently verify its own segments, while
       globally achieving full path authorization.
@@ -506,10 +512,10 @@ Table of Contents
       as ping and traceroute, and authenticated error messages that
       signal packet processing or network layer problems.  SCMP is the
       first control message protocol that supports the authentication of
-      network control messages, preventing that unauthenticated control
-      messages can potentially be used to affect or even prevent traffic
-      forwarding.  SCMP is used, for example, by the data plane to
-      achieve path revocation.
+      network control messages, preventing unauthenticated control
+      messages from potentially being used to affect or even prevent
+      traffic forwarding.  SCMP is used, for example, by the data plane
+      to achieve path revocation.
 
 2.2.4.  Relationship to Existing Protocols
 
@@ -548,10 +554,10 @@ Table of Contents
    Additionally, the SCION control plane design takes into account some
    of the lessons learned discussed in [RFC9049]: It does not try to
    outperform end-to-end mechanisms, as path selection is performed by
-   end hosts.  SCION, therefore, can leverage existing end-to-end
+   endpoints.  SCION, therefore, can leverage existing end-to-end
    mechanisms to switch paths, rather than compete with them.  In
    addition, no single component in the architecture needs to keep
-   connection state, as this task is pushed to end hosts.
+   connection state, as this task is pushed to endpoints.
 
    One last point is that several of the SCION control plane properties
    and key mechanisms depend on the fact that SCION ASes are grouped
@@ -564,22 +570,23 @@ Table of Contents
 2.3.  Forwarding - Data Plane
 
    The SCION data plane is responsible for inter-domain packet
-   forwarding between ASes.  SCION routers are deployed at their network
+   forwarding between ASes.  SCION routers are deployed at an AS network
    edge.  They receive and validate SCION packets from neighbors, then
    they use their intra-domain forwarding information to transmit
-   packets to the next border router or SCION end host.
+   packets to the next SCION border router or to a SCION endpoint inside
+   the AS.
 
    SCION packets are at the network layer (layer-3), and the SCION
    header sits in between the transport and link layer.  The header
-   contains a variable type and length end-host address, and can
-   therefore carry any address (IPv4, IPv6, ...).  In addition, end-host
-   addresses only need to be unique within an AS, and can be, in
-   principle, reused.
+   contains a variable type and length host address, and can therefore
+   carry any address (IPv4, IPv6, ...).  In addition, host addresses
+   only need to be unique within an AS, and can be, in principle,
+   reused.
 
 2.3.1.  Key Properties
 
-   *  _Path selection._ In SCION, end hosts select inter-domain network
-      paths, rather than routers.  The end hosts are empowered to make
+   *  _Path selection._ In SCION, endpoints select inter-domain network
+      paths, rather than routers.  The endpoints are empowered to make
       end-to-end path choices based on application requirements.  This
       means that routers do not carry the burden of making enhanced
       routing or forwarding decisions.
@@ -595,14 +602,14 @@ Table of Contents
       also implies that the growing size of forwarding tables is of no
       concern to SCION.  Additionally, routers that keep state of
       network information can suffer from denial-of-service (DoS)
-      attacks exhausting the router's state [SCHUCHARD2011], which is
+      attacks exhausting the router’s state [SCHUCHARD2011], which is
       less of a problem to SCION.
 
    *  _Recovery from failures._ SCION hosts usually receive more than
       one path to a given destination.  Each host can select
       (potentially disjoint) backup paths that are available in case of
-      failure.  In contrast to the IP-based Internet, SCION packets are
-      not dynamically rerouted by the network in case of failures.
+      a failure.  In contrast to the IP-based Internet, SCION packets
+      are not dynamically rerouted by the network in case of failures.
       Routers use BFD [RFC5880] to detect link failures, and in case
       they cannot forward a packet, they send an authenticated SCMP
       message triggering path revocation.  End hosts can use this
@@ -614,16 +621,16 @@ Table of Contents
       its header.  Such extensions can be hop-by-hop (and are processed
       at each hop), or end-to-end.
 
-   *  _Path validation._ SCION routers validate network paths in packets
-      at each hop, so that they are only forwarded along paths that were
-      authorized by all on-path ASes in the control plane.  Thanks to a
-      system of nested message authentication codes, traffic hijacking
-      attacks are avoided.
+   *  _Path authorization._ SCION routers validate per-hop MACs in
+      packets at each hop, so that they are only forwarded along paths
+      that were authorized by all on-path ASes in the control plane.
+      Thanks to a system of nested message authentication codes, traffic
+      hijacking attacks are avoided.
 
    In conclusion, in comparison to today's Internet, the SCION's data
-   plane pushes some of the responsibilities away from routers onto end
-   hosts (such as selecting paths or reacting to failures).  This
-   contributes to creating a data plane that is more efficient and
+   plane takes some of the responsibilities away from routers and places
+   them on endpoints (such as selecting paths or reacting to failures).
+   This contributes to creating a data plane that is more efficient and
    scalable, and that does not require routers with specialized routing
    table lookup hardware.  Routers validate network paths so that
    packets are only forwarded on previously authorized paths.
@@ -631,7 +638,7 @@ Table of Contents
 2.3.2.  Dependencies
 
    The data plane is generally decoupled from the control plane.  To be
-   able to transmit data, end hosts need to fetch path information from
+   able to transmit data, endpoints need to fetch path information from
    their AS control plane.  In addition, some operations (such as path
    revocation) require the data plane to be able to use an authenticated
    control-plane mechanism, such as SCMP.
@@ -642,8 +649,8 @@ Table of Contents
    the CP-PKI to function.
 
    Should the data plane be used independently, without end-to-end path
-   validation, SCION would lose many of its security properties, which
-   are fundamental in an inter-domain scenario where entities are
+   authorization, SCION would lose many of its security properties,
+   which are fundamental in an inter-domain scenario where entities are
    mutually distrustful.  As discussed in [RFC9049], lack of
    authentication has often been the cause for path-aware protocols
    never being adopted because of security concerns.  SCION should avoid
@@ -653,7 +660,7 @@ Table of Contents
 2.3.3.  Provided to Other Components
 
    The SCION data plane provides path-aware connectivity to
-   applications.  The SCION stack on an end host, therefore, takes
+   applications.  The SCION stack on an endpoint, therefore, takes
    application requirements as an input (i.e., latency, bandwidth, a
    list of trusted ASes, ... ), and crafts packets containing an
    appropriate path to a given destination.
@@ -661,21 +668,18 @@ Table of Contents
    How to expose capabilities of path-aware networking to upper layers
    remains an open question.  PANAPI (Path-Aware Networking API)
    [slides-113-taps-panapi] is being evaluated as a way of making path-
-   awareness and multipath available to the transport layer at end
-   hosts, using the TAPS abstraction layer.
+   awareness and multipath available to the transport layer at
+   endpoints, using the TAPS abstraction layer.
 
 2.3.4.  Relationship to Existing Protocols
 
    SCION is an inter-domain network architecture and as such its data
-   plane does not interfere with intra-domain forwarding.  This
+   plane does not interfere with intra-domain forwarding.  It re-uses
+   the existing intra-domain data and control plane to provide
+   connectivity among its infrastructure services, border routers, and
+   endpoints, minimizing changes to the internal infrastructure.  This
    corresponds to the practice today where ASes use an intra-domain
-   protocol of their choice (i.e., OSPF, IS-IS, MPLS, ...).  For
-   example, in some of the early deployments, intra-AS SCION packets are
-   encapsulated into an IP/UDP datagram, reusing the network's existing
-   IGP internal data plane.  SCION, therefore, re-uses the intra-domain
-   network fabric to provide connectivity among its infrastructure
-   services, border routers, and end hosts, minimizing changes to the
-   internal infrastructure.
+   protocol of their choice (i.e., OSPF, IS-IS, MPLS, ...).
 
    Given its path-aware properties, some of SCION's data plane
    characteristics might seem similar to the ones provided by Segment
@@ -695,9 +699,17 @@ Table of Contents
    mechanisms.  Possible integration of its path-aware properties with
    SR remains for now an open question.
 
-   In conclusion, thanks to its data plane, SCION achieves properties
-   that are difficult to achieve when exclusively extending existing
-   protocols.
+   In SCION's current implementation and early deployments, intra-AS
+   SCION packets are encapsulated into an IP/UDP datagram for AS-local
+   packet delivery, reusing the AS existing IGP and IP-based data plane.
+   This design decision eased early deployments of SCION in IP-based
+   networks.  In the long term, it is not excluded that SCION's data
+   plane could be better integrated with IP.  For example, SCION path
+   information could be included in a custom IPv6 routing extension
+   header ([RFC8200] section 4.4).  Such approach requires further
+   exploration on its impact on intra-domain forwarding and on
+   addressing, so further discussion on the topic is left to future
+   revisions of this draft.
 
 3.  Additional Components
 
@@ -721,11 +733,11 @@ Table of Contents
    as well as on how it reuses, extends, or interacts with existing
    protocols.
 
-   *  _SCION-IP-Gateway (SIG)._ A SCION-IP-Gateway (SIG) encapsulates
-      regular IP packets into SCION packets with a corresponding SIG at
-      the destination that performs the decapsulation.  This mechanism
-      enables IP end hosts to benefit from a SCION deployment by
-      transparently obtaining improved security and availability
+   *  _SCION-IP-Gateway (SIG)._ A SCION-IP-Gateway (SIG) is a SCION
+      endpoint that encapsulates regular IP packets into SCION packets.
+      A corresponding SIG at the destination performs the decapsulation.
+      This mechanism enables IP hosts to benefit from a SCION deployment
+      by transparently obtaining improved security and availability
       properties.  SCION routing policies can be configured on SIGs, in
       order to select appropriate SCION paths based on application
       requirements.  SIGs can dynamically exchange prefix information,
@@ -766,9 +778,10 @@ Table of Contents
    [slides-111-panrg-lightning-filter] leverages DRKey to provide high-
    speed packet filtering between trusted SCION ASes.  COLIBRI
    [GIULIARI2021] is SCION's inter-domain bandwidth reservation system.
+   EPIC [LEGNER2020] is a proposal that extends the data plane to
+   provide full path validation, with different levels of guarantees.
    These additional components are briefly mentioned here in order to
-   provide additional context.  They are therefore unlikely to be the
-   best candidates for future IETF work.
+   provide additional context and some of them are experimental.
 
 4.  Component Dependencies Summary
 
@@ -779,22 +792,22 @@ Table of Contents
                                      * Loose time synchronization
                                      * Communication
                      ┌────────────────────────────┐
-                     │     Control Plane PKI      │
+                     │     Control plane PKI      │
                      └────────────────────────────┘
                                     │ * TRC
                                     ▼ * AS Certificates
                      ┌────────────────────────────┐
-                     │       Control Plane        │
+                     │       Control plane        │
                      └────────────────────────────┘
                                     │ * Path segments
                                     ▼ * SCMP
                      ┌────────────────────────────┐
-                     │         Data Plane         │
+                     │         Data plane         │
                      └────────────────────────────┘
                                     │ * Secure  inter-domain paths
                                     ▼ to destination
                      ┌────────────────────────────┐
-                     │  Applications on end host  │
+                     │  Applications on endpoint  │
                      └────────────────────────────┘
 
                       Figure 1: Dependencies overview
@@ -805,7 +818,7 @@ Table of Contents
    provided by the PKI.  It provides the data plane with path segments,
    that are then used at forwarding, and with SCMP, that is used for
    secure error messages.  The data plane makes multipath communication
-   available to applications on SCION end hosts.
+   available to applications on SCION endpoints.
 
 5.  Conclusions
 
@@ -838,15 +851,20 @@ Table of Contents
               <https://netsec.ethz.ch/publications/
               papers/2021_conext_colibri.pdf>.
 
+   [I-D.dekater-scion-controlplane]
+              de Kater, C., Rustignoli, N., and M. Frei, "SCION Control
+              Plane", 2023, <https://datatracker.ietf.org/doc/draft-
+              dekater-scion-controlplane/>.
+
    [I-D.dekater-scion-overview]
               de Kater, C., Rustignoli, N., and A. Perrig, "SCION
-              Overview", 2022, <https://datatracker.ietf.org/doc/draft-
+              Overview", 2023, <https://datatracker.ietf.org/doc/draft-
               dekater-panrg-scion-overview/>.
 
    [I-D.dekater-scion-pki]
-              de Kater, C., Rustignoli, N., and A. Perrig, "SCION
-              Overview", 2022, <https://datatracker.ietf.org/doc/draft-
-              dekater-scion-pki/>.
+              de Kater, C. and N. Rustignoli, "SCION Control-Plane PKI",
+              2023, <https://datatracker.ietf.org/doc/draft-dekater-
+              scion-pki/>.
 
    [I-D.garciapardo-drkey]
               Pardo, J., Krähenbühl, C., Rothenberger, B., and A.
@@ -867,6 +885,13 @@ Table of Contents
               Infrastructure", 2022,
               <https://netsec.ethz.ch/publications/
               papers/2021_conext_deployment.pdf>.
+
+   [LEGNER2020]
+              Legner, M., Klenze, T., Wyss, M., Sprenger, C., and A.
+              Perrig, "EPIC: Every Packet Is Checked in the Data Plane
+              of a Path-Aware Internet", 2020,
+              <https://netsec.ethz.ch/publications/papers/
+              Legner_Usenix2020_EPIC.pdf>.
 
    [PANRG-INTERIM-Min]
               "Path Aware Networking Research Group - Interim 106
@@ -895,6 +920,11 @@ Table of Contents
               DOI 10.17487/RFC7911, July 2016,
               <https://www.rfc-editor.org/rfc/rfc7911>.
 
+   [RFC8200]  Deering, S. and R. Hinden, "Internet Protocol, Version 6
+              (IPv6) Specification", STD 86, RFC 8200,
+              DOI 10.17487/RFC8200, July 2017,
+              <https://www.rfc-editor.org/rfc/rfc8200>.
+
    [RFC8210]  Bush, R. and R. Austein, "The Resource Public Key
               Infrastructure (RPKI) to Router Protocol, Version 1",
               RFC 8210, DOI 10.17487/RFC8210, September 2017,
@@ -914,9 +944,9 @@ Table of Contents
               Schuchard, M., Mohaisen, A., Foo Kune, D., Hopper, N.,
               Kim, Y., and E. Vasserman, "Losing control of the
               internet: using the data plane to attack the control
-              plane", Proceedings of the 17th ACM conference on Computer
-              and communications security - CCS '10,
-              DOI 10.1145/1866307.1866411, 2010,
+              plane", ACM, Proceedings of the 17th ACM conference on
+              Computer and communications security,
+              DOI 10.1145/1866307.1866411, October 2010,
               <https://doi.org/10.1145/1866307.1866411>.
 
    [slides-111-panrg-lightning-filter]
@@ -931,6 +961,10 @@ Table of Contents
               <https://datatracker.ietf.org/meeting/113/materials/
               slides-113-taps-panapi-implementation-00.pdf>.
 
+   [SSFN]     "Secure Swiss Finance Network (SSFN)", September 2023,
+              <https://www.six-group.com/en/products-services/banking-
+              services/ssfn.html>.
+
    [SUPRAJA2021]
               Supraja, S., Wirz, F., de Ruiter, J., Schutijser, C.,
               Legner, M., and A. Perrig, "Global Distributed Secure
@@ -944,16 +978,16 @@ Acknowledgments
    Legner, David Basin, David Hausheer, Samuel Hitz, and Peter Mueller,
    for writing the book "The Complete Guide to SCION" [CHUAT22], which
    provides the background information needed to write this document.
-   Many thanks also to Francois Wirz and Juan A.  Garcia-Pardo for
-   reviewing this document.
+   Many thanks also to François Wirz, Juan A.  Garcia-Pardo and Matthias
+   Frei for reviewing this document.
 
 Authors' Addresses
 
    Nicola Rustignoli
-   ETH Zürich
-   Email: nicola.rustignoli@inf.ethz.ch
+   SCION Association
+   Email: nic@scion.org
 
 
    Corine de Kater
-   ETH Zürich
-   Email: corine.dekatermuehlhaeuser@inf.ethz.ch
+   SCION Association
+   Email: cdk@scion.org
