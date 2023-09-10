@@ -1,0 +1,450 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2022-09-08T00:32:36.860636+00:00",
+  "repo": "scionassociation/scion-components_I-D",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 2,
+      "id": "I_kwDOHiDowc5NKLoB",
+      "title": "Draft final review",
+      "url": "https://github.com/scionassociation/scion-components_I-D/issues/2",
+      "state": "CLOSED",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [
+        "nicorusti"
+      ],
+      "labels": [],
+      "body": "This issue tracks some final review tasks:\r\n- [x] Give some love to the dependency analysis (wording)\r\n- [x] Remove \"we\"\r\n- [x] Delete RFC9049 part (and add a few sentences in each one of the 3 main components) --> \r\n- [x] Remove unused references\r\n- [x] Check format of all references & links\r\n- [x] Search for missed TODOs \r\n- [x] Remove related work part & store commit #b2a738b0e9f37d4875c9ae8de55dc20b00bc4813 somewhere",
+      "createdAt": "2022-07-05T16:26:33Z",
+      "updatedAt": "2022-07-11T15:43:01Z",
+      "closedAt": "2022-07-11T15:43:01Z",
+      "comments": []
+    },
+    {
+      "number": 10,
+      "id": "I_kwDOHiDowc5RRJfV",
+      "title": "Feedback to be addressed",
+      "url": "https://github.com/scionassociation/scion-components_I-D/issues/10",
+      "state": "OPEN",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "- [ ] with RPKI there would be circular dependencies (between communication), that SCION avoids (circular analysis figure in book)\r\n\r\n```\r\nFigures 6.1 and 6.2 in the new book show dependencies,\r\n  we don't want to introduce circular dependencies.\r\n  Here's also a new paper that shows how the circular dependency can\r\n  be misused: https://arxiv.org/pdf/2205.06064.pdf\r\n  https://www.usenix.org/system/files/sec22fall_hlavacek.pdf\r\n  Stalloris: RPKI Downgrade Attack\r\n  Tomas Hlavacek, Philipp Jeitner, Donika Mirdita, Haya Shulman, Michael Waidner\r\n  USENIX Security Symposium, 2022\r\n  ```",
+      "createdAt": "2022-09-06T15:18:05Z",
+      "updatedAt": "2022-09-06T15:19:01Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOHiDowc46hMga",
+      "title": "Initial version",
+      "url": "https://github.com/scionassociation/scion-components_I-D/pull/1",
+      "state": "MERGED",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "<!-- Reviewable:start -->\r\nThis change is\u2002[<img src=\"https://reviewable.io/review_button.svg\" height=\"34\" align=\"absmiddle\" alt=\"Reviewable\"/>](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1)\r\n<!-- Reviewable:end -->\r\n\r\n- [x] Start with a section describing the properties we think a good global Internetwork must contain: security, scalability, availability in case of failure, transparency, multi-path/flexibility, end-host control... Then that SCION was developed to meet these property requirements.\r\n- [x] Discussion of each property for each core component (I am not sure about the structure: whether to take the core components as upper level, and the properties as the lower level, or the other way around).\r\nFor each property: how SCION achieves this property, in relation to the existing Internet. I think you can re-use all property content you already wrote, this is more a matter of re-organizing the content.=\r\n- [x] Related work section: RPKI,  BGPSec, Semantic Routing (Add)\r\nWe should make it clear: what protocols are we reusing, which ones are we extending, which ones are we replacing and not reusing \u2026. We should explain clearly why we are not reusing existing protocols.\r\n- [x] Conclude with dependency analysis, which explains very nicely that the core components cannot really exist on their own (except maybe for the CP-PKI). \r\n- [ ] Transition mechanism & additional components: remove or rework\r\n\r\nGeneral feedback: \r\n- [ ] Make it more clear why we do not reuse existing protocols\r\n- [ ]  RFC9049: use it as a filter for our ideas. Explain why SCION considers lessons learned\r\n- [x] Use RFC 7418  to explain and motivate what should go into IETF and what should go into IRTF --> I guess this will pop up in discussions. Some we are roughly at half and half, and some of the work should be IETF. I think this should not be in the draft. ",
+      "createdAt": "2022-06-28T19:14:00Z",
+      "updatedAt": "2022-07-05T16:45:22Z",
+      "baseRepository": "scionassociation/scion-components_I-D",
+      "baseRefName": "main",
+      "baseRefOid": "90269ef5f6642adf09be6d9739ce0628dc1f137e",
+      "headRepository": "scionassociation/scion-components_I-D",
+      "headRefName": "nic-writing",
+      "headRefOid": "97fe40dc31a5982696347df04b68cb3fb4956606",
+      "closedAt": "2022-07-05T16:45:21Z",
+      "mergedAt": "2022-07-05T16:45:21Z",
+      "mergedBy": "nicorusti",
+      "mergeCommit": {
+        "oid": "90287a58581d90433c6ce9a26b0f729c309753af"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHiDowc49EWls",
+          "commit": {
+            "abbreviatedOid": "3da4ef9"
+          },
+          "author": "cdekater",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "\n\n> *[Reviewable](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1)* status: 0 of 1 files reviewed, 3 unresolved discussions (waiting on @cdekater and @nicorusti)\n\n___\n*[`draft-rustignoli-panrg-scion-components.md` line 280 at r1](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1#-N5nmIWZ-ERS-xKupTJY:-N5nmIWZ-ERS-xKupTJZ:bc7qy2z) ([raw file](https://github.com/scionassociation/scion-components_i-d/blob/3da4ef9ab5b944b7f35383bf93eaa6bf76992d77/draft-rustignoli-panrg-scion-components.md#L280)):*\n> ```Markdown\n> \n> While SCION  was initially developed in academia, the architecture  has now \"slipped out of the lab\" and counts its early productive deployments (including the Swiss inter-banking network SSFN).\n> The architecture consists of a system of related components, some of which are  essential to set up end to end SCION connectivity, while others are add-ons aiming at providing additional functionality, security, or backwards compatibility. Discussions at {{PANRG-INTERIM-Min}} showed the need to describe the relationships between SCION's core components.\n> ```\n\nI am not sure whether the PANRG people wanted to know more about the relationship between SCION's core components. My impression was that they wanted to know (1) what is the minimal SCION stack needed to make SCION work, and (2) the relationship between SCION and existing protocols. More precisely: Which existing protocols does SCION use, which not, and why not.\n  \n___\n*[`draft-rustignoli-panrg-scion-components.md` line 303 at r1](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1#-N5noIv5A2tYwt1L_hNA:-N5noIv5A2tYwt1L_hNB:b-2js1rb) ([raw file](https://github.com/scionassociation/scion-components_i-d/blob/3da4ef9ab5b944b7f35383bf93eaa6bf76992d77/draft-rustignoli-panrg-scion-components.md#L303)):*\n> ```Markdown\n> ISD members share an uniform trust environment (i.e., a common jurisdiction).\n> They can transparently define trust relationships between parts of the network by deciding wether to trust other ISDs.\n> SCION therefore relies on an unique trust model, which is markably different from other PKI. We clarify the motivation behind this in [Authentication](#pki)\n> ```\n\nMaybe not use the word \"markably\"? Different is enough.\n___\n*[`draft-rustignoli-panrg-scion-components.md` line 316 at r1](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1#-N5nrjzE98mm_k5BfYoc:-N5nrjzFAJT9hOE4QS8b:bv1muc7) ([raw file](https://github.com/scionassociation/scion-components_i-d/blob/3da4ef9ab5b944b7f35383bf93eaa6bf76992d77/draft-rustignoli-panrg-scion-components.md#L316)):*\n> ```Markdown\n> \n> ### Key properties in relationship to existing protocols\n> On a first sight, it might seem that SCION control plane takes care of similar duties as of BGP. While both focus on disseminating routing information, there are substantial differences in the properties provided and mechanisms. We describe the core properties provided by the SCION control plane, and its relationships with existing protocols.\n> ```\n\nI think the properties approach is good. But maybe we should first describe why these properties are important in general, something like that we think a \"good\" Internet needs to include these properties, that SCION tries to address/meet these properties, and that SCION may therefore differ from existing protocols in those cases where the existing protocols are not able to sufficiently meet the properties. \n\n\n<!-- Sent from Reviewable.io -->\n",
+          "createdAt": "2022-06-30T09:22:12Z",
+          "updatedAt": "2022-06-30T09:22:12Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOHiDowc49EZLD",
+          "commit": {
+            "abbreviatedOid": "3da4ef9"
+          },
+          "author": "nicorusti",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "\n\n> *[Reviewable](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1)* status: 0 of 1 files reviewed, 3 unresolved discussions (waiting on @cdekater and @nicorusti)\n\n___\n*[`draft-rustignoli-panrg-scion-components.md` line 280 at r1](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1#-N5nmIWZ-ERS-xKupTJY:-N5nwGcq1GAN5IY3AyhF:b-opfcx8) ([raw file](https://github.com/scionassociation/scion-components_i-d/blob/3da4ef9ab5b944b7f35383bf93eaa6bf76992d77/draft-rustignoli-panrg-scion-components.md#L280)):*\n> I am not sure whether the PANRG people wanted to know more about the relationship between SCION's core components. My impression was that they wanted to know (1) what is the minimal SCION stack needed to make SCION work, and (2) the relationship between SCION and existing protocols. More precisely: Which existing protocols does SCION use, which not, and why not.\n\nBut there was a lot of discussion about splitting components, which is not a good idea. THis is why I want to stress that the 3 core components are quite tightly interlinked. \n \n\n\n<!-- Sent from Reviewable.io -->\n",
+          "createdAt": "2022-06-30T09:29:52Z",
+          "updatedAt": "2022-06-30T09:29:52Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOHiDowc49Fu1n",
+          "commit": {
+            "abbreviatedOid": "3da4ef9"
+          },
+          "author": "cdekater",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "Hi Nicola,\n\nI like your draft, it already contains a lot of really good content, and I also like your style of writing very much! \n\nAs we already discussed, I would just restructure it a bit:\n1. Start with a section describing the properties we think a good global Internetwork must contain: security, scalability, availability in case of failure, transparency, multi-path/flexibility, end-host control...\n2. Then that SCION was developed  to meet these property requirements.\n3. Description of SCION minimal stack (this content is already there).\n4. Discussion of each property for each core component (I am not sure about the structure: whether to take the core components as upper level, and the properties as the lower level, or the other way around).\n-   For each property: how SCION achieves this property, in relation to the existing Internet. I think you can re-use all property content you already wrote, this is more a matter of re-organizing the content. \n5. I like the sections about SCION and Segment Routing/RPKI. I would add these sections after the above discussion, under \"Related work\" or something alike. Maybe also add sections on Semantic Routing/BGPsec?\n6.  You could finish the draft with the dependency analysis, which explains very nicely that the core components cannot really exist on their own (except maybe for the CP-PKI).\n7. I am not sure about the sections Transition Mechanisms and Additional Components. Regarding the Transition Mechanisms, I would either only mention SIG, or refer to \"my\" draft entirely. And I would not mention the additional components at all. I think the draft has already enough content without it \n\n> *[Reviewable](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1#-:-N5onJUXBj-AyVGS0egU:b-2n815r)* status: 0 of 1 files reviewed, 3 unresolved discussions (waiting on @cdekater and @nicorusti)\n\n___\n*[`draft-rustignoli-panrg-scion-components.md` line 280 at r1](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1#-N5nmIWZ-ERS-xKupTJY:-N5okjWd8ePW9ibqFaSH:b-c3tnvp) ([raw file](https://github.com/scionassociation/scion-components_i-d/blob/3da4ef9ab5b944b7f35383bf93eaa6bf76992d77/draft-rustignoli-panrg-scion-components.md#L280)):*\n<details><summary><i>Previously, nicorusti (Nicola Rustignoli) wrote\u2026</i></summary><blockquote>\n\n> I am not sure whether the PANRG people wanted to know more about the relationship between SCION's core components. My impression was that they wanted to know (1) what is the minimal SCION stack needed to make SCION work, and (2) the relationship between SCION and existing protocols. More precisely: Which existing protocols does SCION use, which not, and why not.\n\nBut there was a lot of discussion about splitting components, which is not a good idea. THis is why I want to stress that the 3 core components are quite tightly interlinked. \n \n\n</blockquote></details>\n\nGood point!\n\n\n<!-- Sent from Reviewable.io -->\n",
+          "createdAt": "2022-06-30T13:50:30Z",
+          "updatedAt": "2022-06-30T13:50:30Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOHiDowc49Fve4",
+          "commit": {
+            "abbreviatedOid": "3da4ef9"
+          },
+          "author": "cdekater",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "\n\n> Reviewed 1 of 1 files at r1, all commit messages.\n> *[Reviewable](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1)* status: all files reviewed, 3 unresolved discussions (waiting on @nicorusti)\n\n\n\n<!-- Sent from Reviewable.io -->\n",
+          "createdAt": "2022-06-30T13:52:06Z",
+          "updatedAt": "2022-06-30T13:52:06Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOHiDowc49LpIs",
+          "commit": {
+            "abbreviatedOid": "ba4d14d"
+          },
+          "author": "nicorusti",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "\n\n> *[Reviewable](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1)* status: 0 of 1 files reviewed, 4 unresolved discussions (waiting on @cdekater and @nicorusti)\n\n___\n*[`draft-rustignoli-panrg-scion-components.md` line 303 at r1](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1#-N5noIv5A2tYwt1L_hNA:-N5u3sbD83iWHbE6n6af:b-896fix) ([raw file](https://github.com/scionassociation/scion-components_i-d/blob/3da4ef9ab5b944b7f35383bf93eaa6bf76992d77/draft-rustignoli-panrg-scion-components.md#L303)):*\n<details><summary><i>Previously, cdekater wrote\u2026</i></summary><blockquote>\n\nMaybe not use the word \"markably\"? Different is enough.\n</blockquote></details>\n\nDone.\n___\n*[`draft-rustignoli-panrg-scion-components.md` line 320 at r2](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1#-N5uj24z5x17ziRhE5Xh:-N5uj25-1-6RvtPfA2qH:b-vi1x04) ([raw file](https://github.com/scionassociation/scion-components_i-d/blob/ba4d14d59292aee7199f2dace77cb5acba460c2d/draft-rustignoli-panrg-scion-components.md#L320)):*\n> ```Markdown\n> \n> ```\n\n@cdekater I added this section. Besides that, I could add even more. Something like: \n```\nThere are many use cases where existing protocols show the limitations of existing inter-domain routing approaches: \n- Cloud to customer connectivity:  \n- Enterprise communication: \n- ... \n```\n\nBut I'd update the other draft (where we already have a motivation paragraph), rather than having a \"duplicate\" motivation paragraph here. Thoughts?  \n\n\n\n_Code quote:_\n```Markdown\n## Design goals\nSCION was created from inception with the intention of providing the following properties for inter-domain communication.\n\n- *Availability*. SCION is meant to provide highly available communication. The focus is not only on handling failures (both on the last hop or anywhere along the path), but also on allowing communication in presence of adversaries.\nAvailability is fundamental as applications move to cloud datacenters and enterprises increasingly rely on Internet communication for mission-critical communication.\n\n- *Security*. SCION was designed by security researchers with the goal of making most network-based and routing attacks either impossible or easy to mitigate.\nSecurity means also offering end-hosts transparency and control over forwarding paths. In addition, SCION's design starts from the assumption that any two entities on the global Internet do not mutually trust each other.\nSCION therefore enables trust agility, allowing users to decide the roots of trust they wish to rely upon.\n\n- *Scalability*.  Security and high availability should not result in compromises on scalability.\nThe S in SCION, indeed, stands for scalability.\nThe goal is to achieve routing that scales with network growth, both in the control plane and in the data plane (forwarding should be as efficient as possible).\n```\n\n\n<!-- Sent from Reviewable.io -->\n",
+          "createdAt": "2022-07-01T17:09:38Z",
+          "updatedAt": "2022-07-01T17:09:38Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDOHiDowc47AH7S",
+      "title": "Review and Comments - Corine",
+      "url": "https://github.com/scionassociation/scion-components_I-D/pull/3",
+      "state": "MERGED",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "\n\n<!-- Reviewable:start -->\nThis change is\u2002[<img src=\"https://reviewable.io/review_button.svg\" height=\"34\" align=\"absmiddle\" alt=\"Reviewable\"/>](https://reviewable.io/reviews/scionassociation/scion-components_i-d/3)\n<!-- Reviewable:end -->\n",
+      "createdAt": "2022-07-07T08:55:58Z",
+      "updatedAt": "2022-07-07T08:59:45Z",
+      "baseRepository": "scionassociation/scion-components_I-D",
+      "baseRefName": "main",
+      "baseRefOid": "90287a58581d90433c6ce9a26b0f729c309753af",
+      "headRepository": "cdekater/scion-components_I-D",
+      "headRefName": "id-components_corines-review",
+      "headRefOid": "0cbc7d1b217005f7aa1a3e2caf1323743a714ca9",
+      "closedAt": "2022-07-07T08:59:44Z",
+      "mergedAt": "2022-07-07T08:59:44Z",
+      "mergedBy": "cdekater",
+      "mergeCommit": {
+        "oid": "dd8bd55cea9b1c76030b768439220a2ae6312e72"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHiDowc49d1bt",
+          "commit": {
+            "abbreviatedOid": "0cbc7d1"
+          },
+          "author": "cdekater",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "\n\n> Reviewed 1 of 1 files at r1, all commit messages.\n> *[Reviewable](https://reviewable.io/reviews/scionassociation/scion-components_i-d/3)* status: :shipit: complete! all files reviewed, all discussions resolved (waiting on @nicorusti)\n\n\n\n<!-- Sent from Reviewable.io -->\n",
+          "createdAt": "2022-07-07T08:59:28Z",
+          "updatedAt": "2022-07-07T08:59:28Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDOHiDowc47DAlY",
+      "title": "Implement feedback & final pass",
+      "url": "https://github.com/scionassociation/scion-components_I-D/pull/4",
+      "state": "MERGED",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "See points in #2 \r\n\r\n<!-- Reviewable:start -->\r\n---\r\nThis change is\u2002[<img src=\"https://reviewable.io/review_button.svg\" height=\"34\" align=\"absmiddle\" alt=\"Reviewable\"/>](https://reviewable.io/reviews/scionassociation/scion-components_i-d/4)\r\n<!-- Reviewable:end -->\r\n",
+      "createdAt": "2022-07-07T18:24:12Z",
+      "updatedAt": "2022-07-08T17:00:53Z",
+      "baseRepository": "scionassociation/scion-components_I-D",
+      "baseRefName": "main",
+      "baseRefOid": "dd8bd55cea9b1c76030b768439220a2ae6312e72",
+      "headRepository": "scionassociation/scion-components_I-D",
+      "headRefName": "nic-writing",
+      "headRefOid": "1a9d27c00b03035760fbd049f117ba9ad5d44b7c",
+      "closedAt": "2022-07-08T17:00:53Z",
+      "mergedAt": "2022-07-08T17:00:53Z",
+      "mergedBy": "nicorusti",
+      "mergeCommit": {
+        "oid": "9ffc1fea4cbb25853324b366a1e642498e7ca1fa"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDOHiDowc47GLvw",
+      "title": "Review Corine",
+      "url": "https://github.com/scionassociation/scion-components_I-D/pull/5",
+      "state": "MERGED",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "\n\n<!-- Reviewable:start -->\nThis change is\u2002[<img src=\"https://reviewable.io/review_button.svg\" height=\"34\" align=\"absmiddle\" alt=\"Reviewable\"/>](https://reviewable.io/reviews/scionassociation/scion-components_i-d/5)\n<!-- Reviewable:end -->\n",
+      "createdAt": "2022-07-08T10:18:37Z",
+      "updatedAt": "2022-07-08T10:27:34Z",
+      "baseRepository": "scionassociation/scion-components_I-D",
+      "baseRefName": "nic-writing",
+      "baseRefOid": "b2a738b0e9f37d4875c9ae8de55dc20b00bc4813",
+      "headRepository": "scionassociation/scion-components_I-D",
+      "headRefName": "corine-review",
+      "headRefOid": "ac503fcabf51b301509f152e7839a966887190b3",
+      "closedAt": "2022-07-08T10:27:33Z",
+      "mergedAt": "2022-07-08T10:27:33Z",
+      "mergedBy": "cdekater",
+      "mergeCommit": {
+        "oid": "47a86a8758a855b411b600d54f00773bbe84e46e"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHiDowc49jgmQ",
+          "commit": {
+            "abbreviatedOid": "ac503fc"
+          },
+          "author": "cdekater",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "\n\n> Reviewed 1 of 1 files at r1, all commit messages.\n> *[Reviewable](https://reviewable.io/reviews/scionassociation/scion-components_i-d/5)* status: :shipit: complete! all files reviewed, all discussions resolved (waiting on @nicorusti)\n\n\n\n<!-- Sent from Reviewable.io -->\n",
+          "createdAt": "2022-07-08T10:27:18Z",
+          "updatedAt": "2022-07-08T10:27:18Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "id": "PR_kwDOHiDowc47LUzi",
+      "title": "Corine review",
+      "url": "https://github.com/scionassociation/scion-components_I-D/pull/6",
+      "state": "MERGED",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "\n\n<!-- Reviewable:start -->\nThis change is\u2002[<img src=\"https://reviewable.io/review_button.svg\" height=\"34\" align=\"absmiddle\" alt=\"Reviewable\"/>](https://reviewable.io/reviews/scionassociation/scion-components_i-d/6)\n<!-- Reviewable:end -->\n",
+      "createdAt": "2022-07-11T08:41:12Z",
+      "updatedAt": "2022-07-11T08:52:49Z",
+      "baseRepository": "scionassociation/scion-components_I-D",
+      "baseRefName": "main",
+      "baseRefOid": "9ffc1fea4cbb25853324b366a1e642498e7ca1fa",
+      "headRepository": "scionassociation/scion-components_I-D",
+      "headRefName": "corine-review2",
+      "headRefOid": "f43842b0511070757ef520e1e3bba8c9acde61c5",
+      "closedAt": "2022-07-11T08:52:47Z",
+      "mergedAt": "2022-07-11T08:52:47Z",
+      "mergedBy": "nicorusti",
+      "mergeCommit": {
+        "oid": "6762f03408bb47a773b4852569d86bcf8b31f2e9"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHiDowc49obJe",
+          "commit": {
+            "abbreviatedOid": "f43842b"
+          },
+          "author": "nicorusti",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "\n\n> Reviewed 1 of 1 files at r2, all commit messages.\n> *[Reviewable](https://reviewable.io/reviews/scionassociation/scion-components_i-d/6)* status: :shipit: complete! all files reviewed, all discussions resolved (waiting on @cdekater)\n\n\n\n<!-- Sent from Reviewable.io -->\n",
+          "createdAt": "2022-07-11T08:52:14Z",
+          "updatedAt": "2022-07-11T08:52:15Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "id": "PR_kwDOHiDowc47MZGK",
+      "title": "Final review",
+      "url": "https://github.com/scionassociation/scion-components_I-D/pull/7",
+      "state": "MERGED",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "\n\n<!-- Reviewable:start -->\nThis change is\u2002[<img src=\"https://reviewable.io/review_button.svg\" height=\"34\" align=\"absmiddle\" alt=\"Reviewable\"/>](https://reviewable.io/reviews/scionassociation/scion-components_i-d/7)\n<!-- Reviewable:end -->\n",
+      "createdAt": "2022-07-11T13:25:00Z",
+      "updatedAt": "2022-07-11T13:30:44Z",
+      "baseRepository": "scionassociation/scion-components_I-D",
+      "baseRefName": "main",
+      "baseRefOid": "6762f03408bb47a773b4852569d86bcf8b31f2e9",
+      "headRepository": "scionassociation/scion-components_I-D",
+      "headRefName": "nic-writing",
+      "headRefOid": "3e64cb6935d2ed5d96a3262fb249b5d63eab8b19",
+      "closedAt": "2022-07-11T13:30:43Z",
+      "mergedAt": "2022-07-11T13:30:43Z",
+      "mergedBy": "cdekater",
+      "mergeCommit": {
+        "oid": "0b7f065c6abef5309660fb24b0918afdc6b561ab"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHiDowc49ptoF",
+          "commit": {
+            "abbreviatedOid": "3e64cb6"
+          },
+          "author": "cdekater",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "\n\n> Reviewed 1 of 1 files at r1, all commit messages.\n> *[Reviewable](https://reviewable.io/reviews/scionassociation/scion-components_i-d/7)* status: :shipit: complete! all files reviewed, all discussions resolved (waiting on @nicorusti)\n\n\n\n<!-- Sent from Reviewable.io -->\n",
+          "createdAt": "2022-07-11T13:30:36Z",
+          "updatedAt": "2022-07-11T13:30:36Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "id": "PR_kwDOHiDowc47MyHp",
+      "title": "Adrian's feedback",
+      "url": "https://github.com/scionassociation/scion-components_I-D/pull/8",
+      "state": "MERGED",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "do not merge yet\n\n<!-- Reviewable:start -->\n---\nThis change is\u2002[<img src=\"https://reviewable.io/review_button.svg\" height=\"34\" align=\"absmiddle\" alt=\"Reviewable\"/>](https://reviewable.io/reviews/scionassociation/scion-components_i-d/8)\n<!-- Reviewable:end -->\n",
+      "createdAt": "2022-07-11T14:51:31Z",
+      "updatedAt": "2022-07-11T15:44:07Z",
+      "baseRepository": "scionassociation/scion-components_I-D",
+      "baseRefName": "main",
+      "baseRefOid": "0b7f065c6abef5309660fb24b0918afdc6b561ab",
+      "headRepository": "scionassociation/scion-components_I-D",
+      "headRefName": "nic-writing",
+      "headRefOid": "e146ebdafda2fbdf9c8648c6066d21ae34495837",
+      "closedAt": "2022-07-11T15:44:06Z",
+      "mergedAt": "2022-07-11T15:44:05Z",
+      "mergedBy": "nicorusti",
+      "mergeCommit": {
+        "oid": "cc802db1a14b531e2d5d82d27571db6f5201c80d"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHiDowc49qiVA",
+          "commit": {
+            "abbreviatedOid": "e146ebd"
+          },
+          "author": "nicorusti",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "\n\n> Reviewed 1 of 1 files at r1, all commit messages.\n> *[Reviewable](https://reviewable.io/reviews/scionassociation/scion-components_i-d/8)* status: :shipit: complete! all files reviewed, all discussions resolved (waiting on @nicorusti)\n\n\n\n<!-- Sent from Reviewable.io -->\n",
+          "createdAt": "2022-07-11T15:43:43Z",
+          "updatedAt": "2022-07-11T15:43:43Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "id": "PR_kwDOHiDowc47dIGB",
+      "title": "IETF 114 feedback",
+      "url": "https://github.com/scionassociation/scion-components_I-D/pull/9",
+      "state": "MERGED",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "This PR contains changes based on the feedback received at IETF 114: \r\n- Removed some unnecessary parts about shortcomings of existing protocols and adjusted wording, according to feedback received\r\n- I heavily restructured the draft to follow the logical flow of [my IETF  presentation](https://datatracker.ietf.org/meeting/114/materials/slides-114-panrg-scion-component-analysis): for each core component, we look at what it provides to other components (\u201coutput\u201d), its properties, required elements (\u201cinputs\u201d), and how it relates to existing protocols\r\n- Removed  \"Relationship to Existing Protocols\" at the end of the draft, move pertinent concepts to each component (e.g., the RPKI discussion is now in the PKI section) \r\n- There is a new (early draft) paragraph on LISP in the \"Existing Protocols\" section of the CP.\r\n\r\n\r\n<!-- Reviewable:start -->\r\nThis change is\u2002[<img src=\"https://reviewable.io/review_button.svg\" height=\"34\" align=\"absmiddle\" alt=\"Reviewable\"/>](https://reviewable.io/reviews/scionassociation/scion-components_i-d/9)\r\n<!-- Reviewable:end -->\r\n\r\n\r\nTODOs (@nicorusti): \r\n- [x] In the \"required dependencies\" section, so we want to eventually address the question \"Could I use this component alone\"? \r\n- [x] I/O pass PKI based on Juan's text \r\n- [x] \"Provided to Other Components\": use the same format as for the PKI.\r\n- [x] Search & address TODOs in the text\r\n- [x] Check references (i.e., fix BIRGLEE2022)\r\n- [x]  Do we really want to mention SCMP? RHINE?\r\n- [x] control-plane or control plane? --> with a dash only when it is control-plane something (i.e., PKI)\r\n- [x] Polish LISP\r\n- [x] Reorder sections\r\n- [x] Update overview draft with references (@nicorusti can do that)\r\n- [x] Mention PCFS (as in other draft)",
+      "createdAt": "2022-07-15T08:20:21Z",
+      "updatedAt": "2022-08-26T18:04:50Z",
+      "baseRepository": "scionassociation/scion-components_I-D",
+      "baseRefName": "main",
+      "baseRefOid": "cc802db1a14b531e2d5d82d27571db6f5201c80d",
+      "headRepository": "scionassociation/scion-components_I-D",
+      "headRefName": "nic-writing",
+      "headRefOid": "a68e55487b1cceafb73d89a0d52297617fa20fa4",
+      "closedAt": "2022-08-26T18:04:50Z",
+      "mergedAt": "2022-08-26T18:04:50Z",
+      "mergedBy": "nicorusti",
+      "mergeCommit": {
+        "oid": "e75920e825b66e93ab2472ab96aaacc005a8d430"
+      },
+      "comments": [],
+      "reviews": []
+    }
+  ]
+}
