@@ -18,24 +18,22 @@ The goal is to answer the following questions:
        In addition, it focuses on the properties achievable, motivating cases when a greenfield approach is used.
 It then briefly touches on the maturity level of components and some extensions. 
     " name="description">
-<meta content="xml2rfc 3.16.0" name="generator">
+<meta content="xml2rfc 3.18.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-rustignoli-panrg-scion-components-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.16.0
-    Python 3.10.10
-    appdirs 1.4.4
+  xml2rfc 3.18.0
+    Python 3.11.5
     ConfigArgParse 1.5.3
-    google-i18n-address 2.5.2
-    html5lib 1.1
+    google-i18n-address 3.1.0
     intervaltree 3.1.0
     Jinja2 3.1.2
-    lxml 4.9.2
-    MarkupSafe 2.1.1
+    lxml 4.9.3
+    platformdirs 3.10.0
     pycountry 22.3.5
     PyYAML 6.0
-    requests 2.28.1
-    setuptools 65.6.0
+    requests 2.31.0
+    setuptools 67.7.2
     six 1.16.0
     wcwidth 0.2.6
 -->
@@ -619,6 +617,7 @@ sub, sup {
   clear: left;
   float: left;
   text-align: right;
+  margin-right: 1ch;
 }
 #identifiers dd {
   margin: 0;
@@ -670,7 +669,8 @@ sub, sup {
 .references dt {
   text-align: right;
   font-weight: bold;
-  min-width: 7em;
+  min-width: 10ch;
+  margin-right: 1.5ch;
 }
 .references dt:target::before {
   content: "⇒";
@@ -678,7 +678,7 @@ sub, sup {
   margin: 0 10px 0 -25px;
 }
 .references dd {
-  margin-left: 8em !important;
+  margin-left: 12ch !important;
   overflow: auto;
 }
 
@@ -1056,11 +1056,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">SCION COMP I-D</td>
-<td class="right">March 2023</td>
+<td class="right">September 2023</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Rustignoli &amp; de Kater</td>
-<td class="center">Expires 11 September 2023</td>
+<td class="center">Expires 13 March 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1073,12 +1073,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-rustignoli-panrg-scion-components-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-03-10" class="published">10 March 2023</time>
+<time datetime="2023-09-10" class="published">10 September 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-09-11">11 September 2023</time></dd>
+<dd class="expires"><time datetime="2024-03-13">13 March 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1142,7 +1142,7 @@ It then briefly touches on the maturity level of components and some extensions.
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 11 September 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 13 March 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1267,14 +1267,14 @@ It then briefly touches on the maturity level of components and some extensions.
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">While SCION was initially developed in academia, the architecture has now "slipped out of the lab" and counts its early productive deployments (including the Swiss inter-banking network SSFN).
+<p id="section-1-1">While SCION was initially developed in academia, the architecture has now "slipped out of the lab" and counts its early productive deployments (including the Swiss inter-banking network <span>[<a href="#SSFN" class="cite xref">SSFN</a>]</span>).
 The architecture consists of a system of related components, some of which are essential to set up end-to-end SCION connectivity.
-Core components are the data plane, the control plane, and the PKI. Add-ons provide additional functionality, security, or backward compatibility. Discussions at PANRG <span>[<a href="#PANRG-INTERIM-Min" class="cite xref">PANRG-INTERIM-Min</a>]</span> showed the need to describe the relationships between components.
+Core components are the data plane, the control plane, and the PKI. Extensions provide additional functionality, security, or backward compatibility. Discussions at PANRG <span>[<a href="#PANRG-INTERIM-Min" class="cite xref">PANRG-INTERIM-Min</a>]</span> showed the need to describe the relationships between components.
 This document, therefore, takes a look at each core component individually and independently from others.
 It focuses on describing its dependencies, outputs, functionality, and properties.
 It then touches on relationships to existing protocols.
 The goal is not to describe each component's specification, but to illustrate the engineering decisions that made SCION what it is and to provide a basis for further discussions and work.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">Before reading this document, please refer to <span>[<a href="#I-D.dekater-scion-overview" class="cite xref">I-D.dekater-scion-overview</a>]</span> for a generic overview of SCION and its components, the problems it solves, and existing deployments. Each component is to be described in-depth in dedicated drafts: see <span>[<a href="#I-D.dekater-scion-pki" class="cite xref">I-D.dekater-scion-pki</a>]</span> for the SCION PKI specification, and refer to <span>[<a href="#CHUAT22" class="cite xref">CHUAT22</a>]</span> for other components.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-2">Before reading this document, please refer to <span>[<a href="#I-D.dekater-scion-overview" class="cite xref">I-D.dekater-scion-overview</a>]</span> for a generic overview of SCION and its components, the problems it solves, and existing deployments. Each component is described in-depth in dedicated drafts: see <span>[<a href="#I-D.dekater-scion-pki" class="cite xref">I-D.dekater-scion-pki</a>]</span> for the SCION PKI, <span>[<a href="#I-D.dekater-scion-controlplane" class="cite xref">I-D.dekater-scion-controlplane</a>]</span> for the control plane. The data plane will be available within weeks from the last update of this draft. For any other components, please refer to <span>[<a href="#CHUAT22" class="cite xref">CHUAT22</a>]</span>.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <div id="design-goals">
 <section id="section-1.1">
         <h3 id="name-design-goals">
@@ -1288,7 +1288,8 @@ Availability is fundamental as applications move to cloud data centers, and ente
 </li>
           <li class="normal" id="section-1.1-2.2">
             <em>Security</em>. SCION comes with an arsenal of mechanisms, designed by security researchers with the goal of making most network-based and routing attacks either impossible or easy to mitigate.
-SCION strongly focuses on preventing routing attacks, IP prefix hijackings, and on providing stronger guarantees than the existing Internet. Security is tightly related to trust.
+SCION strongly focuses on preventing routing attacks, traffic hijackings, and on providing stronger guarantees than the existing Internet. Routing information can be unambiguously attributed to an AS, and packets are only forwarded along authorized sections of the network. Payload encryption, on the other hand, is not within the scope of SCION, as existing protocols can be reused.
+Security is tightly related to trust.
 SCION, therefore, offers a new trust model, transparency, and control to endpoints over forwarding paths. In addition, SCION's design starts from the assumption that any two entities on the global Internet do not mutually trust each other. SCION, therefore, enables trust agility, allowing its users to decide the roots of trust they wish to rely upon.<a href="#section-1.1-2.2" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-1.1-2.3">
@@ -1367,7 +1368,7 @@ Within an ISD, no single entity is in full control, or owns a cryptographic "kil
               <em>Support for versioning &amp; updates.</em> Trust within an ISD is normally bootstrapped with an initial ceremony. Subsequent updates to the root of trust (TRC) are handled automatically. The PKI design makes sure that certificate rollover can be automated so that certificates can be rotated frequently (e.g., every few days for AS certificates).<a href="#section-2.1.1-2.4" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-2.1.1-2.5">
-              <em>Scalability.</em> The authentication infrastructure scales to the size of the Internet and is adapted to the heterogeneity of today's Internet constituents.<a href="#section-2.1.1-2.5" class="pilcrow">¶</a>
+              <em>Scalability.</em> The authentication infrastructure scales to the size of the Internet and is adapted to the heterogeneity of today’s Internet constituents.<a href="#section-2.1.1-2.5" class="pilcrow">¶</a>
 </li>
           </ul>
 </section>
@@ -1435,9 +1436,7 @@ Path exploration is based on path-segment construction beacons (PCBs), which are
 Each AS selects a few PCBs and makes them available to endpoints via its path service, part of the control plane.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
 <p id="section-2.2-2">Overall, the control plane takes an unexplored topology and AS certificates as input, it then discovers the inter-domain topology and makes routing information available to endpoints.<a href="#section-2.2-2" class="pilcrow">¶</a></p>
 <p id="section-2.2-3">The following section describes the core properties provided by the SCION control plane, its relationships with existing protocols, and its dependencies on the PKI.
-For an overview of the process to create and disseminate path information, refer to <span>[<a href="#I-D.dekater-scion-overview" class="cite xref">I-D.dekater-scion-overview</a>]</span>, section 1.2.2.
-The control plane is internally formed by multiple sub-components (as the beacon service, responsible for path discovery, and the path service, responsible for path dissemination).
-Processes and interfaces specifications between these sub-components could be topic for one or multiple dedicated documents.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
+For an in-depth description of the control plane, including its sub-components, as the beacon service, responsible for path discovery, and the path service, responsible for path dissemination, refer to <span>[<a href="#I-D.dekater-scion-controlplane" class="cite xref">I-D.dekater-scion-controlplane</a>]</span>.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
 <div id="key-properties-1">
 <section id="section-2.2.1">
           <h4 id="name-key-properties-2">
@@ -1463,8 +1462,7 @@ This means that SCION can restore global reachability, even after catastrophic f
             <li class="normal" id="section-2.2.1-1.4">
               <em>Hop-by-hop path authorization.</em> SCION packets can only be forwarded along authorized path segments.
 This is achieved thanks to message authentication codes (MACs) within each hop field.
-During beaconing, each AS's control plane creates nested MACs, which are then verified during forwarding.
-This gives endpoints strong guarantees about the path where the data is routed, with minimal overhead and resource requirements on routers.
+During beaconing, each AS's control plane creates nested MACs, which are then verified during forwarding, giving ASes strong guarantees about the path where the data is routed, with minimal overhead and resource requirements on routers.
 Giving endpoints strong guarantees about the full inter-domain path is important to avoid traffic interception, and to enable geofencing (i.e., keeping data in transit within a well-defined trusted area of the SCION network).
 This facilitated early adoption in the finance industry.<a href="#section-2.2.1-1.4" class="pilcrow">¶</a>
 </li>
@@ -1472,7 +1470,7 @@ This facilitated early adoption in the finance industry.<a href="#section-2.2.1-
               <em>Host addressing agnostic.</em> SCION decouples routing from host addressing: inter-domain routing is based on ISD-AS tuples rather than on host addresses.
 This design decision has two outcomes: First of all, SCION can reuse existing host addressing schemes, such as IPv6, IPv4, or others.
 Second, the control plane does not carry prefix information.
-Thanks to PCFS, packets contain forwarding state, so routers do not need to look up routing tables (avoiding the need for dedicated hardware).<a href="#section-2.2.1-1.5" class="pilcrow">¶</a>
+Since packets contain forwarding state, routers do not need to look up routing tables (avoiding the need for dedicated hardware).<a href="#section-2.2.1-1.5" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-2.2.1-1.6">
               <em>Transparency.</em> SCION endpoints have full visibility of the inter-domain path where their data is forwarded. This is a property that is missing in traditional IP networks, where routing decisions are made by each hop, therefore endpoints have no visibility nor guarantees on where their traffic is going.
@@ -1483,7 +1481,7 @@ Moreover, SCION gives end users the ability to select which parts of the Interne
               <em>Fault isolation.</em> As the SCION routing process is hierarchically divided into intra-ISD and inter-ISD, faults have a generally limited and localized impact.
 Misconfigurations, such as an erroneous path policy, may suppress some paths. However, as long as an alternative path exists, communication is possible.
 In addition, while the control plane is responsible for creating new paths, it does not invalidate existing paths.
-The latter function is handled by endpoints upon detecting failures or eventually receiving an SCMP message from the data plane.
+The latter function is handled by endpoints upon detecting failures or eventually receiving an authenticated signal from the data plane.
 This separation of control and data plane prevents the control plane from cutting off an existing communication or having a global kill-switch.<a href="#section-2.2.1-1.7" class="pilcrow">¶</a>
 </li>
           </ul>
@@ -1509,7 +1507,6 @@ The concept of ISD is also necessary for scalability and fault isolation to orga
 <a href="#section-2.2.3" class="section-number selfRef">2.2.3. </a><a href="#name-provided-to-other-components" class="section-name selfRef">Provided to Other Components</a>
           </h4>
 <p id="section-2.2.3-1">In SCION, an endpoint sending a packet must specify, in the header, the full SCION forwarding path the packet takes towards the destination.
-This concept is called packet-carried forwarding state (PCFS).
 Rather than having knowledge of the network topology, an endpoint's data plane relies on the control plane for getting such information.
 The endpoint's SCION stack queries path segments, then it selects them and combines them into a full forwarding path to the destination.<a href="#section-2.2.3-1" class="pilcrow">¶</a></p>
 <p id="section-2.2.3-2">The control plane is responsible, therefore, for providing an authenticated (multipath) view of the explored global topology to endpoints (and, in turn, to the data plane).
@@ -1578,7 +1575,7 @@ This means that routers do not carry the burden of making enhanced routing or fo
 </li>
             <li class="normal" id="section-2.3.1-1.2">
               <em>Scalability.</em> SCION routers can efficiently forward packets without the need to look up forwarding tables or keep per-connection state. Routers only need to verify MACs in hop fields. This operation is based on modern block ciphers such as AES, can be computed faster than performing a memory lookup, and is widely supported in modern CPUs.
-Routers, therefore, do not require expensive and energy-intensive dedicated hardware and can be deployed on off-the-shelf hardware. The lack of forwarding tables also implies that the growing size of forwarding tables is of no concern to SCION. Additionally, routers that keep state of network information can suffer from denial-of-service (DoS) attacks exhausting the router's state <span>[<a href="#SCHUCHARD2011" class="cite xref">SCHUCHARD2011</a>]</span>, which is less of a problem to SCION.<a href="#section-2.3.1-1.2" class="pilcrow">¶</a>
+Routers, therefore, do not require expensive and energy-intensive dedicated hardware and can be deployed on off-the-shelf hardware. The lack of forwarding tables also implies that the growing size of forwarding tables is of no concern to SCION. Additionally, routers that keep state of network information can suffer from denial-of-service (DoS) attacks exhausting the router’s state <span>[<a href="#SCHUCHARD2011" class="cite xref">SCHUCHARD2011</a>]</span>, which is less of a problem to SCION.<a href="#section-2.3.1-1.2" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-2.3.1-1.3">
               <em>Recovery from failures.</em> SCION hosts usually receive more than one path to a given destination.
@@ -1593,7 +1590,7 @@ There is therefore no need to wait for inter-domain routing protocol convergence
 Such extensions can be hop-by-hop (and are processed at each hop), or end-to-end.<a href="#section-2.3.1-1.4" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-2.3.1-1.5">
-              <em>Path validation.</em> SCION routers validate network paths in packets at each hop, so that they are only forwarded along paths that were authorized by all on-path ASes in the control plane. Thanks to a system of nested message authentication codes, traffic hijacking attacks are avoided.<a href="#section-2.3.1-1.5" class="pilcrow">¶</a>
+              <em>Path authorization.</em> SCION routers validate per-hop MACs in packets at each hop, so that they are only forwarded along paths that were authorized by all on-path ASes in the control plane. Thanks to a system of nested message authentication codes, traffic hijacking attacks are avoided.<a href="#section-2.3.1-1.5" class="pilcrow">¶</a>
 </li>
           </ul>
 <p id="section-2.3.1-2">In conclusion, in comparison to today's Internet, the SCION's data plane takes some of the responsibilities away from routers and places them on endpoints (such as selecting paths or reacting to failures).
@@ -1611,7 +1608,7 @@ To be able to transmit data, endpoints need to fetch path information from their
 In addition, some operations (such as path revocation) require the data plane to be able to use an authenticated control-plane mechanism, such as SCMP.<a href="#section-2.3.2-1" class="pilcrow">¶</a></p>
 <p id="section-2.3.2-2">Path information is assumed to be fresh and validated by the control plane, which in turn relies on the CP-PKI for validation.
 The data plane, therefore, relies on both the control plane and indirectly on the CP-PKI to function.<a href="#section-2.3.2-2" class="pilcrow">¶</a></p>
-<p id="section-2.3.2-3">Should the data plane be used independently, without end-to-end path validation, SCION would lose many of its security properties, which are fundamental in an inter-domain scenario where entities are mutually distrustful.
+<p id="section-2.3.2-3">Should the data plane be used independently, without end-to-end path authorization, SCION would lose many of its security properties, which are fundamental in an inter-domain scenario where entities are mutually distrustful.
 As discussed in <span>[<a href="#RFC9049" class="cite xref">RFC9049</a>]</span>, lack of authentication has often been the cause for path-aware protocols never being adopted because of security concerns. SCION should avoid such pitfalls and therefore its data plane should rely on the corresponding control plane and control-plane PKI.<a href="#section-2.3.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1702,8 +1699,8 @@ Traffic is therefore routed as close as possible to the source onto the SCION ne
 DRKey <span>[<a href="#I-D.garciapardo-drkey" class="cite xref">I-D.garciapardo-drkey</a>]</span> is a SCION extension that provides an Internet-wide key-establishment system allowing any two hosts to efficiently derive a symmetric key. This extension can be leveraged by other components to provide additional security properties.
 For example, LightningFilter <span>[<a href="#slides-111-panrg-lightning-filter" class="cite xref">slides-111-panrg-lightning-filter</a>]</span> leverages DRKey to provide high-speed packet filtering between trusted SCION ASes.
 COLIBRI <span>[<a href="#GIULIARI2021" class="cite xref">GIULIARI2021</a>]</span> is SCION's inter-domain bandwidth reservation system.
-These additional components are briefly mentioned here in order to provide additional context.
-They are therefore unlikely to be the best candidates for future IETF work.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+EPIC <span>[<a href="#LEGNER2020" class="cite xref">LEGNER2020</a>]</span> is a proposal that extends the data plane to provide full path validation, with different levels of guarantees.
+These additional components are briefly mentioned here in order to provide additional context and some of them are experimental.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1778,13 +1775,17 @@ The authors welcome feedback from the IETF community for future iterations.<a hr
       <dd>
 <span class="refAuthor">Giuliari, G.</span>, <span class="refAuthor">Roos, D.</span>, <span class="refAuthor">Wyss, M.</span>, <span class="refAuthor">García-Pardo, J.</span>, <span class="refAuthor">Legner, M.</span>, and <span class="refAuthor">A. Perrig</span>, <span class="refTitle">"Colibri: A Cooperative Lightweight Inter-domain Bandwidth-Reservation Infrastructure"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://netsec.ethz.ch/publications/papers/2021_conext_colibri.pdf">https://netsec.ethz.ch/publications/papers/2021_conext_colibri.pdf</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="I-D.dekater-scion-controlplane">[I-D.dekater-scion-controlplane]</dt>
+      <dd>
+<span class="refAuthor">de Kater, C.</span>, <span class="refAuthor">Rustignoli, N.</span>, and <span class="refAuthor">M. Frei</span>, <span class="refTitle">"SCION Control Plane"</span>, <time datetime="2023" class="refDate">2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-dekater-scion-controlplane/">https://datatracker.ietf.org/doc/draft-dekater-scion-controlplane/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.dekater-scion-overview">[I-D.dekater-scion-overview]</dt>
       <dd>
-<span class="refAuthor">de Kater, C.</span>, <span class="refAuthor">Rustignoli, N.</span>, and <span class="refAuthor">A. Perrig</span>, <span class="refTitle">"SCION Overview"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-dekater-panrg-scion-overview/">https://datatracker.ietf.org/doc/draft-dekater-panrg-scion-overview/</a>&gt;</span>. </dd>
+<span class="refAuthor">de Kater, C.</span>, <span class="refAuthor">Rustignoli, N.</span>, and <span class="refAuthor">A. Perrig</span>, <span class="refTitle">"SCION Overview"</span>, <time datetime="2023" class="refDate">2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-dekater-panrg-scion-overview/">https://datatracker.ietf.org/doc/draft-dekater-panrg-scion-overview/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.dekater-scion-pki">[I-D.dekater-scion-pki]</dt>
       <dd>
-<span class="refAuthor">de Kater, C.</span> and <span class="refAuthor">N. Rustignoli</span>, <span class="refTitle">"SCION Control-Plane PKI"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-dekater-scion-pki/">https://datatracker.ietf.org/doc/draft-dekater-scion-pki/</a>&gt;</span>. </dd>
+<span class="refAuthor">de Kater, C.</span> and <span class="refAuthor">N. Rustignoli</span>, <span class="refTitle">"SCION Control-Plane PKI"</span>, <time datetime="2023" class="refDate">2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-dekater-scion-pki/">https://datatracker.ietf.org/doc/draft-dekater-scion-pki/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.garciapardo-drkey">[I-D.garciapardo-drkey]</dt>
       <dd>
@@ -1797,6 +1798,10 @@ The authors welcome feedback from the IETF community for future iterations.<a hr
 <dt id="KRAHENBUHL2022">[KRAHENBUHL2022]</dt>
       <dd>
 <span class="refAuthor">Krähenbühl, C.</span>, <span class="refAuthor">Tabaeiaghdaei, S.</span>, <span class="refAuthor">Glοοr, C.</span>, <span class="refAuthor">Kwon, J.</span>, <span class="refAuthor">Perrig, A.</span>, <span class="refAuthor">Hausheer, D.</span>, and <span class="refAuthor">D. Roos</span>, <span class="refTitle">"Deployment and Scalability of an Inter-Domain Multi-Path Routing Infrastructure"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://netsec.ethz.ch/publications/papers/2021_conext_deployment.pdf">https://netsec.ethz.ch/publications/papers/2021_conext_deployment.pdf</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="LEGNER2020">[LEGNER2020]</dt>
+      <dd>
+<span class="refAuthor">Legner, M.</span>, <span class="refAuthor">Klenze, T.</span>, <span class="refAuthor">Wyss, M.</span>, <span class="refAuthor">Sprenger, C.</span>, and <span class="refAuthor">A. Perrig</span>, <span class="refTitle">"EPIC: Every Packet Is Checked in the Data Plane of a Path-Aware Internet"</span>, <time datetime="2020" class="refDate">2020</time>, <span>&lt;<a href="https://netsec.ethz.ch/publications/papers/Legner_Usenix2020_EPIC.pdf">https://netsec.ethz.ch/publications/papers/Legner_Usenix2020_EPIC.pdf</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="PANRG-INTERIM-Min">[PANRG-INTERIM-Min]</dt>
       <dd>
@@ -1836,7 +1841,7 @@ The authors welcome feedback from the IETF community for future iterations.<a hr
 <dd class="break"></dd>
 <dt id="SCHUCHARD2011">[SCHUCHARD2011]</dt>
       <dd>
-<span class="refAuthor">Schuchard, M.</span>, <span class="refAuthor">Mohaisen, A.</span>, <span class="refAuthor">Foo Kune, D.</span>, <span class="refAuthor">Hopper, N.</span>, <span class="refAuthor">Kim, Y.</span>, and <span class="refAuthor">E. Vasserman</span>, <span class="refTitle">"Losing control of the internet: using the data plane to attack the control plane"</span>, <span class="seriesInfo">Proceedings of the 17th ACM conference on Computer and communications security</span>, <span class="seriesInfo">DOI 10.1145/1866307.1866411</span>, <time datetime="2010-10" class="refDate">October 2010</time>, <span>&lt;<a href="https://doi.org/10.1145/1866307.1866411">https://doi.org/10.1145/1866307.1866411</a>&gt;</span>. </dd>
+<span class="refAuthor">Schuchard, M.</span>, <span class="refAuthor">Mohaisen, A.</span>, <span class="refAuthor">Foo Kune, D.</span>, <span class="refAuthor">Hopper, N.</span>, <span class="refAuthor">Kim, Y.</span>, and <span class="refAuthor">E. Vasserman</span>, <span class="refTitle">"Losing control of the internet: using the data plane to attack the control plane"</span>, <span class="refContent">ACM</span>, <span class="seriesInfo">Proceedings of the 17th ACM conference on Computer and communications security</span>, <span class="seriesInfo">DOI 10.1145/1866307.1866411</span>, <time datetime="2010-10" class="refDate">October 2010</time>, <span>&lt;<a href="https://doi.org/10.1145/1866307.1866411">https://doi.org/10.1145/1866307.1866411</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="slides-111-panrg-lightning-filter">[slides-111-panrg-lightning-filter]</dt>
       <dd>
@@ -1845,6 +1850,10 @@ The authors welcome feedback from the IETF community for future iterations.<a hr
 <dt id="slides-113-taps-panapi">[slides-113-taps-panapi]</dt>
       <dd>
 <span class="refAuthor">Krüger, T.</span>, <span class="refTitle">"PANAPI, a Path-Aware Networking API"</span>, <time datetime="2022" class="refDate">2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/meeting/113/materials/slides-113-taps-panapi-implementation-00.pdf">https://datatracker.ietf.org/meeting/113/materials/slides-113-taps-panapi-implementation-00.pdf</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="SSFN">[SSFN]</dt>
+      <dd>
+<span class="refTitle">"Secure Swiss Finance Network (SSFN)"</span>, <time datetime="2023-09" class="refDate">September 2023</time>, <span>&lt;<a href="https://www.six-group.com/en/products-services/banking-services/ssfn.html">https://www.six-group.com/en/products-services/banking-services/ssfn.html</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="SUPRAJA2021">[SUPRAJA2021]</dt>
     <dd>
