@@ -15,13 +15,12 @@ repository constitutes Contributions to the IETF Standards Process
 You agree to comply with all applicable IETF policies and procedures, including,
 BCP 78, 79, the TLP, and the TLP rules regarding code components (e.g. being
 subject to a Simplified BSD License) in Contributions.
-
 ## Working Group Information
 
 Discussion of this work occurs on the [Path Aware Networking RG
 Research Group mailing list](mailto:panrg@irtf.org)
-([archive](https://www.ietf.org/mail-archive/web/panrg/),
-[subscribe](https://www.irtf.org/mailman/listinfo/panrg)).
+([archive](https://mailarchive.ietf.org/arch/browse/panrg),
+[subscribe](https://mailman.irtf.org/mailman/listinfo/panrg)).
 In addition to contributions in GitHub, you are encouraged to participate in
 discussions there.
 
