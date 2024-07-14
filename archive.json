@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-09-08T00:32:36.860636+00:00",
+  "timestamp": "2024-07-14T00:23:23.005289+00:00",
   "repo": "scionassociation/scion-components_I-D",
   "labels": [
     {
@@ -78,11 +78,90 @@
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
-      "body": "- [ ] with RPKI there would be circular dependencies (between communication), that SCION avoids (circular analysis figure in book)\r\n\r\n```\r\nFigures 6.1 and 6.2 in the new book show dependencies,\r\n  we don't want to introduce circular dependencies.\r\n  Here's also a new paper that shows how the circular dependency can\r\n  be misused: https://arxiv.org/pdf/2205.06064.pdf\r\n  https://www.usenix.org/system/files/sec22fall_hlavacek.pdf\r\n  Stalloris: RPKI Downgrade Attack\r\n  Tomas Hlavacek, Philipp Jeitner, Donika Mirdita, Haya Shulman, Michael Waidner\r\n  USENIX Security Symposium, 2022\r\n  ```",
+      "body": "- [ ] with RPKI there would be circular dependencies (between communication), that SCION avoids (circular analysis figure in book)\r\n\r\n```\r\nFigures 6.1 and 6.2 in the new book show dependencies,\r\n  we don't want to introduce circular dependencies.\r\n  Here's also a new paper that shows how the circular dependency can\r\n  be misused: https://arxiv.org/pdf/2205.06064.pdf\r\n  https://www.usenix.org/system/files/sec22fall_hlavacek.pdf\r\n  Stalloris: RPKI Downgrade Attack\r\n  Tomas Hlavacek, Philipp Jeitner, Donika Mirdita, Haya Shulman, Michael Waidner\r\n  USENIX Security Symposium, 2022\r\n  ```\r\n- [x] Life of a packet somewhere (here or in overview draft)\r\n- [x] Design goals: prefix hijacking --> traffic hijacking (as there are no prefixes)",
       "createdAt": "2022-09-06T15:18:05Z",
-      "updatedAt": "2022-09-06T15:19:01Z",
+      "updatedAt": "2023-09-10T15:45:46Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "nicorusti",
+          "authorAssociation": "MEMBER",
+          "body": "Handled last two points in #15 ",
+          "createdAt": "2023-09-10T15:45:45Z",
+          "updatedAt": "2023-09-10T15:45:45Z"
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "id": "I_kwDOHiDowc5f-7eM",
+      "title": "Terminology: adapt to ",
+      "url": "https://github.com/scionassociation/scion-components_I-D/issues/11",
+      "state": "OPEN",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "- [ ] reuse vocabulary from [draft-irtf-panrg-path-properties](https://datatracker.ietf.org/doc/draft-irtf-panrg-path-properties/) once it becomes RFC\r\n- [ ] *end host* --> can we adopt the definition of \"host\" given in RFC1122? This RFC is also referred by [draft-irtf-panrg-path-properties](https://datatracker.ietf.org/doc/draft-irtf-panrg-path-properties/)",
+      "createdAt": "2023-03-05T19:36:35Z",
+      "updatedAt": "2023-03-05T19:36:35Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 13,
+      "id": "I_kwDOHiDowc5giGl_",
+      "title": "SCION DP as IPv6 routing header - discussion",
+      "url": "https://github.com/scionassociation/scion-components_I-D/issues/13",
+      "state": "CLOSED",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "As discussed in https://github.com/scionassociation/scion-components_I-D/pull/12#pullrequestreview-1326484875 by @matzf and in https://github.com/scionproto/scion/discussions/4324 : \r\n\r\n> I think it would be worth expanding on this topic and the challenges it poses:\r\n> The main challenges are:\r\n> * intra-domain forwarding needs to be revisited (either make intra-domain routing infra IPv6+SCION aware, use other routing headers on top for local forwarding (SRv6), or encapsulate).\r\n> * addressing: SCION endpoint needs AS information to query path to destination; IPv6 addresses don't contain this information.  keep separate SCION addresses, assign special address ranges that encode AS number, or design (secure) mapping from address ranges to ASes.",
+      "createdAt": "2023-03-10T20:07:07Z",
+      "updatedAt": "2023-09-10T13:10:04Z",
+      "closedAt": "2023-09-10T13:10:04Z",
+      "comments": [
+        {
+          "author": "matzf",
+          "authorAssociation": "NONE",
+          "body": "> intra-domain forwarding needs to be revisited (either make intra-domain routing infra IPv6+SCION aware, use other routing headers on top for local forwarding (SRv6), or encapsulate).\r\n\r\nTurns out this is already solved! :wink: We can use the same approach used with the Segment Routing Header (which I had misunderstood). See https://github.com/scionproto/scion/discussions/4324#discussioncomment-5265015",
+          "createdAt": "2023-03-13T07:19:30Z",
+          "updatedAt": "2023-03-13T07:19:30Z"
+        },
+        {
+          "author": "nicorusti",
+          "authorAssociation": "MEMBER",
+          "body": "Closing this issue as discussion is advancing in https://github.com/scionproto/scion/discussions/4324",
+          "createdAt": "2023-09-10T13:10:04Z",
+          "updatedAt": "2023-09-10T13:10:04Z"
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "id": "I_kwDOHiDowc5h2Qm7",
+      "title": "Clarify provided properties per component",
+      "url": "https://github.com/scionassociation/scion-components_I-D/issues/14",
+      "state": "CLOSED",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "IETF116 feedback: Some folks were a bit confused about what properties SCION offers concretely (i.e. what can be proved to the end user in terms of forwarding)? (see notes Nico). I.e. Path Validation --> EPIC\r\n",
+      "createdAt": "2023-03-27T08:11:20Z",
+      "updatedAt": "2023-09-10T15:46:09Z",
+      "closedAt": "2023-09-10T15:46:09Z",
+      "comments": [
+        {
+          "author": "nicorusti",
+          "authorAssociation": "MEMBER",
+          "body": "Added clarifications about path validation/authorization in #15 ",
+          "createdAt": "2023-09-10T15:46:09Z",
+          "updatedAt": "2023-09-10T15:46:09Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -119,7 +198,7 @@
             "abbreviatedOid": "3da4ef9"
           },
           "author": "cdekater",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "\n\n> *[Reviewable](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1)* status: 0 of 1 files reviewed, 3 unresolved discussions (waiting on @cdekater and @nicorusti)\n\n___\n*[`draft-rustignoli-panrg-scion-components.md` line 280 at r1](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1#-N5nmIWZ-ERS-xKupTJY:-N5nmIWZ-ERS-xKupTJZ:bc7qy2z) ([raw file](https://github.com/scionassociation/scion-components_i-d/blob/3da4ef9ab5b944b7f35383bf93eaa6bf76992d77/draft-rustignoli-panrg-scion-components.md#L280)):*\n> ```Markdown\n> \n> While SCION  was initially developed in academia, the architecture  has now \"slipped out of the lab\" and counts its early productive deployments (including the Swiss inter-banking network SSFN).\n> The architecture consists of a system of related components, some of which are  essential to set up end to end SCION connectivity, while others are add-ons aiming at providing additional functionality, security, or backwards compatibility. Discussions at {{PANRG-INTERIM-Min}} showed the need to describe the relationships between SCION's core components.\n> ```\n\nI am not sure whether the PANRG people wanted to know more about the relationship between SCION's core components. My impression was that they wanted to know (1) what is the minimal SCION stack needed to make SCION work, and (2) the relationship between SCION and existing protocols. More precisely: Which existing protocols does SCION use, which not, and why not.\n  \n___\n*[`draft-rustignoli-panrg-scion-components.md` line 303 at r1](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1#-N5noIv5A2tYwt1L_hNA:-N5noIv5A2tYwt1L_hNB:b-2js1rb) ([raw file](https://github.com/scionassociation/scion-components_i-d/blob/3da4ef9ab5b944b7f35383bf93eaa6bf76992d77/draft-rustignoli-panrg-scion-components.md#L303)):*\n> ```Markdown\n> ISD members share an uniform trust environment (i.e., a common jurisdiction).\n> They can transparently define trust relationships between parts of the network by deciding wether to trust other ISDs.\n> SCION therefore relies on an unique trust model, which is markably different from other PKI. We clarify the motivation behind this in [Authentication](#pki)\n> ```\n\nMaybe not use the word \"markably\"? Different is enough.\n___\n*[`draft-rustignoli-panrg-scion-components.md` line 316 at r1](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1#-N5nrjzE98mm_k5BfYoc:-N5nrjzFAJT9hOE4QS8b:bv1muc7) ([raw file](https://github.com/scionassociation/scion-components_i-d/blob/3da4ef9ab5b944b7f35383bf93eaa6bf76992d77/draft-rustignoli-panrg-scion-components.md#L316)):*\n> ```Markdown\n> \n> ### Key properties in relationship to existing protocols\n> On a first sight, it might seem that SCION control plane takes care of similar duties as of BGP. While both focus on disseminating routing information, there are substantial differences in the properties provided and mechanisms. We describe the core properties provided by the SCION control plane, and its relationships with existing protocols.\n> ```\n\nI think the properties approach is good. But maybe we should first describe why these properties are important in general, something like that we think a \"good\" Internet needs to include these properties, that SCION tries to address/meet these properties, and that SCION may therefore differ from existing protocols in those cases where the existing protocols are not able to sufficiently meet the properties. \n\n\n<!-- Sent from Reviewable.io -->\n",
           "createdAt": "2022-06-30T09:22:12Z",
@@ -145,7 +224,7 @@
             "abbreviatedOid": "3da4ef9"
           },
           "author": "cdekater",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "Hi Nicola,\n\nI like your draft, it already contains a lot of really good content, and I also like your style of writing very much! \n\nAs we already discussed, I would just restructure it a bit:\n1. Start with a section describing the properties we think a good global Internetwork must contain: security, scalability, availability in case of failure, transparency, multi-path/flexibility, end-host control...\n2. Then that SCION was developed  to meet these property requirements.\n3. Description of SCION minimal stack (this content is already there).\n4. Discussion of each property for each core component (I am not sure about the structure: whether to take the core components as upper level, and the properties as the lower level, or the other way around).\n-   For each property: how SCION achieves this property, in relation to the existing Internet. I think you can re-use all property content you already wrote, this is more a matter of re-organizing the content. \n5. I like the sections about SCION and Segment Routing/RPKI. I would add these sections after the above discussion, under \"Related work\" or something alike. Maybe also add sections on Semantic Routing/BGPsec?\n6.  You could finish the draft with the dependency analysis, which explains very nicely that the core components cannot really exist on their own (except maybe for the CP-PKI).\n7. I am not sure about the sections Transition Mechanisms and Additional Components. Regarding the Transition Mechanisms, I would either only mention SIG, or refer to \"my\" draft entirely. And I would not mention the additional components at all. I think the draft has already enough content without it \n\n> *[Reviewable](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1#-:-N5onJUXBj-AyVGS0egU:b-2n815r)* status: 0 of 1 files reviewed, 3 unresolved discussions (waiting on @cdekater and @nicorusti)\n\n___\n*[`draft-rustignoli-panrg-scion-components.md` line 280 at r1](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1#-N5nmIWZ-ERS-xKupTJY:-N5okjWd8ePW9ibqFaSH:b-c3tnvp) ([raw file](https://github.com/scionassociation/scion-components_i-d/blob/3da4ef9ab5b944b7f35383bf93eaa6bf76992d77/draft-rustignoli-panrg-scion-components.md#L280)):*\n<details><summary><i>Previously, nicorusti (Nicola Rustignoli) wrote\u2026</i></summary><blockquote>\n\n> I am not sure whether the PANRG people wanted to know more about the relationship between SCION's core components. My impression was that they wanted to know (1) what is the minimal SCION stack needed to make SCION work, and (2) the relationship between SCION and existing protocols. More precisely: Which existing protocols does SCION use, which not, and why not.\n\nBut there was a lot of discussion about splitting components, which is not a good idea. THis is why I want to stress that the 3 core components are quite tightly interlinked. \n \n\n</blockquote></details>\n\nGood point!\n\n\n<!-- Sent from Reviewable.io -->\n",
           "createdAt": "2022-06-30T13:50:30Z",
@@ -158,7 +237,7 @@
             "abbreviatedOid": "3da4ef9"
           },
           "author": "cdekater",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "\n\n> Reviewed 1 of 1 files at r1, all commit messages.\n> *[Reviewable](https://reviewable.io/reviews/scionassociation/scion-components_i-d/1)* status: all files reviewed, 3 unresolved discussions (waiting on @nicorusti)\n\n\n\n<!-- Sent from Reviewable.io -->\n",
           "createdAt": "2022-06-30T13:52:06Z",
@@ -430,7 +509,7 @@
       "labels": [],
       "body": "This PR contains changes based on the feedback received at IETF 114: \r\n- Removed some unnecessary parts about shortcomings of existing protocols and adjusted wording, according to feedback received\r\n- I heavily restructured the draft to follow the logical flow of [my IETF  presentation](https://datatracker.ietf.org/meeting/114/materials/slides-114-panrg-scion-component-analysis): for each core component, we look at what it provides to other components (\u201coutput\u201d), its properties, required elements (\u201cinputs\u201d), and how it relates to existing protocols\r\n- Removed  \"Relationship to Existing Protocols\" at the end of the draft, move pertinent concepts to each component (e.g., the RPKI discussion is now in the PKI section) \r\n- There is a new (early draft) paragraph on LISP in the \"Existing Protocols\" section of the CP.\r\n\r\n\r\n<!-- Reviewable:start -->\r\nThis change is\u2002[<img src=\"https://reviewable.io/review_button.svg\" height=\"34\" align=\"absmiddle\" alt=\"Reviewable\"/>](https://reviewable.io/reviews/scionassociation/scion-components_i-d/9)\r\n<!-- Reviewable:end -->\r\n\r\n\r\nTODOs (@nicorusti): \r\n- [x] In the \"required dependencies\" section, so we want to eventually address the question \"Could I use this component alone\"? \r\n- [x] I/O pass PKI based on Juan's text \r\n- [x] \"Provided to Other Components\": use the same format as for the PKI.\r\n- [x] Search & address TODOs in the text\r\n- [x] Check references (i.e., fix BIRGLEE2022)\r\n- [x]  Do we really want to mention SCMP? RHINE?\r\n- [x] control-plane or control plane? --> with a dash only when it is control-plane something (i.e., PKI)\r\n- [x] Polish LISP\r\n- [x] Reorder sections\r\n- [x] Update overview draft with references (@nicorusti can do that)\r\n- [x] Mention PCFS (as in other draft)",
       "createdAt": "2022-07-15T08:20:21Z",
-      "updatedAt": "2022-08-26T18:04:50Z",
+      "updatedAt": "2023-03-05T18:00:12Z",
       "baseRepository": "scionassociation/scion-components_I-D",
       "baseRefName": "main",
       "baseRefOid": "cc802db1a14b531e2d5d82d27571db6f5201c80d",
@@ -442,6 +521,161 @@
       "mergedBy": "nicorusti",
       "mergeCommit": {
         "oid": "e75920e825b66e93ab2472ab96aaacc005a8d430"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 12,
+      "id": "PR_kwDOHiDowc5LUCQC",
+      "title": "Draft updates - pre IETF 116",
+      "url": "https://github.com/scionassociation/scion-components_I-D/pull/12",
+      "state": "MERGED",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Changes summary:\r\n\r\n- Terminology: changed \"end-host\" to \"endpoint\", to be more in line with the upcoming [draft-irtf-panrg-path-properties](https://datatracker.ietf.org/doc/draft-irtf-panrg-path-properties/)  \r\n- Data plane:  Added mention of the possibility of future work to adapt the data plane to fit into an IPv6 extension (see https://github.com/scionproto/scion/discussions/4324 )\r\n- Updated authors emails\r\n- Small cosmetics\r\n\r\n<!-- Reviewable:start -->\r\n- - -\r\nThis change is\u2002[<img src=\"https://reviewable.io/review_button.svg\" height=\"34\" align=\"absmiddle\" alt=\"Reviewable\"/>](https://reviewable.io/reviews/scionassociation/scion-components_I-D/12)\r\n<!-- Reviewable:end -->\r\n",
+      "createdAt": "2023-03-05T21:03:35Z",
+      "updatedAt": "2024-07-11T11:20:34Z",
+      "baseRepository": "scionassociation/scion-components_I-D",
+      "baseRefName": "main",
+      "baseRefOid": "e75920e825b66e93ab2472ab96aaacc005a8d430",
+      "headRepository": "scionassociation/scion-components_I-D",
+      "headRefName": "nic-pre-ietf116-updates",
+      "headRefOid": "3ba0fd7719e03c82c058b0a5b16f3c046aa87a5a",
+      "closedAt": "2023-03-10T20:53:32Z",
+      "mergedAt": "2023-03-10T20:53:30Z",
+      "mergedBy": "nicorusti",
+      "mergeCommit": {
+        "oid": "495ca51d2a46ed175d9b611f7948d7d144300968"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOHiDowc5PCJTQ",
+          "commit": {
+            "abbreviatedOid": "d63094f"
+          },
+          "author": "cdekater",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-03-06T10:55:43Z",
+          "updatedAt": "2023-03-06T12:36:48Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "Small typo: curre**N**t (instead of curret - the N is missing)",
+              "createdAt": "2023-03-06T10:55:43Z",
+              "updatedAt": "2023-03-06T12:36:48Z"
+            },
+            {
+              "originalPosition": 17,
+              "body": "Replace \"dataplane\" by \"data plane\" (to be consistent, you write \"data plane\" elsewhere). \r\nAnd: Are links case-sensitive? If yes, it must be {{RFC8200}} (instead of **rfc**8200).",
+              "createdAt": "2023-03-06T10:58:06Z",
+              "updatedAt": "2023-03-06T12:36:48Z"
+            },
+            {
+              "originalPosition": 44,
+              "body": "Why suddenly capitalize **C**ontrol **P**lane? In the rest of the draft it is \"control plane\" without capitals..",
+              "createdAt": "2023-03-06T11:22:45Z",
+              "updatedAt": "2023-03-06T12:36:48Z"
+            },
+            {
+              "originalPosition": 154,
+              "body": "Replace \"SCION's data plane _pushes_ some of the responsibilities away from routers _onto_ endpoints\" with\r\n\"the SCION's data plane **takes** some of the responsibilities away from routers and **places them on** endpoints\"",
+              "createdAt": "2023-03-06T11:37:54Z",
+              "updatedAt": "2023-03-06T12:36:49Z"
+            },
+            {
+              "originalPosition": 36,
+              "body": "The correct of the draft is \"SCION Control-Plane PKI\"",
+              "createdAt": "2023-03-06T12:29:57Z",
+              "updatedAt": "2023-03-06T12:36:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOHiDowc5PEI2L",
+          "commit": {
+            "abbreviatedOid": "d63094f"
+          },
+          "author": "matzf",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "\n\n> *[Reviewable](https://reviewable.io/reviews/scionassociation/scion-components_I-D/12)* status: 0 of 1 files reviewed, 2 unresolved discussions (waiting on @nicorusti)\n\n___\n*[`draft-rustignoli-panrg-scion-components.md` line 604 at r1](https://reviewable.io/reviews/scionassociation/scion-components_I-D/12#-NPrN5Fk8HSE6-jWAh_L:-NPrN5Fk8HSE6-jWAh_M:ba2ji9n) ([raw file](https://github.com/scionassociation/scion-components_I-D/blob/d63094f0a8dbabc7c3393a2637abca77ea705ab4/draft-rustignoli-panrg-scion-components.md#L604)):*\n> ```Markdown\n> In SCION's curret implementation and early deployments, intra-AS SCION packets are encapsulated into an IP/UDP datagram for AS-local packet delivery, reusing the network's existing IGP and IP-based data plane inside an AS.\n> This design decision eased early deployments of SCION in IP-based networks.\n> In the long term, it is not excluded that SCION's dataplane could be better integrated with IP, by implementing it as an IPv6 routing header {{RFC8200}}.\n> ```\n\nMaybe move this to below the discussion of segment routing; then the statement is: \"it doesn't work with the segment routing header, but, with a _custom_ routing header we could maybe make it work.\" \n\nI think it would be worth expanding on this topic and the challenges it poses:\n\nThe main challenges are:\n- intra-domain forwarding needs to be revisited (either make intra-domain routing infra IPv6+SCION aware, use other routing headers on top for local forwarding (SRv6), or encapsulate).\n- addressing: SCION endpoint needs AS information to query path to destination; IPv6 addresses don't contain this information. Either keep separate SCION addresses, assign special address ranges that encode AS number, or design (secure) mapping from address ranges to ASes.\n___\n*[`draft-rustignoli-panrg-scion-components.md` line 616 at r1](https://reviewable.io/reviews/scionassociation/scion-components_I-D/12#-NPrMoaQ9wApBrfAJPs9:-NPrMoaQ9wApBrfAJPsA:b-m01xlm) ([raw file](https://github.com/scionassociation/scion-components_I-D/blob/d63094f0a8dbabc7c3393a2637abca77ea705ab4/draft-rustignoli-panrg-scion-components.md#L616)):*\n> ```Markdown\n> \n> \n> In conclusion, thanks to its data plane, SCION achieves properties that are difficult to achieve when exclusively extending existing protocols.\n> ```\n\nThis seems to contradict the new statement on an IPv6 extension now. Perhaps _replace_ this with an extended discussion of the IPv6 routing header idea.\n\n\n<!-- Sent from Reviewable.io -->\n",
+          "createdAt": "2023-03-06T14:53:35Z",
+          "updatedAt": "2023-03-06T14:53:35Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOHiDowc5PmyLv",
+          "commit": {
+            "abbreviatedOid": "1761ba9"
+          },
+          "author": "nicorusti",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "\n\n> *[Reviewable](https://reviewable.io/reviews/scionassociation/scion-components_i-d/12)* status: 0 of 1 files reviewed, 2 unresolved discussions (waiting on @matzf)\n\n___\n*[`draft-rustignoli-panrg-scion-components.md` line 604 at r1](https://reviewable.io/reviews/scionassociation/scion-components_i-d/12#-NPrN5Fk8HSE6-jWAh_L:-NQC6dC_6jZ3JzaZIFy5:b-gl5lhl) ([raw file](https://github.com/scionassociation/scion-components_i-d/blob/d63094f0a8dbabc7c3393a2637abca77ea705ab4/draft-rustignoli-panrg-scion-components.md#L604)):*\n<details><summary><i>Previously, matzf (Matthias Frei) wrote\u2026</i></summary><blockquote>\n\nMaybe move this to below the discussion of segment routing; then the statement is: \"it doesn't work with the segment routing header, but, with a _custom_ routing header we could maybe make it work.\" \n\nI think it would be worth expanding on this topic and the challenges it poses:\n\nThe main challenges are:\n- intra-domain forwarding needs to be revisited (either make intra-domain routing infra IPv6+SCION aware, use other routing headers on top for local forwarding (SRv6), or encapsulate).\n- addressing: SCION endpoint needs AS information to query path to destination; IPv6 addresses don't contain this information. Either keep separate SCION addresses, assign special address ranges that encode AS number, or design (secure) mapping from address ranges to ASes.\n</blockquote></details>\n\nI moved the text after the SR discussion. Regarding expanding on the topic, I think it makes sense, but I don't have too much time to prepare a discussion on this for this draft iteration. \n\nI'll keep this topic as future work and keep it in mind in https://github.com/scionassociation/scion-components_I-D/issues/13 \n\nPerhaps this could also be an interesting discussion to bring to an IETF WG at some point.. \n___\n*[`draft-rustignoli-panrg-scion-components.md` line 616 at r1](https://reviewable.io/reviews/scionassociation/scion-components_i-d/12#-NPrMoaQ9wApBrfAJPs9:-NQC6VPp2mfpcMPUas_Q:b-4ngan6) ([raw file](https://github.com/scionassociation/scion-components_i-d/blob/d63094f0a8dbabc7c3393a2637abca77ea705ab4/draft-rustignoli-panrg-scion-components.md#L616)):*\n<details><summary><i>Previously, matzf (Matthias Frei) wrote\u2026</i></summary><blockquote>\n\nThis seems to contradict the new statement on an IPv6 extension now. Perhaps _replace_ this with an extended discussion of the IPv6 routing header idea.\n</blockquote></details>\n\nYou are right.. Indeed we are saying that potentially the data plane could be rethought, I'll remove this sentence.\n\n\n<!-- Sent from Reviewable.io -->\n",
+          "createdAt": "2023-03-10T20:27:13Z",
+          "updatedAt": "2023-03-10T20:27:13Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "id": "PR_kwDOHiDowc5Z9FPO",
+      "title": "references and small updates",
+      "url": "https://github.com/scionassociation/scion-components_I-D/pull/15",
+      "state": "MERGED",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "- Updated references and adde link to CP draft\r\n- Design goals: made wording more precise about Path authorization/validation, mentioned that SCION does not provide encryption\r\n- Removed mention of PCFS, as it is used only within SCIOON publications\r\n- Added EPIC as an extension for path validation.\r\n- Updated .gitignore\n\n<!-- Reviewable:start -->\n- - -\nThis change is\u2002[<img src=\"https://reviewable.io/review_button.svg\" height=\"34\" align=\"absmiddle\" alt=\"Reviewable\"/>](https://reviewable.io/reviews/scionassociation/scion-components_I-D/15)\n<!-- Reviewable:end -->\n",
+      "createdAt": "2023-09-10T15:45:07Z",
+      "updatedAt": "2024-07-11T11:20:33Z",
+      "baseRepository": "scionassociation/scion-components_I-D",
+      "baseRefName": "main",
+      "baseRefOid": "495ca51d2a46ed175d9b611f7948d7d144300968",
+      "headRepository": "scionassociation/scion-components_I-D",
+      "headRefName": "nic-pre-ietf118-updates",
+      "headRefOid": "0184320ddee152f8b7a345c0c6c287379fd39531",
+      "closedAt": "2023-09-10T15:45:27Z",
+      "mergedAt": "2023-09-10T15:45:27Z",
+      "mergedBy": "nicorusti",
+      "mergeCommit": {
+        "oid": "226d7f083e11fe63f57b33fea22a3ef003892a3f"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 16,
+      "id": "PR_kwDOHiDowc51FSNa",
+      "title": "Update GitHub actions",
+      "url": "https://github.com/scionassociation/scion-components_I-D/pull/16",
+      "state": "MERGED",
+      "author": "nicorusti",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-07-11T11:19:07Z",
+      "updatedAt": "2024-07-11T11:19:27Z",
+      "baseRepository": "scionassociation/scion-components_I-D",
+      "baseRefName": "main",
+      "baseRefOid": "226d7f083e11fe63f57b33fea22a3ef003892a3f",
+      "headRepository": "scionassociation/scion-components_I-D",
+      "headRefName": "actions_update",
+      "headRefOid": "a6e439a09a4ab1a3d0f9129495a2d1bd737e8e37",
+      "closedAt": "2024-07-11T11:19:24Z",
+      "mergedAt": "2024-07-11T11:19:24Z",
+      "mergedBy": "nicorusti",
+      "mergeCommit": {
+        "oid": "614e9d7f685929984c11108b9a6716958d29a065"
       },
       "comments": [],
       "reviews": []
