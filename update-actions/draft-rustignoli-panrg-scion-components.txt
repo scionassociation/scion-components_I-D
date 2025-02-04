@@ -5,7 +5,7 @@
 Path Aware Networking RG                                   N. Rustignoli
 Internet-Draft                                               C. de Kater
 Intended status: Informational                         SCION Association
-Expires: 12 January 2025                                    11 July 2024
+Expires: 8 August 2025                                   4 February 2025
 
 
                        SCION Components Analysis
@@ -63,11 +63,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 January 2025.
+   This Internet-Draft will expire on 8 August 2025.
 
 Copyright Notice
 
-   Copyright (c) 2024 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -945,7 +945,7 @@ Table of Contents
               Kim, Y., and E. Vasserman, "Losing control of the
               internet: using the data plane to attack the control
               plane", ACM, Proceedings of the 17th ACM conference on
-              Computer and communications security,
+              Computer and communications security pp. 726-728,
               DOI 10.1145/1866307.1866411, October 2010,
               <https://doi.org/10.1145/1866307.1866411>.
 
